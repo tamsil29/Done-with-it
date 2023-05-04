@@ -8,7 +8,7 @@ function AppButton({
   color = 'primary',
 }: {
   title: string;
-  onPress: any;
+  onPress: React.Dispatch<any>;
   color?: string;
 }) {
   return (
