@@ -13,8 +13,8 @@ function Card({ title, subTitle, image }: Props) {
     <View style={styles.card}>
       <Image source={{ uri: image }} style={styles.image} resizeMode="cover" />
       <View style={styles.detailsContainer}>
-        <Text style={{ fontSize: 18, fontWeight: "600" }}>{title}</Text>
-        <Text style={{ fontSize: 14 }}>{subTitle}</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subTitle}>{subTitle}</Text>
       </View>
     </View>
   );
@@ -25,12 +25,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: colors.white,
     overflow: "hidden",
+    marginBottom: 20,
   },
   image: { height: 200, width: "100%" },
   detailsContainer: {
     padding: 20,
     gap: 10,
   },
+  title: { fontSize: 18, fontWeight: "600" },
+  subTitle: { fontSize: 18, color: colors.secondary, fontWeight: "bold" },
 });
 
 export default Card;
