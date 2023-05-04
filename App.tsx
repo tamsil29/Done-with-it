@@ -9,6 +9,7 @@ import {
   StatusBar,
 } from "react-native";
 import Card from "./app/components/Card";
+import AccountScreen from "./app/screens/AccountScreen";
 import ListingDetailsScreen from "./app/screens/ListingDetailsScreen";
 import MessagesScreen from "./app/screens/MessagesScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
@@ -28,7 +29,8 @@ export default function App() {
     // </View>
     // <ListingDetailsScreen/>
 
-      <MessagesScreen />
+      // <MessagesScreen />
+      <AccountScreen/>
 
     // <ViewImageScreen/>
   );

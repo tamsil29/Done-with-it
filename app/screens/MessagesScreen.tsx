@@ -52,7 +52,7 @@ function MessagesScreen() {
             title={'My item'}
 
             onPress={() => console.log(123)}
-            ImageComponent={<Icon name="email"/>}
+            IconComponent={<Icon name="email"/>}
           />
       
     </Screen>

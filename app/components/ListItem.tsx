@@ -18,7 +18,7 @@ interface Props {
   image?: string;
   onPress: React.Dispatch<any>;
   renderRightActions?: any;
-  ImageComponent?: any;
+  IconComponent?: any;
 }
 
 function ListItem({
@@ -27,14 +27,14 @@ function ListItem({
   image,
   onPress,
   renderRightActions,
-  ImageComponent,
+  IconComponent,
 }: Props) {
   return (
     <GestureHandlerRootView>
       <Swipeable renderRightActions={renderRightActions}>
         <TouchableHighlight underlayColor={colors.light} onPress={onPress}>
           <View style={styles.container}>
-            {ImageComponent}
+            {IconComponent}
             {image && <Image source={{ uri: image }} style={styles.image} />}
             <View>
               <Text style={styles.title}>{title}</Text>
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
     padding: 15,
+    backgroundColor: colors.white
   },
   image: {
     borderRadius: 50,

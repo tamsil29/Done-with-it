@@ -20,7 +20,7 @@ function ListingDetailsScreen() {
         <Text style={styles.price}>$100</Text>
       </View>
       <View style={styles.userContainer}>
-      <ListItem title={"Vladmir Putin"} subTitle={"5 Listings"} image={img2} /></View>
+      <ListItem title={"Vladmir Putin"} subTitle={"5 Listings"} image={img2} onPress={()=>{}} /></View>
 
     </View>
   );
