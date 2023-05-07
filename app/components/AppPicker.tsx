@@ -12,9 +12,17 @@ interface Props {
   icon?: string;
   placeholder?: string;
   items: any[];
+  selectedItem: any;
+  onSelectItem: React.Dispatch<any>;
 }
 
-function AppPicker({ icon, items, placeholder }: Props) {
+function AppPicker({
+  icon,
+  items,
+  placeholder,
+  selectedItem,
+  onSelectItem,
+}: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -27,7 +35,9 @@ function AppPicker({ icon, items, placeholder }: Props) {
               color={defaultStyles.colors.medium}
             />
           )}
-          <AppText style={styles.text}>{placeholder}</AppText>
+          <AppText style={styles.text}>
+            {selectedItem?.label || placeholder}
+          </AppText>
 
           <MaterialCommunityIcons
             name="chevron-down"
@@ -41,7 +51,15 @@ function AppPicker({ icon, items, placeholder }: Props) {
         <FlatList
           data={items}
           keyExtractor={(item) => item.value.toString()}
-          renderItem={({ item }) => <PickerItem label={item.label} onPress={()=>console.log(item)}/>}
+          renderItem={({ item }) => (
+            <PickerItem
+              label={item.label}
+              onPress={() => {
+                setModalVisible(false);
+                onSelectItem(item);
+              }}
+            />
+          )}
         />
       </Modal>
     </>

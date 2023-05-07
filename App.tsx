@@ -1,31 +1,16 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Button,
-  Alert,
-  Platform,
-  StatusBar,
-} from "react-native";
-import Card from "./app/components/Card";
-import AccountScreen from "./app/screens/AccountScreen";
-import ListingDetailsScreen from "./app/screens/ListingDetailsScreen";
-import ListingScreen from "./app/screens/ListingScreen";
-import MessagesScreen from "./app/screens/MessagesScreen";
-import ViewImageScreen from "./app/screens/ViewImageScreen";
-import WelcomeScreen from "./app/screens/WelcomeScreen";
-import Screen from './app/components/Screen'
+import Screen from "./app/components/Screen";
 import AppTextInput from "./app/components/AppTextInput";
 import AppPicker from "./app/components/AppPicker";
+import { useState } from "react";
 
 const categories = [
-  {label: 'Furniture', value: 1},
-  {label: 'Clothing', value: 2},
-  {label: 'Camera', value: 3},
-]
+  { label: "Furniture", value: 1 },
+  { label: "Clothing", value: 2 },
+  { label: "Camera", value: 3 },
+];
 
 export default function App() {
+  const [category, setCategory] = useState({} as any);
   return (
     // <WelcomeScreen />
     //   <View
@@ -39,13 +24,19 @@ export default function App() {
     // </View>
     // <ListingDetailsScreen/>
 
-      // <MessagesScreen />
-      // <AccountScreen/>
-      // <ListingScreen/>
-      <Screen>
-        <AppPicker items={categories} placeholder="Category" icon="apps"/>
-        <AppTextInput placeholder="example@email.com" icon="email"/>
-      </Screen>
+    // <MessagesScreen />
+    // <AccountScreen/>
+    // <ListingScreen/>
+    <Screen>
+      <AppPicker
+        selectedItem={category}
+        onSelectItem={(item) => setCategory(item)}
+        items={categories}
+        placeholder="Category"
+        icon="apps"
+      />
+      <AppTextInput placeholder="example@email.com" icon="email" />
+    </Screen>
 
     // <ViewImageScreen/>
   );
