@@ -5,15 +5,15 @@ import colors from "../config/colors";
 function AppButton({
   title,
   onPress,
-  color = 'primary',
+  color = colors.primary as keyof typeof colors,
 }: {
   title: string;
   onPress: React.Dispatch<any>;
-  color?: string;
+  color?: keyof typeof colors;
 }) {
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: colors[color]}]}
+      style={[styles.button, { backgroundColor: colors[color as keyof typeof colors]}]}
       onPress={onPress}
     >
       <Text style={styles.text}>{title}</Text>
