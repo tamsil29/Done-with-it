@@ -4,7 +4,7 @@ import AppButton from "../components/AppButton";
 
 import { Ionicons } from "@expo/vector-icons";
 
-function WelcomeScreen(props: any) {
+function WelcomeScreen() {
   return (
     <ImageBackground
       blurRadius={5}

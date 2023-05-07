@@ -2,6 +2,7 @@ import Screen from "./app/components/Screen";
 import AppTextInput from "./app/components/AppTextInput";
 import AppPicker from "./app/components/AppPicker";
 import { useState } from "react";
+import LoginScreen from "./app/screens/LoginScreen";
 
 const categories = [
   { label: "Furniture", value: 1 },
@@ -27,16 +28,17 @@ export default function App() {
     // <MessagesScreen />
     // <AccountScreen/>
     // <ListingScreen/>
-    <Screen>
-      <AppPicker
-        selectedItem={category}
-        onSelectItem={(item) => setCategory(item)}
-        items={categories}
-        placeholder="Category"
-        icon="apps"
-      />
-      <AppTextInput placeholder="example@email.com" icon="email" />
-    </Screen>
+    // <Screen>
+    //   <AppPicker
+    //     selectedItem={category}
+    //     onSelectItem={(item) => setCategory(item)}
+    //     items={categories}
+    //     placeholder="Category"
+    //     icon="apps"
+    //   />
+    //   <AppTextInput placeholder="example@email.com" icon="email" />
+    // </Screen>
+    <LoginScreen/>
 
     // <ViewImageScreen/>
   );
