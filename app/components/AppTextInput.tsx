@@ -20,7 +20,7 @@ const AppTextInput: React.FC<TextInputProps & Props> = ({
           color={defaultStyles.colors.medium}
         />
       )}
-      <TextInput style={defaultStyles.text} {...otherProps} />
+      <TextInput style={[defaultStyles.text, styles.text]} {...otherProps} />
     </View>
   );
 };
@@ -35,6 +35,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 10,
   },
+  text:{
+    flex:1
+  }
 });
 
 export default AppTextInput;
