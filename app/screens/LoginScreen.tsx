@@ -1,10 +1,16 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import AppTextInput from "../components/AppTextInput";
 import Screen from "../components/Screen";
 import { Ionicons } from "@expo/vector-icons";
-import AppButton from "../components/AppButton";
 import { Formik } from "formik";
+import * as Yup from "yup";
+import AppFormField from "../components/AppFormField";
+import SubmitButton from "../components/SubmitButton";
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label("Email"),
+  password: Yup.string().required().min(4).label("Password"),
+});
 
 function LoginScreen() {
   return (
@@ -19,31 +25,30 @@ function LoginScreen() {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => console.log(values)}
+        validationSchema={validationSchema}
       >
-        {({ handleChange, handleSubmit }) => (
+        {() => (
           <>
-            <AppTextInput
+            <AppFormField
               autoCapitalize="none"
               autoCorrect={false}
               icon="email"
               keyboardType="email-address"
+              name="email"
               placeholder="Email"
               textContentType="emailAddress"
-              onChangeText={handleChange('email')}
             />
-            <AppTextInput
+
+            <AppFormField
               autoCapitalize="none"
               autoCorrect={false}
               icon="lock"
+              name="password"
               placeholder="Password"
               secureTextEntry
               textContentType="password"
-              onChangeText={handleChange('password')}
             />
-            <AppButton
-              title={"Login"}
-              onPress={handleSubmit}
-            />
+            <SubmitButton title="Login" />
           </>
         )}
       </Formik>
@@ -54,6 +59,7 @@ function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     gap: 20,
+    marginHorizontal: 10,
   },
   logo: {
     alignSelf: "center",
