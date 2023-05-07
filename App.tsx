@@ -15,6 +15,8 @@ import ListingScreen from "./app/screens/ListingScreen";
 import MessagesScreen from "./app/screens/MessagesScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
+import Screen from './app/components/Screen'
+import AppTextInput from "./app/components/AppTextInput";
 
 export default function App() {
   return (
@@ -32,7 +34,10 @@ export default function App() {
 
       // <MessagesScreen />
       // <AccountScreen/>
-      <ListingScreen/>
+      // <ListingScreen/>
+      <Screen>
+        <AppTextInput placeholder="example@email.com" icon="email"/>
+      </Screen>
 
     // <ViewImageScreen/>
   );
