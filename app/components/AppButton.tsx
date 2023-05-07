@@ -5,7 +5,7 @@ import colors from "../config/colors";
 function AppButton({
   title,
   onPress,
-  color = colors.primary as keyof typeof colors,
+  color = 'primary',
 }: {
   title: string;
   onPress: React.Dispatch<any>;
