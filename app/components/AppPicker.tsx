@@ -15,6 +15,7 @@ interface Props {
   selectedItem: any;
   onSelectItem: React.Dispatch<any>;
   width?: string | number;
+  PickerItemComponent?:React.FC<any>
 }
 
 function AppPicker({
@@ -24,6 +25,7 @@ function AppPicker({
   selectedItem,
   onSelectItem,
   width = "100%",
+  PickerItemComponent = PickerItem
 }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -57,7 +59,7 @@ function AppPicker({
           data={items}
           keyExtractor={(item) => item.value.toString()}
           renderItem={({ item }) => (
-            <PickerItem
+            <PickerItemComponent
               label={item.label}
               onPress={() => {
                 setModalVisible(false);
