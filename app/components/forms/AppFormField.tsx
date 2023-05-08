@@ -8,9 +8,10 @@ import { FormikTouched, FormikErrors, useFormikContext } from "formik";
 interface Props {
   name: string;
   icon?: string;
+  width?: number|string
 }
 
-function AppFormField({ name, icon, ...otherProps }: Props & TextInputProps) {
+function AppFormField({ name, icon,width, ...otherProps }: Props & TextInputProps) {
   const { setFieldTouched, handleChange, touched, errors } = useFormikContext();
   return (
     <View>
@@ -19,6 +20,7 @@ function AppFormField({ name, icon, ...otherProps }: Props & TextInputProps) {
         onChangeText={handleChange(name)}
         icon={icon}
         {...otherProps}
+        width={width}
       />
       <ErrorMessage
         visible={touched[name as keyof FormikTouched<unknown>]}

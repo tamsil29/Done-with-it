@@ -7,9 +7,10 @@ interface Props {
   items: any[];
   name: string;
   placeholder: string;
+  width?: string;
 }
 
-function AppFormPicker({ items, name, placeholder }: Props) {
+function AppFormPicker({ items, name, placeholder,width }: Props) {
   const { setFieldValue, touched, errors, values } = useFormikContext();
   return (
     <>
@@ -18,6 +19,7 @@ function AppFormPicker({ items, name, placeholder }: Props) {
         selectedItem={values[name]}
         onSelectItem={(item) => setFieldValue(name, item)}
         placeholder={placeholder}
+        width={width}
       />
       <ErrorMessage
         visible={touched[name as keyof FormikTouched<unknown>]}

@@ -14,6 +14,7 @@ interface Props {
   items: any[];
   selectedItem: any;
   onSelectItem: React.Dispatch<any>;
+  width?: string | number;
 }
 
 function AppPicker({
@@ -22,12 +23,13 @@ function AppPicker({
   placeholder,
   selectedItem,
   onSelectItem,
+  width = "100%",
 }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
-        <View style={styles.container}>
+        <View style={[styles.container, { width }]}>
           {icon && (
             <MaterialCommunityIcons
               name={icon as any}
@@ -74,13 +76,12 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
     padding: 15,
     marginVertical: 10,
     alignItems: "center",
     gap: 10,
   },
-  placeholder:{
+  placeholder: {
     color: defaultStyles.colors.medium,
     flex: 1,
   },

@@ -23,7 +23,7 @@ export default function App() {
     // </View>
     // <ListingDetailsScreen/>
 
-    <MessagesScreen />
+    // <MessagesScreen />
     // <AccountScreen/>
     // <ListingScreen/>
     // <Screen>
@@ -37,7 +37,7 @@ export default function App() {
     //   <AppTextInput placeholder="example@email.com" icon="email" />
     // </Screen>
     // <LoginScreen/>
-    // <ListingEditScreen/>
+    <ListingEditScreen/>
 
     // <ViewImageScreen/>
   );
