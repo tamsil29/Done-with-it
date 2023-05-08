@@ -7,7 +7,7 @@ import { FormikTouched, FormikErrors, useFormikContext } from "formik";
 
 interface Props {
   name: string;
-  icon: string;
+  icon?: string;
 }
 
 function AppFormField({ name, icon, ...otherProps }: Props & TextInputProps) {

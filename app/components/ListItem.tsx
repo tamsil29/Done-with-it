@@ -3,14 +3,15 @@ import {
   View,
   Image,
   StyleSheet,
-  Text,
   TouchableHighlight,
 } from "react-native";
 import {
   Swipeable,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import {MaterialCommunityIcons} from '@expo/vector-icons'
 import colors from "../config/colors";
+import AppText from "./AppText";
 
 interface Props {
   title: string;
@@ -36,10 +37,11 @@ function ListItem({
           <View style={styles.container}>
             {IconComponent}
             {image && <Image source={{ uri: image }} style={styles.image} />}
-            <View>
-              <Text style={styles.title}>{title}</Text>
-              {subTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
+            <View style={styles.detailsContainer}>
+              <AppText numberOfLines={1} style={styles.title}>{title}</AppText>
+              {subTitle && <AppText numberOfLines={2} style={styles.subTitle}>{subTitle}</AppText>}
             </View>
+            <MaterialCommunityIcons color={colors.medium } name="chevron-right" size={25}/>
           </View>
         </TouchableHighlight>
       </Swipeable>
@@ -55,6 +57,9 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colors.white
   },
+  detailsContainer:{
+    flex: 1  
+  },
   image: {
     borderRadius: 50,
     height: 70,
@@ -64,7 +69,6 @@ const styles = StyleSheet.create({
     color: colors.medium,
   },
   title: {
-    fontSize: 18,
     fontWeight: "500",
   },
 });

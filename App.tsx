@@ -3,12 +3,10 @@ import AppTextInput from "./app/components/AppTextInput";
 import AppPicker from "./app/components/AppPicker";
 import { useState } from "react";
 import LoginScreen from "./app/screens/LoginScreen";
-
-const categories = [
-  { label: "Furniture", value: 1 },
-  { label: "Clothing", value: 2 },
-  { label: "Camera", value: 3 },
-];
+import ListingEditScreen from "./app/screens/ListingEditScreen";
+import ListingScreen from "./app/screens/ListingScreen";
+import ListingDetailsScreen from "./app/screens/ListingDetailsScreen";
+import MessagesScreen from "./app/screens/MessagesScreen";
 
 export default function App() {
   const [category, setCategory] = useState({} as any);
@@ -25,7 +23,7 @@ export default function App() {
     // </View>
     // <ListingDetailsScreen/>
 
-    // <MessagesScreen />
+    <MessagesScreen />
     // <AccountScreen/>
     // <ListingScreen/>
     // <Screen>
@@ -38,7 +36,8 @@ export default function App() {
     //   />
     //   <AppTextInput placeholder="example@email.com" icon="email" />
     // </Screen>
-    <LoginScreen/>
+    // <LoginScreen/>
+    // <ListingEditScreen/>
 
     // <ViewImageScreen/>
   );
