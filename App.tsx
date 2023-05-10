@@ -1,14 +1,21 @@
-import Screen from "./app/components/Screen";
-import AppTextInput from "./app/components/AppTextInput";
-import { useState } from "react";
-import LoginScreen from "./app/screens/LoginScreen";
+import * as ImagePicker from "expo-image-picker";
+import { useEffect, useState } from "react";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
-import ListingScreen from "./app/screens/ListingScreen";
-import ListingDetailsScreen from "./app/screens/ListingDetailsScreen";
-import MessagesScreen from "./app/screens/MessagesScreen";
 
 export default function App() {
   const [category, setCategory] = useState({} as any);
+
+  const requestPermissions = async () => {
+    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!granted) {
+      alert("You need to enable permission for the library");
+    }
+  };
+
+  useEffect(() => {
+    // requestPermissions();
+  }, []);
+
   return (
     // <WelcomeScreen />
     //   <View
@@ -36,7 +43,7 @@ export default function App() {
     //   <AppTextInput placeholder="example@email.com" icon="email" />
     // </Screen>
     // <LoginScreen/>
-    <ListingEditScreen/>
+    <ListingEditScreen />
 
     // <ViewImageScreen/>
   );
