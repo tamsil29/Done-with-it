@@ -11,7 +11,7 @@ interface Props {
   width?: number|string
 }
 
-function AppFormField({ name, icon,width, ...otherProps }: Props & TextInputProps) {
+function FormField({ name, icon,width, ...otherProps }: Props & TextInputProps) {
   const { setFieldTouched, handleChange, touched, errors } = useFormikContext();
   return (
     <View>
@@ -30,4 +30,4 @@ function AppFormField({ name, icon,width, ...otherProps }: Props & TextInputProp
   );
 }
 
-export default AppFormField;
+export default FormField;

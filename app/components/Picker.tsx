@@ -19,7 +19,7 @@ interface Props {
   PickerItemComponent?: React.FC<any>;
 }
 
-function AppPicker({
+function Picker({
   icon,
   items,
   numberOfColumns=1,
@@ -95,4 +95,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppPicker;
+export default Picker;

@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import Screen from "../components/Screen";
 import * as Yup from "yup";
-import {AppFormField, SubmitButton, AppForm} from "../components/forms";
+import {FormField, SubmitButton, Form} from "../components/forms";
 
 
 const validationSchema = Yup.object().shape({
@@ -22,12 +22,12 @@ function LoginScreen() {
         style={styles.logo}
       />
 
-      <AppForm
+      <Form
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => console.log(values)}
         validationSchema={validationSchema}
       >
-        <AppFormField
+        <FormField
           autoCapitalize="none"
           autoCorrect={false}
           icon="email"
@@ -37,7 +37,7 @@ function LoginScreen() {
           textContentType="emailAddress"
         />
 
-        <AppFormField
+        <FormField
           autoCapitalize="none"
           autoCorrect={false}
           icon="lock"
@@ -47,7 +47,7 @@ function LoginScreen() {
           textContentType="password"
         />
         <SubmitButton title="Login" />
-      </AppForm>
+      </Form>
     </Screen>
   );
 }

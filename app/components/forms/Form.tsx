@@ -8,7 +8,7 @@ interface Props {
   children: any;
 }
 
-function AppForm({
+function Form({
   initialValues,
   onSubmit,
   validationSchema,
@@ -25,4 +25,4 @@ function AppForm({
   );
 }
 
-export default AppForm;
+export default Form;
