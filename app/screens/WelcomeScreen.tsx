@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, ImageBackground, View, Image, Text } from "react-native";
-import AppButton from "../components/AppButton";
+import Button from "../components/Button";
 
 import { Ionicons } from "@expo/vector-icons";
 
@@ -20,8 +20,8 @@ function WelcomeScreen() {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <AppButton title="Login" onPress={() => console.log("login tapped")} />
-        <AppButton
+        <Button title="Login" onPress={() => console.log("login tapped")} />
+        <Button
           title="Register"
           onPress={() => console.log("registered tapped")}
           color={"secondary"}

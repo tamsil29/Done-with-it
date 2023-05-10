@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 
-function AppButton({
+function Button({
   title,
   onPress,
   color = 'primary',
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppButton;
+export default Button;
