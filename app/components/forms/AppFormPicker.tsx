@@ -6,6 +6,7 @@ import ErrorMessage from "./ErrorMessage";
 interface Props {
   items: any[];
   name: string;
+  numberOfColumns?:number
   placeholder: string;
   width?: string;
   PickerItemComponent?: React.FC<any>;
@@ -15,6 +16,7 @@ function AppFormPicker({
   items,
   name,
   placeholder,
+  numberOfColumns,
   PickerItemComponent,
   width,
 }: Props) {
@@ -24,6 +26,7 @@ function AppFormPicker({
       <AppPicker
         items={items}
         selectedItem={values[name]}
+        numberOfColumns={numberOfColumns}
         onSelectItem={(item) => setFieldValue(name, item)}
         PickerItemComponent={PickerItemComponent}
         placeholder={placeholder}

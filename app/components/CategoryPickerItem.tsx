@@ -1,9 +1,37 @@
-import React from 'react';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import AppText from "./AppText";
+import Icon from "./Icon";
 
-function CategoryPickerItem() {
-    return (
-       null
-    );
+interface Props {
+  item: any;
+  onPress: React.Dispatch<any>;
 }
+
+function CategoryPickerItem({ item, onPress }: Props) {
+  return (
+    <View style={styles.container}>
+      <Icon
+        name={item?.icon}
+        backgroundColor={item?.backgroundColor}
+        size={80}
+      />
+      <AppText style={styles.label}>{item?.label}</AppText>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    alignItems: "center",
+    gap: 5,
+    width: "33%",
+  },
+  label: {
+    textAlign: "center",
+  },
+});
 
 export default CategoryPickerItem;
