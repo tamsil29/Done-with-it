@@ -1,9 +1,14 @@
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
+import Button from "./app/components/Button";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
+import Screen from "./app/components/Screen";
+import { Image } from "react-native";
+import ImageInput from "./app/components/ImageInput";
 
 export default function App() {
   const [category, setCategory] = useState({} as any);
+  const [imageUri, setImageUri] = useState(null as any);
 
   const requestPermissions = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -13,8 +18,17 @@ export default function App() {
   };
 
   useEffect(() => {
-    // requestPermissions();
+    requestPermissions();
   }, []);
+
+  const selectImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync();
+      if (!result.canceled) setImageUri(result.assets[0].uri);
+    } catch (error) {
+      console.log("an error occurred", error);
+    }
+  };
 
   return (
     // <WelcomeScreen />
@@ -43,7 +57,10 @@ export default function App() {
     //   <AppTextInput placeholder="example@email.com" icon="email" />
     // </Screen>
     // <LoginScreen/>
-    <ListingEditScreen />
+    // <ListingEditScreen />
+    <Screen>
+      <ImageInput imageUri={imageUri} onChangeImage={uri => setImageUri(uri)}/>
+    </Screen>
 
     // <ViewImageScreen/>
   );
