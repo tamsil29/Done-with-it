@@ -5,29 +5,17 @@ import ListingEditScreen from "./app/screens/ListingEditScreen";
 import Screen from "./app/components/Screen";
 import { Image } from "react-native";
 import ImageInput from "./app/components/ImageInput";
+import ImageInputList from "./app/components/ImageInputList";
 
 export default function App() {
-  const [category, setCategory] = useState({} as any);
-  const [imageUri, setImageUri] = useState(null as any);
+  const [imageUris, setImageUris] = useState([] as string[]);
 
-  const requestPermissions = async () => {
-    const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!granted) {
-      alert("You need to enable permission for the library");
-    }
+  const handleAdd = (uri: string) => {
+    setImageUris([...imageUris, uri]);
   };
 
-  useEffect(() => {
-    requestPermissions();
-  }, []);
-
-  const selectImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync();
-      if (!result.canceled) setImageUri(result.assets[0].uri);
-    } catch (error) {
-      console.log("an error occurred", error);
-    }
+  const handleRemove = (uri: string) => {
+    setImageUris(imageUris.filter((image) => image !== uri));
   };
 
   return (
@@ -59,7 +47,11 @@ export default function App() {
     // <LoginScreen/>
     // <ListingEditScreen />
     <Screen>
-      <ImageInput imageUri={imageUri} onChangeImage={uri => setImageUri(uri)}/>
+      <ImageInputList
+        imageUris={imageUris}
+        onRemoveImage={handleRemove}
+        onAddImage={handleAdd}
+      />
     </Screen>
 
     // <ViewImageScreen/>
