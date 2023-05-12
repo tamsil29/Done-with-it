@@ -45,14 +45,14 @@ export default function App() {
     //   <AppTextInput placeholder="example@email.com" icon="email" />
     // </Screen>
     // <LoginScreen/>
-    // <ListingEditScreen />
-    <Screen>
-      <ImageInputList
-        imageUris={imageUris}
-        onRemoveImage={handleRemove}
-        onAddImage={handleAdd}
-      />
-    </Screen>
+    <ListingEditScreen />
+    // <Screen>
+    //   <ImageInputList
+    //     imageUris={imageUris}
+    //     onRemoveImage={handleRemove}
+    //     onAddImage={handleAdd}
+    //   />
+    // </Screen>
 
     // <ViewImageScreen/>
   );
