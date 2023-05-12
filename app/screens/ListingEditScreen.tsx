@@ -6,6 +6,7 @@ import Screen from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
+import AppText from "../components/AppText";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -26,6 +27,7 @@ function ListingEditScreen() {
 
   return (
     <Screen style={styles.container}>
+      <AppText style={{fontSize: 28}}>Add new listing</AppText>
       <Form
         initialValues={{
           title: "",
