@@ -12,14 +12,11 @@ const FeedNavigator = () => {
         gestureEnabled: true,
         gestureDirection: "vertical",
         presentation: "modal",
+        headerShown: false,
       }}
     >
       <Stack.Screen name="Listing" component={ListingScreen} />
-      <Stack.Screen
-        name="ListingDetails"
-        component={ListingDetailsScreen}
-        options={{ headerShown: false }}
-      />
+      <Stack.Screen name="ListingDetails" component={ListingDetailsScreen} />
     </Stack.Navigator>
   );
 };
