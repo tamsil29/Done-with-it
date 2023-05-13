@@ -7,7 +7,13 @@ const Stack = createStackNavigator();
 
 const FeedNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ presentation: "modal" }}>
+    <Stack.Navigator
+      screenOptions={{
+        gestureEnabled: true,
+        gestureDirection: "vertical",
+        presentation: "modal",
+      }}
+    >
       <Stack.Screen name="Listing" component={ListingScreen} />
       <Stack.Screen
         name="ListingDetails"

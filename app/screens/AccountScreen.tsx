@@ -5,6 +5,7 @@ import ListItem from "../components/ListItem";
 import ListItemSeparator from "../components/ListItemSeparator";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
+import useRouteNavigation from "../hooks/useRouteNavigation";
 
 const menuItems = [
   {
@@ -13,6 +14,7 @@ const menuItems = [
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
     },
+    targetScreen: "Messages",
   },
   {
     title: "My Messages",
@@ -20,10 +22,12 @@ const menuItems = [
       name: "email",
       backgroundColor: colors.secondary,
     },
+    targetScreen: "Messages",
   },
 ];
 
 function AccountScreen() {
+  const { navigate } = useRouteNavigation();
   const img2 =
     "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
   return (
@@ -43,7 +47,7 @@ function AccountScreen() {
           keyExtractor={(item) => item.title}
           renderItem={({ item }) => (
             <ListItem
-              onPress={() => {}}
+              onPress={() => navigate(item.targetScreen)}
               title={item.title}
               IconComponent={
                 <Icon
