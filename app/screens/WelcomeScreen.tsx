@@ -3,8 +3,11 @@ import { StyleSheet, ImageBackground, View, Image, Text } from "react-native";
 import Button from "../components/Button";
 
 import { Ionicons } from "@expo/vector-icons";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 function WelcomeScreen() {
+  const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
   return (
     <ImageBackground
       blurRadius={5}
@@ -20,10 +23,10 @@ function WelcomeScreen() {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Button title="Login" onPress={() => console.log("login tapped")} />
+        <Button title="Login" onPress={() => navigate("Login")} />
         <Button
           title="Register"
-          onPress={() => console.log("registered tapped")}
+          onPress={() => navigate("Register")}
           color={"secondary"}
         />
       </View>

@@ -14,14 +14,7 @@ const validationSchema = Yup.object().shape({
 
 function RegisterScreen() {
     return (
-        <Screen style={styles.container}>
-        <Ionicons
-          name="logo-amplify"
-          size={100}
-          color="#fc5c65"
-          style={styles.logo}
-        />
-  
+        <Screen style={styles.container}>  
         <Form
           initialValues={{name: '', email: "", password: "" }}
           onSubmit={(values) => console.log(values)}
