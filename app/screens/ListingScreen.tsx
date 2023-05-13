@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import Card from "../components/Card";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
@@ -10,6 +10,7 @@ import { RouteEnums } from "../navigation/routes";
 import listingApi from "../api/listings";
 import AppText from "../components/AppText";
 import Button from "../components/Button";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
@@ -40,7 +41,7 @@ function ListingScreen() {
           <Button title="Retry" onPress={loadListings} />
         </>
       )}
-      <ActivityIndicator animating={isLoading} />
+      <ActivityIndicator visible={true} />
       <FlatList
         data={listings}
         renderItem={({ item }) => (
