@@ -6,6 +6,8 @@ import Screen from "./app/components/Screen";
 import { Image } from "react-native";
 import ImageInput from "./app/components/ImageInput";
 import ImageInputList from "./app/components/ImageInputList";
+import RegisterScreen from "./app/screens/RegisterScreen";
+import LoginScreen from "./app/screens/LoginScreen";
 
 export default function App() {
   const [imageUris, setImageUris] = useState([] as string[]);
@@ -45,7 +47,8 @@ export default function App() {
     //   <AppTextInput placeholder="example@email.com" icon="email" />
     // </Screen>
     // <LoginScreen/>
-    <ListingEditScreen />
+    // <ListingEditScreen />
+    <RegisterScreen/>
     // <Screen>
     //   <ImageInputList
     //     imageUris={imageUris}
