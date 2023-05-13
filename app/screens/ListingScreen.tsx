@@ -1,5 +1,5 @@
-import React from "react";
-import { FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList } from "react-native";
 import Card from "../components/Card";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
@@ -7,42 +7,53 @@ import { StyleSheet } from "react-native";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { ScrollView } from "react-native-gesture-handler";
 import { RouteEnums } from "../navigation/routes";
-
-const listings = [
-  {
-    id: 1,
-    title: "Red Jacket for sale",
-    price: 100,
-    image:
-      "https://i0.pickpik.com/photos/241/235/620/mountain-hiking-adventure-landscape-preview.jpg",
-  },
-  {
-    id: 2,
-    title: "Couch in great condition",
-    price: 200,
-    image:
-      "https://aarsunwoods.b-cdn.net/wp-content/uploads/2020/03/Sofa-Chair-for-Luxury-Home-UH-FP-0019.jpg",
-  },
-];
+import listingApi from "../api/listings";
+import AppText from "../components/AppText";
+import Button from "../components/Button";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
+  const [listings, setListings] = useState([] as any);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    loadListings();
+  }, []);
+
+  const loadListings = async () => {
+    setIsLoading(true);
+    const response = await listingApi.getListings();
+    setIsLoading(false);
+    if (!response.ok) return setError(true);
+    setError(false);
+    setListings(response?.data?.data as any);
+    console.log(response);
+  };
+
   return (
     // <ScrollView>
-      <Screen style={styles.screen}>
-        <FlatList
-          data={listings}
-          renderItem={({ item }) => (
-            <Card
-              title={item.title}
-              subTitle={"$" + item.price}
-              image={item.image}
-              onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
-            />
-          )}
-          keyExtractor={(listing) => listing.id.toString()}
-        />
-      </Screen>
+    <Screen style={styles.screen}>
+      {error && (
+        <>
+          <AppText>Couldn't Retrieve the listings</AppText>
+          <Button title="Retry" onPress={loadListings} />
+        </>
+      )}
+      <ActivityIndicator animating={isLoading} />
+      <FlatList
+        data={listings}
+        renderItem={({ item }) => (
+          <Card
+            title={item.title}
+            subTitle={"₹" + item.price}
+            image={item.imageId}
+            onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
+          />
+        )}
+        keyExtractor={(listing) => listing?._id.toString()}
+      />
+    </Screen>
     // </ScrollView>
   );
 }
