@@ -5,6 +5,7 @@ import ListingEditScreen from "../screens/ListingEditScreen";
 import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
 import NewListingButton from "./NewListingButton";
+import { RouteEnums } from "./routes";
 
 const Tab = createBottomTabNavigator();
 
@@ -28,7 +29,7 @@ const AppNavigator = () => {
           headerShown: false,
           tabBarButton: () => (
             <NewListingButton
-              onPress={() => navigation.navigate('ListingEdit')}
+              onPress={() => navigation.navigate(RouteEnums.LISTING_EDIT)}
             />
           ),
           tabBarIcon: ({ size, color }) => (
@@ -41,7 +42,7 @@ const AppNavigator = () => {
         })}
       />
       <Tab.Screen
-        name="AccounTab"
+        name="Accoun"
         component={AccountNavigator}
         options={{
           headerShown: false,

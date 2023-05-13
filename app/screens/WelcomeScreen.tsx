@@ -4,6 +4,7 @@ import Button from "../components/Button";
 
 import { Ionicons } from "@expo/vector-icons";
 import useRouteNavigation from "../hooks/useRouteNavigation";
+import { RouteEnums } from "../navigation/routes";
 
 function WelcomeScreen() {
   const { navigate } = useRouteNavigation();
@@ -22,10 +23,10 @@ function WelcomeScreen() {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <Button title="Login" onPress={() => navigate("Login")} />
+        <Button title="Login" onPress={() => navigate(RouteEnums.LOGIN)} />
         <Button
           title="Register"
-          onPress={() => navigate("Register")}
+          onPress={() => navigate(RouteEnums.REGISTER)}
           color={"secondary"}
         />
       </View>

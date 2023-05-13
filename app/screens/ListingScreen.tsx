@@ -6,6 +6,7 @@ import colors from "../config/colors";
 import { StyleSheet } from "react-native";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { ScrollView } from "react-native-gesture-handler";
+import { RouteEnums } from "../navigation/routes";
 
 const listings = [
   {
@@ -36,7 +37,7 @@ function ListingScreen() {
               title={item.title}
               subTitle={"$" + item.price}
               image={item.image}
-              onPress={() => navigate("ListingDetails", item)}
+              onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
             />
           )}
           keyExtractor={(listing) => listing.id.toString()}
