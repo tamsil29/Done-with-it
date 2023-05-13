@@ -3,11 +3,10 @@ import { StyleSheet, ImageBackground, View, Image, Text } from "react-native";
 import Button from "../components/Button";
 
 import { Ionicons } from "@expo/vector-icons";
-import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import useRouteNavigation from "../hooks/useRouteNavigation";
 
 function WelcomeScreen() {
-  const { navigate } = useNavigation<StackNavigationProp<ParamListBase>>();
+  const { navigate } = useRouteNavigation();
   return (
     <ImageBackground
       blurRadius={5}
