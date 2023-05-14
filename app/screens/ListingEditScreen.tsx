@@ -8,8 +8,8 @@ import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
 import AppText from "../components/AppText";
 import listingsApi from "../api/listings";
-import filesApi from '../api/files'
-import categoriesApi from '../api/category'
+import filesApi from "../api/files";
+import categoriesApi from "../api/category";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -26,10 +26,23 @@ const categories = [
 ];
 
 function ListingEditScreen() {
-  const [categories, setCategories] = useState([] as any)
+  const [categories, setCategories] = useState([] as any);
+  const [localImages, setLocalImages] = useState([] as string[]);
+  const [imagesUrl, setImagesUrl] = useState([] as string[]);
+  const [payloadData, setPayloadData] = useState({} as any);
+
   const { location } = useLocation();
 
   const handleSubmit = async (listing: any) => {
+    let payloadData = {
+      ...listing,
+      categoryId: listing?.category?._id,
+      location,
+    };
+    setLocalImages(listing.images);
+    delete payloadData?.category;
+    delete payloadData?.images;
+    setPayloadData(payloadData);
     // const result = await listingsApi.addListing(
     //   { ...listing, location },
     //   (progress: number) => console.log({progress})
@@ -37,22 +50,46 @@ function ListingEditScreen() {
     // console.log(result.data);
     // if (!result.ok) return alert("Could not save the listing");
     // alert("success");
-    const image = listing.images[0];
-    console.log({image})
-    const result = await filesApi.uploadImage(image)
-    console.log({result: result.data});
-    if (!result.ok) return alert("Could not save the listing");
 
+    // const image = listing.images[0];
+    // console.log({ image });
+    // const result = await filesApi.uploadImage(image);
+    // console.log({ result: result.data });
+    // if (!result.ok) return alert("Could not save the listing");
+  };
+
+  const submitData = async () => {
+    const result = await listingsApi.addListing(
+      { ...payloadData, images: [...imagesUrl] },
+      (progress: number) => console.log({ progress })
+    );
+    
+    if (!result.ok) return alert("Could not save the listing");
+    alert("success");
   };
 
   const getCategories = async () => {
     const result = await categoriesApi.getCategories();
-    if(result.ok) return setCategories(result?.data?.data);
-  }
+    if (result.ok) return setCategories(result?.data?.data);
+  };
 
-  useEffect(()=> {
-    getCategories()
-  }, [])
+  useEffect(() => {
+    getCategories();
+  }, []);
+
+  useEffect(() => {
+    console.log({ imagesUrl });
+  }, [imagesUrl]);
+
+  useEffect(() => {
+    if (
+      localImages.length > 0 &&
+      imagesUrl.length > 0 &&
+      localImages.length === imagesUrl.length
+    ) {
+      submitData();
+    }
+  }, [localImages, imagesUrl]);
 
   return (
     <Screen style={styles.container}>
@@ -65,7 +102,7 @@ function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={(values)=>console.log(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name={"images"} />
@@ -94,6 +131,15 @@ function ListingEditScreen() {
         />
         <SubmitButton title={"Post"} />
       </Form>
+      {localImages.length > 0 &&
+        localImages.map((image, index) => (
+          <ImageUploadItem
+            imageUri={image}
+            key={index}
+            setImagesUrl={setImagesUrl}
+            imagesUrl={imagesUrl}
+          />
+        ))}
     </Screen>
   );
 }
@@ -107,3 +153,25 @@ const styles = StyleSheet.create({
 });
 
 export default ListingEditScreen;
+
+const ImageUploadItem = ({
+  imageUri,
+  setImagesUrl,
+  imagesUrl,
+}: {
+  imageUri: string;
+  setImagesUrl: React.Dispatch<any>;
+  imagesUrl: string[];
+}) => {
+  const uploadSingleImage = async () => {
+    const result = await filesApi.uploadImage(imageUri);
+    console.log(result.data?.data);
+    if (result.ok) setImagesUrl([...imagesUrl, result.data?.data?.baseUrl + '' + result.data?.data?.key]);
+  };
+
+  useEffect(() => {
+    uploadSingleImage();
+  }, []);
+
+  return <></>;
+};
