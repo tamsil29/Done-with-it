@@ -10,7 +10,6 @@ const useApi = (
 
   const request = useCallback(
     async (...args: Array<any>) => {
-      console.log({ apiFunc });
       setIsLoading(true);
       const response = await apiFunc(...args);
       setIsLoading(false);

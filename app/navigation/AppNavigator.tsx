@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
       <Tab.Screen
         name="Feed"
         component={FeedNavigator}
@@ -25,7 +25,7 @@ const AppNavigator = () => {
       <Tab.Screen
         name="ListingEdit"
         component={ListingEditScreen}
-        options={({navigation}) => ({
+        options={({ navigation }) => ({
           headerShown: false,
           tabBarButton: () => (
             <NewListingButton
