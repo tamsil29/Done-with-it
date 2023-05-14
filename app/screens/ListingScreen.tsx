@@ -11,26 +11,20 @@ import listingApi from "../api/listings";
 import AppText from "../components/AppText";
 import Button from "../components/Button";
 import ActivityIndicator from "../components/ActivityIndicator";
+import  useApi  from "../hooks/useApi";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
-  const [listings, setListings] = useState([] as any);
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const {
+    data: listings,
+    error,
+    request: loadListings,
+    isLoading,
+  } = useApi(listingApi.getListings);
 
   useEffect(() => {
-    loadListings();
+    loadListings()
   }, []);
-
-  const loadListings = async () => {
-    setIsLoading(true);
-    const response = await listingApi.getListings();
-    setIsLoading(false);
-    if (!response.ok) return setError(true);
-    setError(false);
-    setListings(response?.data?.data as any);
-    console.log(response);
-  };
 
   return (
     // <ScrollView>
@@ -41,7 +35,7 @@ function ListingScreen() {
           <Button title="Retry" onPress={loadListings} />
         </>
       )}
-      <ActivityIndicator visible={true} />
+      {/* <ActivityIndicator visible={true} /> */}
       <FlatList
         data={listings}
         renderItem={({ item }) => (
