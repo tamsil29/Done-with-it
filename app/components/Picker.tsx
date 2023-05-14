@@ -59,7 +59,7 @@ function Picker({
         <Button title="close" onPress={() => setModalVisible(false)} />
         <FlatList
           data={items}
-          keyExtractor={(item) => item.value.toString()}
+          keyExtractor={(item) => item._id.toString()}
           numColumns={numberOfColumns}
           renderItem={({ item }) => (
             <PickerItemComponent
