@@ -22,7 +22,7 @@ interface Props {
 function Picker({
   icon,
   items,
-  numberOfColumns=1,
+  numberOfColumns = 1,
   placeholder,
   selectedItem,
   onSelectItem,
@@ -56,7 +56,15 @@ function Picker({
         </View>
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType="slide">
-        <Button title="close" onPress={() => setModalVisible(false)} />
+        <View style={styles.modalHeader}>
+          <AppText style={{ fontSize: 24 }}>Select {placeholder}</AppText>
+          <MaterialCommunityIcons
+            onPress={() => setModalVisible(false)}
+            size={30}
+            name="close"
+          />
+        </View>
+        {/* <Button title="close" onPress={() => setModalVisible(false)} /> */}
         <FlatList
           data={items}
           keyExtractor={(item) => item._id.toString()}
@@ -85,6 +93,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: "center",
     gap: 10,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 20,
   },
   placeholder: {
     color: defaultStyles.colors.medium,
