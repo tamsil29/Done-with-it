@@ -23,7 +23,7 @@ function CategoryPickerItem({ item, onPress }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     paddingVertical: 15,
     alignItems: "center",
     gap: 5,
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   },
   label: {
     textAlign: "center",
-    textTransform: "capitalize",
   },
 });
 
