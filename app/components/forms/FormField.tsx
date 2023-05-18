@@ -12,13 +12,14 @@ interface Props {
 }
 
 function FormField({ name, icon,width, ...otherProps }: Props & TextInputProps) {
-  const { setFieldTouched, handleChange, touched, errors } = useFormikContext();
+  const { setFieldTouched,setFieldValue, touched, errors, values } = useFormikContext();
   return (
     <View>
       <AppTextInput
         onBlur={() => setFieldTouched(name)}
-        onChangeText={handleChange(name)}
+        onChangeText={text => setFieldValue(name, text)}
         icon={icon}
+        value={values[name]}
         {...otherProps}
         width={width}
       />

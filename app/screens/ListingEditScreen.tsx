@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import * as Yup from "yup";
 import { StyleSheet } from "react-native";
 import { Form, FormField, FormPicker, SubmitButton } from "../components/forms";
@@ -10,12 +10,14 @@ import AppText from "../components/AppText";
 import listingsApi from "../api/listings";
 import filesApi from "../api/files";
 import categoriesApi from "../api/category";
+import UploadScreen from "./UploadScreen";
+import { FormikValues } from "formik";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.number().required().max(10000).label("Price"),
   description: Yup.string().label("Description"),
-  category: Yup.object().required().nullable().label("Category"),
+  category: Yup.object().required().label("Category"),
   images: Yup.array().required().min(1, "Please select atleast one image!"),
 });
 
@@ -27,46 +29,48 @@ const categories = [
 
 function ListingEditScreen() {
   const [categories, setCategories] = useState([] as any);
-  const [localImages, setLocalImages] = useState([] as string[]);
-  const [imagesUrl, setImagesUrl] = useState([] as string[]);
-  const [payloadData, setPayloadData] = useState({} as any);
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+  // const [localImages, setLocalImages] = useState([] as string[]);
+  // const [imagesUrl, setImagesUrl] = useState([] as string[]);
+  // const [payloadData, setPayloadData] = useState({} as any);
 
   const { location } = useLocation();
 
-  const handleSubmit = async (listing: any) => {
+  const handleSubmit = async (listing: any, actions: any) => {
     let payloadData = {
       ...listing,
       categoryId: listing?.category?._id,
       location,
     };
-    setLocalImages(listing.images);
+    // setLocalImages(listing.images);
     delete payloadData?.category;
-    delete payloadData?.images;
-    setPayloadData(payloadData);
-    // const result = await listingsApi.addListing(
-    //   { ...listing, location },
-    //   (progress: number) => console.log({progress})
-    // );
-    // console.log(result.data);
-    // if (!result.ok) return alert("Could not save the listing");
-    // alert("success");
 
-    // const image = listing.images[0];
-    // console.log({ image });
-    // const result = await filesApi.uploadImage(image);
-    // console.log({ result: result.data });
-    // if (!result.ok) return alert("Could not save the listing");
-  };
-
-  const submitData = async () => {
+    setProgress(0)
+    setUploadVisible(true);
     const result = await listingsApi.addListing(
-      { ...payloadData, images: [...imagesUrl] },
-      (progress: number) => console.log({ progress })
+      payloadData,
+      (progress: number) => setProgress(progress)
     );
-    
-    if (!result.ok) return alert("Could not save the listing");
-    alert("success");
+
+    if (!result.ok){
+      setUploadVisible(false)
+      return alert("Could not save the listing");
+    }
+    actions.resetForm()
+    // delete payloadData?.images;
+    // setPayloadData(payloadData);
   };
+
+  // const submitData = async () => {
+  //   const result = await listingsApi.addListing(
+  //     { ...payloadData, images: [...imagesUrl] },
+  //     (progress: number) => console.log({ progress })
+  //   );
+    
+  //   if (!result.ok) return alert("Could not save the listing");
+  //   alert("success");
+  // };
 
   const getCategories = async () => {
     const result = await categoriesApi.getCategories();
@@ -77,22 +81,19 @@ function ListingEditScreen() {
     getCategories();
   }, []);
 
-  useEffect(() => {
-    console.log({ imagesUrl });
-  }, [imagesUrl]);
-
-  useEffect(() => {
-    if (
-      localImages.length > 0 &&
-      imagesUrl.length > 0 &&
-      localImages.length === imagesUrl.length
-    ) {
-      submitData();
-    }
-  }, [localImages, imagesUrl]);
+  // useEffect(() => {
+  //   if (
+  //     localImages.length > 0 &&
+  //     imagesUrl.length > 0 &&
+  //     localImages.length === imagesUrl.length
+  //   ) {
+  //     submitData();
+  //   }
+  // }, [localImages, imagesUrl]);
 
   return (
     <Screen style={styles.container}>
+      <UploadScreen progress={progress} visible={uploadVisible} onDone={()=>setUploadVisible(false)}/>
       <AppText style={{ fontSize: 28 }}>Add new listing</AppText>
       <Form
         initialValues={{
@@ -102,7 +103,7 @@ function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit as any}
         validationSchema={validationSchema}
       >
         <FormImagePicker name={"images"} />
@@ -112,7 +113,7 @@ function ListingEditScreen() {
           maxLength={8}
           name="price"
           placeholder="Price"
-          width={120}
+          width={150}
         />
         <FormPicker
           items={categories}
@@ -131,7 +132,7 @@ function ListingEditScreen() {
         />
         <SubmitButton title={"Post"} />
       </Form>
-      {localImages.length > 0 &&
+      {/* {localImages.length > 0 &&
         localImages.map((image, index) => (
           <ImageUploadItem
             imageUri={image}
@@ -139,7 +140,7 @@ function ListingEditScreen() {
             setImagesUrl={setImagesUrl}
             imagesUrl={imagesUrl}
           />
-        ))}
+        ))} */}
     </Screen>
   );
 }

@@ -2,6 +2,7 @@ import { FormikErrors, FormikTouched, useFormikContext } from "formik";
 import React from "react";
 import Picker from "../Picker";
 import ErrorMessage from "./ErrorMessage";
+import { View } from "react-native";
 
 interface Props {
   items: any[];
@@ -22,7 +23,7 @@ function FormPicker({
 }: Props) {
   const { setFieldValue, touched, errors, values } = useFormikContext();
   return (
-    <>
+    <View>
       <Picker
         items={items}
         selectedItem={values[name]}
@@ -36,7 +37,7 @@ function FormPicker({
         visible={touched[name as keyof FormikTouched<unknown>]}
         error={errors[name as keyof FormikErrors<unknown>]}
       />
-    </>
+    </View>
   );
 }
 
