@@ -15,7 +15,7 @@ function ListingDetailsScreen() {
     <View>
       <Image
         source={{
-          uri: listing?.image 
+          uri: listing?.imageId 
         }}
         style={styles.image}
       />
