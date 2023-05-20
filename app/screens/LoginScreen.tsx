@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -11,9 +11,7 @@ import {
   ErrorMessage,
 } from "../components/forms";
 import authApi from "../api/auth";
-import jwtDecode from "jwt-decode";
-import AuthContext from "../auth/context";
-import authStorage from "../auth/storage";
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -21,26 +19,14 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen() {
-  const authContext = useContext(AuthContext)
   const [loginFailed, setLoginFailed] = useState(false);
+  const { logIn } = useAuth();
 
-  const handleSubmit = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    try {
-      const result = await authApi.login(email, password);
-      if (!result.ok) return setLoginFailed(true);
-      setLoginFailed(false);
-      const token = result.data as string
-      
-      const user = jwtDecode(token);
-      authContext.setUser(user);
-      authStorage.storeToken(token);
-    } catch (error) {}
+  const handleSubmit = async (values: { email: string; password: string }) => {
+    const result = await authApi.login(values.email, values.password);
+    if (!result.ok) return setLoginFailed(true);
+    setLoginFailed(false);
+    const token = logIn(result.data as string);
   };
 
   return (
