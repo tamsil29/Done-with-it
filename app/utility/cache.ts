@@ -37,4 +37,4 @@ const get = async (key: string) => {
     }
 }
 
-export default store 
+export default { store, get }
