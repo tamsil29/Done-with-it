@@ -5,8 +5,9 @@ const useApi = (
   apiFunc: (...args: Array<any>) => Promise<ApiResponse<any>>
 ) => {
   const [data, setData] = useState();
-  const [error, setError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const request = useCallback(
     async (...args: Array<any>) => {
@@ -14,15 +15,15 @@ const useApi = (
       const response = await apiFunc(...args);
       setIsLoading(false);
 
-      if (!response.ok) return setError(true);
-
-      setError(false);
-      setData(response?.data?.data as any);
+      setIsError(!response.ok)
+      setError(response?.data?.message)
+      setData(response?.data?.data);
+      return response
     },
     [apiFunc]
   );
 
-  return { request, data, error, isLoading };
+  return { request, data, error, isError, isLoading };
 };
 
 export default useApi;

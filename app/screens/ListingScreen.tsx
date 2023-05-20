@@ -17,7 +17,7 @@ function ListingScreen() {
   const { navigate } = useRouteNavigation();
   const {
     data: listings,
-    error,
+    isError,
     request: loadListings,
     isLoading,
   } = useApi(listingApi.getListings);
@@ -29,7 +29,7 @@ function ListingScreen() {
   return (
     // <ScrollView>
     <Screen style={styles.screen}>
-      {error && (
+      {isError && (
         <>
           <AppText>Couldn't Retrieve the listings</AppText>
           <Button title="Retry" onPress={loadListings} />
