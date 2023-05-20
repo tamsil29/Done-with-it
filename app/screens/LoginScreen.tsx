@@ -26,7 +26,7 @@ function LoginScreen() {
     const result = await authApi.login(values.email, values.password);
     if (!result.ok) return setLoginFailed(true);
     setLoginFailed(false);
-    const token = logIn(result.data as string);
+    logIn(result.data as string);
   };
 
   return (
