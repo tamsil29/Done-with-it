@@ -8,7 +8,6 @@ import AppNavigator from "./app/navigation/AppNavigator";
 import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
-import jwtDecode from "jwt-decode";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,10 +15,10 @@ export default function App() {
   const [user, setUser] = useState();
   const [appIsReady, setAppIsReady] = useState(false);
 
-  const restoreToken = async () => {
+  const restoreUser = async () => {
     try {
-      const token = await authStorage.getToken();
-      if (token) setUser(jwtDecode(token));
+      const user = await authStorage.getUser();
+      if (user) setUser(user);
     } catch (error) {
       console.error(error);
     } finally {
@@ -28,7 +27,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    restoreToken();
+    restoreUser();
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
