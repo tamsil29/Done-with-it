@@ -1,9 +1,9 @@
-import { ApiResponse, create, ApiErrorResponse, ApiOkResponse } from "apisauce";
+import { ApiResponse, create } from "apisauce";
 import cache from "../utility/cache";
 import { AxiosRequestConfig } from "axios";
 
 const apiClient = create({
-  baseURL: "http://192.168.157.53:3000/api",
+  baseURL: "http://192.168.0.101:3000/api",
 });
 
 const get = apiClient.get;
