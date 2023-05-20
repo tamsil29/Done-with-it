@@ -5,8 +5,8 @@ const key = "authToken";
 
 const getUser = async (): Promise<any> => {
   const token = await getToken();
-  return token ? jwtDecode(token) : null
-}
+  return token ? jwtDecode(token) : null;
+};
 
 const storeToken = async (authToken: string) => {
   try {
@@ -32,4 +32,4 @@ const removeToken = async () => {
   }
 };
 
-export default {getUser, storeToken, removeToken };
+export default { getUser, storeToken, removeToken, getToken };
