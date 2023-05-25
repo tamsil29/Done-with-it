@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterScreen() {
-  const registerApi = useApi(usersApi.register)
+  const registerApi = useApi(usersApi.register);
   const { logIn } = useAuth();
 
   const handleSubmit = async (userInfo: any) => {
@@ -33,45 +33,50 @@ function RegisterScreen() {
   };
 
   return (
-    <Screen style={styles.container}>
-      <AppActivityIndicator visible={registerApi.isLoading}/>
-      <Form
-        initialValues={{ name: "", email: "", password: "" }}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        <ErrorMessage error={registerApi.error} visible={registerApi.isError} />
-        <FormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="face-man"
-          keyboardType="default"
-          name="name"
-          placeholder="Name"
-          textContentType="name"
-        />
-        <FormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="email"
-          keyboardType="email-address"
-          name="email"
-          placeholder="Email"
-          textContentType="emailAddress"
-        />
+    <>
+      <AppActivityIndicator visible={registerApi.isLoading} />
+      <Screen style={styles.container}>
+        <Form
+          initialValues={{ name: "", email: "", password: "" }}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+        >
+          <ErrorMessage
+            error={registerApi.error}
+            visible={registerApi.isError}
+          />
+          <FormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="face-man"
+            keyboardType="default"
+            name="name"
+            placeholder="Name"
+            textContentType="name"
+          />
+          <FormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="email"
+            keyboardType="email-address"
+            name="email"
+            placeholder="Email"
+            textContentType="emailAddress"
+          />
 
-        <FormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          name="password"
-          placeholder="Password"
-          secureTextEntry
-          textContentType="password"
-        />
-        <SubmitButton title="Register" />
-      </Form>
-    </Screen>
+          <FormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="lock"
+            name="password"
+            placeholder="Password"
+            secureTextEntry
+            textContentType="password"
+          />
+          <SubmitButton title="Register" />
+        </Form>
+      </Screen>
+    </>
   );
 }
 

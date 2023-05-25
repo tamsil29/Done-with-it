@@ -21,7 +21,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen() {
-  const loginApi = useApi(authApi.login)
+  const loginApi = useApi(authApi.login);
   const { logIn } = useAuth();
 
   const handleSubmit = async (values: { email: string; password: string }) => {
@@ -30,42 +30,44 @@ function LoginScreen() {
   };
 
   return (
-    <Screen style={styles.container}>
-      <Ionicons
-        name="logo-amplify"
-        size={100}
-        color="#fc5c65"
-        style={styles.logo}
-      />
-      <AppActivityIndicator visible={loginApi.isLoading}/>
-      <Form
-        initialValues={{ email: "", password: "" }}
-        onSubmit={handleSubmit}
-        validationSchema={validationSchema}
-      >
-        <ErrorMessage error={loginApi.error} visible={loginApi.isError} />
-        <FormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="email"
-          keyboardType="email-address"
-          name="email"
-          placeholder="Email"
-          textContentType="emailAddress"
+    <>
+      <AppActivityIndicator visible={loginApi.isLoading} />
+      <Screen style={styles.container}>
+        <Ionicons
+          name="logo-amplify"
+          size={100}
+          color="#fc5c65"
+          style={styles.logo}
         />
+        <Form
+          initialValues={{ email: "", password: "" }}
+          onSubmit={handleSubmit}
+          validationSchema={validationSchema}
+        >
+          <ErrorMessage error={loginApi.error} visible={loginApi.isError} />
+          <FormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="email"
+            keyboardType="email-address"
+            name="email"
+            placeholder="Email"
+            textContentType="emailAddress"
+          />
 
-        <FormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          name="password"
-          placeholder="Password"
-          secureTextEntry
-          textContentType="password"
-        />
-        <SubmitButton title="Login" />
-      </Form>
-    </Screen>
+          <FormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="lock"
+            name="password"
+            placeholder="Password"
+            secureTextEntry
+            textContentType="password"
+          />
+          <SubmitButton title="Login" />
+        </Form>
+      </Screen>
+    </>
   );
 }
 

@@ -6,14 +6,23 @@ import colors from "../config/colors";
 
 function AppActivityIndicator({ visible }: { visible: boolean }) {
   if (!visible) return <></>;
-  return (
-    //    <AnimatedLottieView source={require('../assets/animations/done.json')} autoPlay loop/>
-    <ActivityIndicator color={colors.primary} size={40}/>
+  return ( <View style={styles.overlay}>
+    <ActivityIndicator color={colors.primary} size={40}/></View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  overlay: {
+    backgroundColor: 'white',
+    position: 'absolute',
+    height: '100%',
+    width : '100%',
+    justifyContent: 'center',
+    zIndex: 1,
+    opacity: 0.8,
+  },
 });
 
 export default AppActivityIndicator;
+
+//    <AnimatedLottieView source={require('../assets/animations/done.json')} autoPlay loop/>

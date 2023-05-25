@@ -27,7 +27,8 @@ function ListingScreen() {
   }, []);
 
   return (
-    // <ScrollView>
+    <>
+    <AppActivityIndicator visible={isLoading} />
     <Screen style={styles.screen}>
       {isError && (
         <>
@@ -35,7 +36,6 @@ function ListingScreen() {
           <Button title="Retry" onPress={loadListings} />
         </>
       )}
-      <AppActivityIndicator visible={isLoading} />
       <FlatList
         data={listings}
         renderItem={({ item }) => (
@@ -49,7 +49,7 @@ function ListingScreen() {
         keyExtractor={(listing) => listing?._id.toString()}
       />
     </Screen>
-    // </ScrollView>
+    </>
   );
 }
 
