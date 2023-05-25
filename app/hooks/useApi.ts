@@ -16,7 +16,7 @@ const useApi = (
       setIsLoading(false);
 
       setIsError(!response.ok)
-      setError(response?.data?.message)
+      if (!response.ok) setError(response?.data?.message || 'An unknown error occurred!')
       setData(response?.data?.data);
       return response
     },

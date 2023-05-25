@@ -8,7 +8,7 @@ function AppActivityIndicator({ visible }: { visible: boolean }) {
   if (!visible) return <></>;
   return (
     //    <AnimatedLottieView source={require('../assets/animations/done.json')} autoPlay loop/>
-    <ActivityIndicator color={colors.primary} size={50}/>
+    <ActivityIndicator color={colors.primary} size={40}/>
   );
 }
 

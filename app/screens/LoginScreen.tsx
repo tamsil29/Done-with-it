@@ -12,6 +12,8 @@ import {
 } from "../components/forms";
 import authApi from "../api/auth";
 import useAuth from "../auth/useAuth";
+import useApi from "../hooks/useApi";
+import AppActivityIndicator from "../components/ActivityIndicator";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -19,14 +21,12 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen() {
-  const [loginFailed, setLoginFailed] = useState(false);
+  const loginApi = useApi(authApi.login)
   const { logIn } = useAuth();
 
   const handleSubmit = async (values: { email: string; password: string }) => {
-    const result = await authApi.login(values.email, values.password);
-    if (!result.ok) return setLoginFailed(true);
-    setLoginFailed(false);
-    logIn(result.data as string);
+    const result = await loginApi.request(values.email, values.password);
+    if (result.ok) logIn(result.data as string);
   };
 
   return (
@@ -37,13 +37,13 @@ function LoginScreen() {
         color="#fc5c65"
         style={styles.logo}
       />
-
+      <AppActivityIndicator visible={loginApi.isLoading}/>
       <Form
         initialValues={{ email: "", password: "" }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
-        <ErrorMessage error="Invalid email or password" visible={loginFailed} />
+        <ErrorMessage error={loginApi.error} visible={loginApi.isError} />
         <FormField
           autoCapitalize="none"
           autoCorrect={false}
