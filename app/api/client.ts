@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from "axios";
 import authStorage from "../auth/storage";
 
 const apiClient = create({
-  baseURL: "http://192.168.0.101:3000/api",
+  baseURL: "http://10.18.1.134:4000/api",
 });
 
 apiClient.addAsyncRequestTransform(async(request)=>{

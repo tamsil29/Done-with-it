@@ -1,16 +1,19 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native'
-import AnimatedLottieView from 'lottie-react-native';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import AnimatedLottieView from "lottie-react-native";
+import { ActivityIndicator } from "react-native";
+import colors from "../config/colors";
 
-function ActivityIndicator({visible}: {visible: boolean}){
-    if(!visible) return <></>
-    return (
-       <AnimatedLottieView source={require('../assets/animations/done.json')} autoPlay loop/>
-    );
+function AppActivityIndicator({ visible }: { visible: boolean }) {
+  if (!visible) return <></>;
+  return (
+    //    <AnimatedLottieView source={require('../assets/animations/done.json')} autoPlay loop/>
+    <ActivityIndicator color={colors.primary} size={50}/>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {}
-})
+  container: {},
+});
 
-export default ActivityIndicator;
+export default AppActivityIndicator;

@@ -10,7 +10,7 @@ import { RouteEnums } from "../navigation/routes";
 import listingApi from "../api/listings";
 import AppText from "../components/AppText";
 import Button from "../components/Button";
-import ActivityIndicator from "../components/ActivityIndicator";
+import AppActivityIndicator from "../components/ActivityIndicator";
 import  useApi  from "../hooks/useApi";
 
 function ListingScreen() {
@@ -35,7 +35,7 @@ function ListingScreen() {
           <Button title="Retry" onPress={loadListings} />
         </>
       )}
-      {/* <ActivityIndicator visible={true} /> */}
+      <AppActivityIndicator visible={isLoading} />
       <FlatList
         data={listings}
         renderItem={({ item }) => (
