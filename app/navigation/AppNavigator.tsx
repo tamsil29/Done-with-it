@@ -6,6 +6,7 @@ import AccountNavigator from "./AccountNavigator";
 import FeedNavigator from "./FeedNavigator";
 import NewListingButton from "./NewListingButton";
 import { RouteEnums } from "./routes";
+import * as Notifications from 'expo-notifications';
 
 const Tab = createBottomTabNavigator();
 
