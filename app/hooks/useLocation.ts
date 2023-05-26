@@ -12,6 +12,7 @@ const useLocation = () => {
         const { granted } = await Location.requestForegroundPermissionsAsync();
         if (!granted) return;
         const {
+          //@ts-ignore
           coords: { latitude, longitude },
         } = await Location.getLastKnownPositionAsync();
         setLocation({ latitude, longitude });
