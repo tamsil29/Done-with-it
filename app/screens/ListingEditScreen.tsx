@@ -12,6 +12,7 @@ import filesApi from "../api/files";
 import categoriesApi from "../api/category";
 import UploadScreen from "./UploadScreen";
 import { FormikValues } from "formik";
+import { ScrollView } from "react-native-gesture-handler";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -99,49 +100,51 @@ function ListingEditScreen() {
         onDone={() => setUploadVisible(false)}
       />
       <KeyboardAvoidingView
-        behavior="position"
+        behavior="height"
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
       >
-        <View style={styles.formView}>
-          <Form
-            initialValues={{
-              title: "",
-              price: "",
-              description: "",
-              category: null,
-              images: [],
-            }}
-            onSubmit={handleSubmit as any}
-            validationSchema={validationSchema}
-          >
-            <FormImagePicker name={"images"} />
-            <FormField maxLength={255} name="title" placeholder="Title" />
-            <FormField
-              keyboardType="numeric"
-              maxLength={8}
-              name="price"
-              placeholder="Price"
-              width={150}
-            />
-            <FormPicker
-              items={categories}
-              name={"category"}
-              PickerItemComponent={CategoryPickerItem}
-              placeholder={"Category"}
-              width={"50%"}
-              numberOfColumns={3}
-            />
-            <FormField
-              maxLength={255}
-              multiline
-              textAlignVertical="top"
-              numberOfLines={3}
-              name="description"
-              placeholder="Description"
-            />
-            <SubmitButton title={"Post"} />
-          </Form>
-        </View>
+        <ScrollView>
+          <View style={styles.formView}>
+            <Form
+              initialValues={{
+                title: "",
+                price: "",
+                description: "",
+                category: null,
+                images: [],
+              }}
+              onSubmit={handleSubmit as any}
+              validationSchema={validationSchema}
+            >
+              <FormImagePicker name={"images"} />
+              <FormField maxLength={255} name="title" placeholder="Title" />
+              <FormField
+                keyboardType="numeric"
+                maxLength={8}
+                name="price"
+                placeholder="Price"
+                width={150}
+              />
+              <FormPicker
+                items={categories}
+                name={"category"}
+                PickerItemComponent={CategoryPickerItem}
+                placeholder={"Category"}
+                width={"50%"}
+                numberOfColumns={3}
+              />
+              <FormField
+                maxLength={255}
+                multiline
+                textAlignVertical="top"
+                numberOfLines={3}
+                name="description"
+                placeholder="Description"
+              />
+              <SubmitButton title={"Post"} />
+            </Form>
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
       {/* {localImages.length > 0 &&
         localImages.map((image, index) => (
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     marginHorizontal: 10,
-    paddingTop: 0
+    paddingTop: 0,
   },
   formView: {
     gap: 20,
