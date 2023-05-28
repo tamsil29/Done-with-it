@@ -31,6 +31,10 @@
         "projectId": "f3de0dbd-1b0d-4d83-95b3-a60cf4ae9fe0"
       }
     },
-    "owner": "blurry29"
+    "owner": "blurry29",
+    "notification":{
+      "iosDisplayInForeground": true,
+      "androidDisplayInForeground": true
+    }
   }
 }
