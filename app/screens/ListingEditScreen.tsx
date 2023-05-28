@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import * as Yup from "yup";
-import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View, ScrollView } from "react-native";
 import { Form, FormField, FormPicker, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
@@ -11,8 +11,6 @@ import listingsApi from "../api/listings";
 import filesApi from "../api/files";
 import categoriesApi from "../api/category";
 import UploadScreen from "./UploadScreen";
-import { FormikValues } from "formik";
-import { ScrollView } from "react-native-gesture-handler";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -100,8 +98,8 @@ function ListingEditScreen() {
         onDone={() => setUploadVisible(false)}
       />
       <KeyboardAvoidingView
-        behavior="height"
-        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -100}
       >
         <ScrollView>
           <View style={styles.formView}>
