@@ -14,6 +14,7 @@ import colors from "../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import ContactSellerForm from "../components/ContactSellerForm";
+import AppText from "../components/AppText";
 
 function ListingDetailsScreen() {
   const navigation = useNavigation();
@@ -31,17 +32,18 @@ function ListingDetailsScreen() {
     >
       <Image
         source={{
-          uri: listing?.imageId,
+          uri: listing?.images[0],
         }}
         style={styles.image}
       />
       <View style={styles.detailsContainer}>
         <Text style={styles.title}>{listing?.title}</Text>
-        <Text style={styles.price}>${listing?.price}</Text>
+       {listing?.description && <AppText>{listing?.description}</AppText>}
+        <Text style={styles.price}>₹{listing?.price}</Text>
       </View>
       <View style={styles.userContainer}>
         <ListItem
-          title={"Vladmir Putin"}
+          title={listing?.createdBy?.name}
           subTitle={"5 Listings"}
           image={img2}
           onPress={() => {}}
@@ -71,12 +73,12 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     padding: 20,
-    gap: 10,
   },
   price: {
     fontSize: 20,
     fontWeight: "bold",
     color: colors.secondary,
+    marginTop: 10
   },
   title: { fontSize: 24, fontWeight: "500" },
   userContainer: {

@@ -15,7 +15,7 @@ import { FormikValues } from "formik";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
-  price: Yup.number().required().max(10000).label("Price"),
+  price: Yup.number().required().min(1).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().label("Category"),
   images: Yup.array().required().min(1, "Please select atleast one image!"),

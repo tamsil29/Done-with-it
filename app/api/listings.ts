@@ -17,12 +17,8 @@ const addListing = (
   //   data.append("images", JSON.stringify(image))
   // );
   // if (listing.location) data.append("location", listing.location);
-  const data = {
-    ...listing,
-    userId: "645f9dfa6c08d03d21f06279",
-  };
 
-  return client.post(endPoint, data, {
+  return client.post(endPoint, listing, {
     onUploadProgress: (progress) =>
       onUploadProgress(progress?.loaded / progress?.total),
   });

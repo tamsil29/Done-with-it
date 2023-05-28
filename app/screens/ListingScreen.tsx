@@ -42,7 +42,7 @@ function ListingScreen() {
           <Card
             title={item.title}
             subTitle={"₹" + item.price}
-            image={item.imageId}
+            image={item.images[0]}
             onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
           />
         )}
