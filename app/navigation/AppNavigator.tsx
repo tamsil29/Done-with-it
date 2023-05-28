@@ -9,12 +9,18 @@ import { RouteEnums } from "./routes";
 import * as Notifications from "expo-notifications";
 import expoPushTokensApi from "../api/expoPushTokens";
 import Constants from "expo-constants";
+import navigation from './rootNavigation'
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
   useEffect(() => {
     registerForPushNotifications();
+
+    Notifications.addNotificationReceivedListener((notification) =>{
+      navigation.navigate('AccountTab')
+      console.log(notification, notification.request.content.data, notification.request.trigger)
+    });
   }, []);
 
   const registerForPushNotifications = async () => {
@@ -25,8 +31,8 @@ const AppNavigator = () => {
       const token = await Notifications.getExpoPushTokenAsync({
         projectId: Constants.expoConfig?.extra?.eas?.projectId,
       });
-      const data = await expoPushTokensApi.registerToken(token.data);
-      console.log(data.data);
+      console.log(token);
+      expoPushTokensApi.registerToken(token.data);
     } catch (error) {
       console.log("Error getting a push token", error);
     }
