@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import * as Yup from "yup";
-import { StyleSheet } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import { Form, FormField, FormPicker, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
@@ -46,18 +46,18 @@ function ListingEditScreen() {
     // setLocalImages(listing.images);
     delete payloadData?.category;
 
-    setProgress(0)
+    setProgress(0);
     setUploadVisible(true);
     const result = await listingsApi.addListing(
       payloadData,
       (progress: number) => setProgress(progress)
     );
 
-    if (!result.ok){
-      setUploadVisible(false)
+    if (!result.ok) {
+      setUploadVisible(false);
       return alert("Could not save the listing");
     }
-    actions.resetForm()
+    actions.resetForm();
     // delete payloadData?.images;
     // setPayloadData(payloadData);
   };
@@ -67,7 +67,7 @@ function ListingEditScreen() {
   //     { ...payloadData, images: [...imagesUrl] },
   //     (progress: number) => console.log({ progress })
   //   );
-    
+
   //   if (!result.ok) return alert("Could not save the listing");
   //   alert("success");
   // };
@@ -93,45 +93,57 @@ function ListingEditScreen() {
 
   return (
     <Screen style={styles.container}>
-      <UploadScreen progress={progress} visible={uploadVisible} onDone={()=>setUploadVisible(false)}/>
-      <AppText style={{ fontSize: 28 }}>Add new listing</AppText>
-      <Form
-        initialValues={{
-          title: "",
-          price: "",
-          description: "",
-          category: null,
-          images: [],
-        }}
-        onSubmit={handleSubmit as any}
-        validationSchema={validationSchema}
+      <UploadScreen
+        progress={progress}
+        visible={uploadVisible}
+        onDone={() => setUploadVisible(false)}
+      />
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
       >
-        <FormImagePicker name={"images"} />
-        <FormField maxLength={255} name="title" placeholder="Title" />
-        <FormField
-          keyboardType="numeric"
-          maxLength={8}
-          name="price"
-          placeholder="Price"
-          width={150}
-        />
-        <FormPicker
-          items={categories}
-          name={"category"}
-          PickerItemComponent={CategoryPickerItem}
-          placeholder={"Category"}
-          width={"50%"}
-          numberOfColumns={3}
-        />
-        <FormField
-          maxLength={255}
-          multiline
-          numberOfLines={3}
-          name="description"
-          placeholder="Description"
-        />
-        <SubmitButton title={"Post"} />
-      </Form>
+        <View style={styles.formView}>
+          <AppText style={{ fontSize: 28 }}>Add new listing</AppText>
+          <Form
+            initialValues={{
+              title: "",
+              price: "",
+              description: "",
+              category: null,
+              images: [],
+            }}
+            onSubmit={handleSubmit as any}
+            validationSchema={validationSchema}
+          >
+            <FormImagePicker name={"images"} />
+            <FormField maxLength={255} name="title" placeholder="Title" />
+            <FormField
+              keyboardType="numeric"
+              maxLength={8}
+              name="price"
+              placeholder="Price"
+              width={150}
+            />
+            <FormPicker
+              items={categories}
+              name={"category"}
+              PickerItemComponent={CategoryPickerItem}
+              placeholder={"Category"}
+              width={"50%"}
+              numberOfColumns={3}
+            />
+            <FormField
+              maxLength={255}
+              multiline
+              textAlignVertical="top"
+              numberOfLines={3}
+              name="description"
+              placeholder="Description"
+            />
+            <SubmitButton title={"Post"} />
+          </Form>
+        </View>
+      </KeyboardAvoidingView>
       {/* {localImages.length > 0 &&
         localImages.map((image, index) => (
           <ImageUploadItem
@@ -147,9 +159,11 @@ function ListingEditScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 20,
     marginTop: 20,
     marginHorizontal: 10,
+  },
+  formView: {
+    gap: 20,
   },
 });
 
@@ -167,7 +181,11 @@ const ImageUploadItem = ({
   const uploadSingleImage = async () => {
     const result = await filesApi.uploadImage(imageUri);
     console.log(result.data?.data);
-    if (result.ok) setImagesUrl([...imagesUrl, result.data?.data?.baseUrl + '' + result.data?.data?.key]);
+    if (result.ok)
+      setImagesUrl([
+        ...imagesUrl,
+        result.data?.data?.baseUrl + "" + result.data?.data?.key,
+      ]);
   };
 
   useEffect(() => {

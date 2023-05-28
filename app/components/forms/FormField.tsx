@@ -19,6 +19,7 @@ function FormField({ name, icon,width, ...otherProps }: Props & TextInputProps) 
         onBlur={() => setFieldTouched(name)}
         onChangeText={text => setFieldValue(name, text)}
         icon={icon}
+        //@ts-ignore
         value={values[name]}
         {...otherProps}
         width={width}

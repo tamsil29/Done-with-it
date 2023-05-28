@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 const AppNavigator = () => {
   useNotifications({});
   return (
-    <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
+    <Tab.Navigator screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}>
       <Tab.Screen
         name="Feed"
         component={FeedNavigator}
