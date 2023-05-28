@@ -11,7 +11,7 @@ import listingApi from "../api/listings";
 import AppText from "../components/AppText";
 import Button from "../components/Button";
 import AppActivityIndicator from "../components/ActivityIndicator";
-import  useApi  from "../hooks/useApi";
+import useApi from "../hooks/useApi";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
@@ -23,32 +23,34 @@ function ListingScreen() {
   } = useApi(listingApi.getListings);
 
   useEffect(() => {
-    loadListings()
+    loadListings();
   }, []);
 
   return (
     <>
-    <AppActivityIndicator visible={isLoading} />
-    <Screen style={styles.screen}>
-      {isError && (
-        <>
-          <AppText>Couldn't Retrieve the listings</AppText>
-          <Button title="Retry" onPress={loadListings} />
-        </>
-      )}
-      <FlatList
-        data={listings}
-        renderItem={({ item }) => (
-          <Card
-            title={item.title}
-            subTitle={"₹" + item.price}
-            image={item.images[0]}
-            onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
-          />
+      <AppActivityIndicator visible={isLoading} />
+      <Screen style={styles.screen}>
+        {isError && (
+          <>
+            <AppText>Couldn't Retrieve the listings</AppText>
+            <Button title="Retry" onPress={loadListings} />
+          </>
         )}
-        keyExtractor={(listing) => listing?._id.toString()}
-      />
-    </Screen>
+        <FlatList
+          data={listings}
+          renderItem={({ item }) => (
+            <Card
+              title={item.title}
+              subTitle={"₹" + item.price}
+              image={item.images[0]}
+              onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
+            />
+          )}
+          keyExtractor={(listing) => listing?._id.toString()}
+          refreshing={isLoading}
+          onRefresh={loadListings}
+        />
+      </Screen>
     </>
   );
 }

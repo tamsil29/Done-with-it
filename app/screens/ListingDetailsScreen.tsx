@@ -44,7 +44,7 @@ function ListingDetailsScreen() {
       <View style={styles.userContainer}>
         <ListItem
           title={listing?.createdBy?.name}
-          subTitle={"5 Listings"}
+          subTitle={`${listing?.createdBy?.numberofListings || 1} Listings`}
           image={img2}
           onPress={() => {}}
         />
