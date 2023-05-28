@@ -103,7 +103,6 @@ function ListingEditScreen() {
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
       >
         <View style={styles.formView}>
-          <AppText style={{ fontSize: 28 }}>Add new listing</AppText>
           <Form
             initialValues={{
               title: "",
@@ -161,6 +160,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 20,
     marginHorizontal: 10,
+    paddingTop: 0
   },
   formView: {
     gap: 20,

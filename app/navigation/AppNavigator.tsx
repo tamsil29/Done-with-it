@@ -28,7 +28,7 @@ const AppNavigator = () => {
         name="ListingEdit"
         component={ListingEditScreen}
         options={({ navigation }) => ({
-          headerShown: false,
+          title: "Add new Listing",
           tabBarButton: () => (
             <NewListingButton
               onPress={() => navigation.navigate(RouteEnums.LISTING_EDIT)}
