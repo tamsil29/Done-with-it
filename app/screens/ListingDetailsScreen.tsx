@@ -1,11 +1,14 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 import Card from "../components/Card";
 import ListItem from "../components/ListItem";
 import colors from "../config/colors";
+import {MaterialCommunityIcons} from '@expo/vector-icons'
+import Constants from "expo-constants";
 
 function ListingDetailsScreen() {
+  const navigation = useNavigation()
   const route = useRoute()
   const listing = route.params as any
 
@@ -25,12 +28,18 @@ function ListingDetailsScreen() {
       </View>
       <View style={styles.userContainer}>
       <ListItem title={"Vladmir Putin"} subTitle={"5 Listings"} image={img2} onPress={()=>{}} /></View>
-
+        <MaterialCommunityIcons name="keyboard-backspace" style={styles.goBack} size={30} onPress={() => navigation.goBack()}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  goBack:{
+    position: "absolute",
+    top: Constants.statusBarHeight,
+    left: 10,
+    color: "white",
+  },
   image: {
     width: "100%",
     height: 300,
