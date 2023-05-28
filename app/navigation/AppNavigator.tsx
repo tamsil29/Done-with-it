@@ -7,25 +7,28 @@ import FeedNavigator from "./FeedNavigator";
 import NewListingButton from "./NewListingButton";
 import { RouteEnums } from "./routes";
 import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
+import expoPushTokensApi from "../api/expoPushTokens";
+import Constants from "expo-constants";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
+  useEffect(() => {
+    registerForPushNotifications();
+  }, []);
 
-  useEffect(()=>{
-    registerForPushNotifications()
-  }, [])
-  
   const registerForPushNotifications = async () => {
     try {
-      const permission = await Notifications.requestPermissionsAsync()
+      const permission = await Notifications.requestPermissionsAsync();
       if (!permission.granted) return;
 
-      const token = await Notifications.getExpoPushTokenAsync();
-      console.log(token);
+      const token = await Notifications.getExpoPushTokenAsync({
+        projectId: Constants.expoConfig?.extra?.eas?.projectId,
+      });
+      const data = await expoPushTokensApi.registerToken(token.data);
+      console.log(data.data);
     } catch (error) {
-      console.log('Error getting a push token',error);
+      console.log("Error getting a push token", error);
     }
   };
   return (
