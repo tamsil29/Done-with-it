@@ -27,37 +27,39 @@ function ListingDetailsScreen() {
   const img2 =
     "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
-    >
-      <Image
-        source={{
-          uri: listing?.images[0],
-        }}
-        style={styles.image}
-      />
-      <View style={styles.detailsContainer}>
-        <Text style={styles.title}>{listing?.title}</Text>
-        {listing?.description && <AppText>{listing?.description}</AppText>}
-        <Text style={styles.price}>₹{listing?.price}</Text>
-      </View>
-      <View style={styles.userContainer}>
-        <ListItem
-          title={listing?.createdBy?.name}
-          subTitle={`${listing?.createdBy?.numberofListings || 1} Listings`}
-          image={img2}
-          onPress={() => {}}
+    <ScrollView>
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -100}
+      >
+        <Image
+          source={{
+            uri: listing?.images[0],
+          }}
+          style={styles.image}
         />
-      </View>
-      <MaterialCommunityIcons
-        name="keyboard-backspace"
-        style={styles.goBack}
-        size={30}
-        onPress={() => navigation.goBack()}
-      />
-      <ContactSellerForm listing={listing} />
-    </KeyboardAvoidingView>
+        <View style={styles.detailsContainer}>
+          <Text style={styles.title}>{listing?.title}</Text>
+          {listing?.description && <AppText>{listing?.description}</AppText>}
+          <Text style={styles.price}>₹{listing?.price}</Text>
+        </View>
+        <View style={styles.userContainer}>
+          <ListItem
+            title={listing?.createdBy?.name}
+            subTitle={`${listing?.createdBy?.numberofListings || 1} Listings`}
+            image={img2}
+            onPress={() => {}}
+          />
+        </View>
+        <MaterialCommunityIcons
+          name="keyboard-backspace"
+          style={styles.goBack}
+          size={30}
+          onPress={() => navigation.goBack()}
+        />
+        <ContactSellerForm listing={listing} />
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
