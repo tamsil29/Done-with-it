@@ -49,6 +49,7 @@ function ListingScreen() {
           keyExtractor={(listing) => listing?._id.toString()}
           refreshing={isLoading}
           onRefresh={loadListings}
+          showsVerticalScrollIndicator={false}
         />
       </Screen>
     </>

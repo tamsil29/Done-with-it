@@ -7,6 +7,7 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import Card from "../components/Card";
 import ListItem from "../components/ListItem";
@@ -38,7 +39,7 @@ function ListingDetailsScreen() {
       />
       <View style={styles.detailsContainer}>
         <Text style={styles.title}>{listing?.title}</Text>
-       {listing?.description && <AppText>{listing?.description}</AppText>}
+        {listing?.description && <AppText>{listing?.description}</AppText>}
         <Text style={styles.price}>₹{listing?.price}</Text>
       </View>
       <View style={styles.userContainer}>
@@ -55,7 +56,7 @@ function ListingDetailsScreen() {
         size={30}
         onPress={() => navigation.goBack()}
       />
-      <ContactSellerForm/>
+      <ContactSellerForm listing={listing} />
     </KeyboardAvoidingView>
   );
 }
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: colors.secondary,
-    marginTop: 10
+    marginTop: 10,
   },
   title: { fontSize: 24, fontWeight: "500" },
   userContainer: {

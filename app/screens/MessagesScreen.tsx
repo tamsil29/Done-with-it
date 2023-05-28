@@ -31,7 +31,7 @@ function MessagesScreen() {
   }
 
   return (
-    <Screen>
+    <Screen style={styles.container}>
       <FlatList
         ItemSeparatorComponent={ListItemSeparator}
         data={messages}
@@ -59,6 +59,10 @@ function MessagesScreen() {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container:{
+    paddingTop: 0
+  }
+});
 
 export default MessagesScreen;

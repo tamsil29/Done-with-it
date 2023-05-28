@@ -4,10 +4,10 @@ import { Form, FormField, SubmitButton } from "./forms";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-    message: Yup.string().min(1).label("Message"),
-})
+  message: Yup.string().min(1).label("Message"),
+});
 
-function ContactSellerForm() {
+function ContactSellerForm({ listing }: { listing: any }) {
   return (
     <View style={styles.container}>
       <Form
