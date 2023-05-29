@@ -2,8 +2,18 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import AppText from "./AppText";
 import colors from "../config/colors";
+import { format } from "date-fns";
 
-function Message({ isSelf = true }: { isSelf?: boolean }) {
+interface Props{
+  isSelf: boolean;
+  message: string;
+  time: any;
+}
+
+function Message({ isSelf, message, time }: Props) {
+  // const date = format(new Date(time), 'dd MMM YYYY HH:mm:ss')
+  const date = new Date(time).toDateString()
+  console.log(date)
   return (
     <View style={[isSelf ? styles.selfMessageStyle : styles.container]}>
       <View
@@ -20,10 +30,11 @@ function Message({ isSelf = true }: { isSelf?: boolean }) {
             isSelf ? { color: colors.white } : { color: colors.dark },
           ]}
         >
-          123
+          {message}
         </AppText>
       </View>
-      <AppText style={styles.time}>20 July 2022</AppText>
+      {/* <AppText style={styles.time}>{format(new Date(time), 'dd MMM yyyy HH:mm:ss')}</AppText> */}
+      <AppText style={styles.time}>{time}</AppText>
     </View>
   );
 }
