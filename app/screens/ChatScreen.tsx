@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, Alert } from "react-native";
 import colors from "../config/colors";
 import Message from "../components/Message";
 import { Form, FormField } from "../components/forms";
@@ -8,16 +8,18 @@ import * as Yup from "yup";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Icon from "../components/Icon";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
-const validationSchema = Yup.object().shape({
-  message: Yup.string().required().min(1).label("Message"),
-});
+import { useFormikContext } from "formik";
+import AppTextInput from "../components/AppTextInput";
 
 function ChatScreen() {
   const route = useRoute();
   const conversation = route.params as any;
+  const [height, setHeight] = useState(0);
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = () => {};
+  const handleSend = () => {
+    if(!message.length) return Alert.alert("Error", "Please enter a message")
+  };
 
   return (
     <>
@@ -27,18 +29,25 @@ function ChatScreen() {
         <Message />
       </View>
       <View style={styles.chatContainer}>
-        <Form
-          initialValues={{ chat: "" }}
-          onSubmit={handleSubmit}
-          validationSchema={validationSchema}
-        >
-          <View style={styles.inputContainer}>
-            <FormField name={"chat"} multiline numberOfLines={1} style={{ width: "85%" }} placeholder="Type your message here.."/>
-            <TouchableOpacity onPress={() => {}}>
-              <Icon name={"send"} backgroundColor={colors.primary} />
-            </TouchableOpacity>
-          </View>
-        </Form>
+        <View style={styles.inputContainer}>
+          <AppTextInput
+            multiline
+            width={"85%"}
+            style={{
+              height: Math.max(35, height),
+              maxHeight: 52,
+              fontSize: 16,
+            }}
+            onContentSizeChange={(event) => {
+              setHeight(event.nativeEvent.contentSize.height);
+            }}
+            onChangeText={(text) => setMessage(text)}
+            placeholder="Type your message here.."
+          />
+          <TouchableOpacity onPress={handleSend}>
+            <Icon name={"send"} backgroundColor={colors.primary} />
+          </TouchableOpacity>
+        </View>
       </View>
     </>
   );
