@@ -1,9 +1,9 @@
-import { Formik } from "formik";
+import { Formik, FormikHelpers } from "formik";
 import React from "react";
 
 interface Props {
   initialValues: any;
-  onSubmit: React.Dispatch<any>;
+  onSubmit: ((values: any, formikHelpers: FormikHelpers<any>) => void | Promise<any>) & React.Dispatch<any>;
   validationSchema: any;
   children: any;
 }
