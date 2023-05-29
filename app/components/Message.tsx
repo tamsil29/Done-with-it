@@ -20,8 +20,8 @@ function Message({ isSelf, message, time }: Props) {
         style={[
           styles.messageContainer,
           isSelf
-            ? { backgroundColor: colors.primary }
-            : { backgroundColor: colors.white },
+            ? { backgroundColor: colors.primary, borderBottomLeftRadius: 20, borderBottomRightRadius: 5 }
+            : { backgroundColor: colors.white, borderBottomLeftRadius: 5, borderBottomRightRadius: 20 },
         ]}
       >
         <AppText
@@ -41,11 +41,13 @@ function Message({ isSelf, message, time }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    margin: 10,
     alignItems: "flex-start",
   },
   messageContainer: {
-    borderRadius: 20,
+    // borderRadius: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     padding: 10,
     maxWidth: "70%",
   },
