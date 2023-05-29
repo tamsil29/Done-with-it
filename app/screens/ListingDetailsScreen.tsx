@@ -16,8 +16,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import ContactSellerForm from "../components/ContactSellerForm";
 import AppText from "../components/AppText";
+import useAuth from "../auth/useAuth";
 
 function ListingDetailsScreen() {
+  const {user} = useAuth()
   const navigation = useNavigation();
   const route = useRoute();
   const listing = route.params as any;
@@ -57,7 +59,7 @@ function ListingDetailsScreen() {
           size={30}
           onPress={() => navigation.goBack()}
         />
-        <ContactSellerForm listing={listing} />
+        {user._id !== listing.createdBy._id && <ContactSellerForm listing={listing} />}
       </KeyboardAvoidingView>
     </ScrollView>
   );
