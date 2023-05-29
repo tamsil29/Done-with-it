@@ -24,10 +24,6 @@ function ChatScreen() {
     getMessages()
   }, [])
 
-  useEffect(()=>{
-    console.log(data)
-  }, [data])
-
   const getMessages = async () => {
     await getConvos(conversation?._id)
   }
