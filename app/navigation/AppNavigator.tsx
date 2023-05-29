@@ -7,13 +7,16 @@ import FeedNavigator from "./FeedNavigator";
 import NewListingButton from "./NewListingButton";
 import { RouteEnums } from "./routes";
 import useNotifications from "../hooks/useNotifications";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
   useNotifications({});
   return (
-    <Tab.Navigator screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}>
+    <Tab.Navigator
+      screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}
+    >
       <Tab.Screen
         name="Feed"
         component={FeedNavigator}
@@ -46,12 +49,20 @@ const AppNavigator = () => {
       <Tab.Screen
         name="AccountTab"
         component={AccountNavigator}
-        options={{
+        options={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="account" size={size} color={color} />
           ),
-        }}
+          tabBarStyle: ((route) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+            // console.log(routeName);
+            if (routeName === "Chat") {
+              return { display: "none" };
+            }
+            return;
+          })(route),
+        })}
       />
     </Tab.Navigator>
   );
