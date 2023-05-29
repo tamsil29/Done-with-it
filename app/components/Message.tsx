@@ -11,9 +11,6 @@ interface Props{
 }
 
 function Message({ isSelf, message, time }: Props) {
-  // const date = format(new Date(time), 'dd MMM YYYY HH:mm:ss')
-  const date = new Date(time).toDateString()
-  console.log(date)
   return (
     <View style={[isSelf ? styles.selfMessageStyle : styles.container]}>
       <View
@@ -33,8 +30,7 @@ function Message({ isSelf, message, time }: Props) {
           {message}
         </AppText>
       </View>
-      {/* <AppText style={styles.time}>{format(new Date(time), 'dd MMM yyyy HH:mm:ss')}</AppText> */}
-      <AppText style={styles.time}>{time}</AppText>
+      <AppText style={styles.time}>{new Date(parseInt(time)).toLocaleString()}</AppText>
     </View>
   );
 }
