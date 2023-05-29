@@ -10,6 +10,7 @@ interface Props {
 
 function FormImagePicker({ name }: Props) {
   const { setFieldValue, touched, errors, values } = useFormikContext();
+  //@ts-ignore
   const imageUris = values[name];
 
   const handleAdd = (uri: string) => {

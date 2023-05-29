@@ -26,6 +26,7 @@ function FormPicker({
     <View>
       <Picker
         items={items}
+        //@ts-ignore
         selectedItem={values[name]}
         numberOfColumns={numberOfColumns}
         onSelectItem={(item) => setFieldValue(name, item)}

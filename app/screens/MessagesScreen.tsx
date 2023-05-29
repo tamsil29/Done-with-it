@@ -8,6 +8,7 @@ import Screen from "../components/Screen";
 import useApi from "../hooks/useApi";
 import messagesApi from '../api/message'
 import useAuth from "../auth/useAuth";
+import useRouteNavigation from "../hooks/useRouteNavigation";
 
 const _messages = [
   {
@@ -30,6 +31,7 @@ function MessagesScreen() {
   const image = "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg"
   const { data, request: getConvos, isLoading} = useApi(messagesApi.getConversations);
   const {user} = useAuth()
+  const navigation = useRouteNavigation()
   const [messages, setMessages] = useState(_messages)
   const [refreshing, setRefreshing] = useState(false)
   const handleDelete = (message: any) =>{
@@ -51,7 +53,7 @@ function MessagesScreen() {
             title={item.userId1 === user._id ? item.user2Data.name : item.user1Data.name}
             subTitle={item?.recentMessage?.message}
             image={image}
-            onPress={() => console.log(123)}
+            onPress={() => navigation.navigate('Chat', item)}
             renderRightActions={()=><ListItemDeleteAction onPress={()=>handleDelete(item)}/>}
           />
         )}
