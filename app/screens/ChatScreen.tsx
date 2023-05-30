@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -12,19 +12,21 @@ import colors from "../config/colors";
 import Message from "../components/Message";
 import Icon from "../components/Icon";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import AppTextInput from "../components/AppTextInput";
 import useApi from "../hooks/useApi";
 import messagesApi from "../api/message";
 import useAuth from "../auth/useAuth";
 import useNotifications from "../hooks/useNotifications";
+import ChatHeader from "../components/chat/ChatHeader";
+import Screen from "../components/Screen";
 
 function ChatScreen() {
+  const navigation = useNavigation();
   const route = useRoute();
   const { user } = useAuth();
   const conversation = route.params as any;
   const [height, setHeight] = useState(0);
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([] as any[])
+  const [messages, setMessages] = useState([] as any[]);
   const flatListRef = useRef(null as any);
   useNotifications({
     notificationListener: (notification: Notification) => {
@@ -46,12 +48,12 @@ function ChatScreen() {
 
   const getMessages = async (page: number) => {
     const result = await getConvos(conversation?._id);
-    if(!result.ok) return
-    if(page === 1){
-      setMessages(result.data.data.reverse())
-    }else{
+    if (!result.ok) return;
+    if (page === 1) {
+      setMessages(result.data.data.reverse());
+    } else {
       const olderMessages = result.data.data.reverse();
-      setMessages([...messages, ...olderMessages])
+      setMessages([...messages, ...olderMessages]);
     }
   };
 
@@ -69,7 +71,22 @@ function ChatScreen() {
   };
 
   return (
-    <>
+    <Screen>
+      <ChatHeader
+        name={
+          conversation.userId1 === user._id
+            ? conversation.user2Data.name
+            : conversation.user1Data.name
+        }
+        email={
+          conversation.userId1 === user._id
+            ? conversation.user2Data.email
+            : conversation.user1Data.email
+        }
+        dp={""}
+        onBackCick={() => navigation.goBack()}
+        onNameCick={() => {}}
+      />
       <View style={styles.container}>
         <FlatList
           inverted
@@ -102,7 +119,7 @@ function ChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
-    </>
+    </Screen>
   );
 }
 

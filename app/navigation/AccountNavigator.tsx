@@ -14,6 +14,7 @@ const AccountNavigator = () => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
