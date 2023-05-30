@@ -7,8 +7,8 @@ import { useHandleNotificationResponse } from "../notification/useHandleNotifica
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: false,
-    shouldPlaySound: false,
+    shouldShowAlert: true,
+    shouldPlaySound: true,
     shouldSetBadge: true,
   }),
 });
@@ -18,7 +18,7 @@ interface Props {
 }
 
 const useNotifications = () => {
-  // const {handleNotificationResponse} = useHandleNotificationResponse()
+  const {handleNotificationResponse} = useHandleNotificationResponse()
   const { setNotification } = useAppNotifications();
   const notificationListener = useRef<Notifications.Notification | any>();
   const responseListener = useRef<Notifications.NotificationResponse | any>();
@@ -34,7 +34,7 @@ const useNotifications = () => {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log({ response });
-        // handleNotificationResponse(response)
+        handleNotificationResponse(response)
       });
 
     return () => {
