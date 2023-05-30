@@ -3,6 +3,7 @@ import expoPushTokensApi from "../api/expoPushTokens";
 import Constants from "expo-constants";
 import { useEffect, useRef } from "react";
 import { useAppNotifications } from "../notification/useAppNotifications";
+import { useHandleNotificationResponse } from "../notification/useHandleNotificationResponse";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const useNotifications = () => {
+  // const {handleNotificationResponse} = useHandleNotificationResponse()
   const { setNotification } = useAppNotifications();
   const notificationListener = useRef<Notifications.Notification | any>();
   const responseListener = useRef<Notifications.NotificationResponse | any>();
@@ -32,6 +34,7 @@ const useNotifications = () => {
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log({ response });
+        // handleNotificationResponse(response)
       });
 
     return () => {

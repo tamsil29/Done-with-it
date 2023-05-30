@@ -42,8 +42,8 @@ function ChatScreen() {
   const postMessage = useApi(messagesApi.postMessage);
 
   useEffect(() => {
-    if (notification) {
-      if (notification.request.content.data?._id === conversation._id)
+    if (notification && notification.request.content.data?.type === 'chat') {
+      if (notification.request.content.data?.data?._id === conversation._id)
         getMessages(1);
       else
         presentLocalNotification(
