@@ -11,7 +11,7 @@ interface Props{
 
 function Message({ isSelf, message, time }: Props) {
   return (
-    <View style={[isSelf ? styles.selfMessageStyle : styles.container]}>
+    <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
       <View
         style={[
           styles.messageContainer,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     color: colors.medium,
     fontWeight: "bold",
   },
-  selfMessageStyle: {
+  selfMessageContainer: {
     margin: 15,
     alignItems: "flex-end",
   },

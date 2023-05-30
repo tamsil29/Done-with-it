@@ -1,6 +1,13 @@
 import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, Alert, FlatList, Keyboard } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Alert,
+  FlatList,
+  Keyboard,
+  TextInput,
+} from "react-native";
 import colors from "../config/colors";
 import Message from "../components/Message";
 import Icon from "../components/Icon";
@@ -34,7 +41,6 @@ function ChatScreen() {
 
   useEffect(() => {
     getMessages();
-    // flatListRef.current.scrollToEnd()
   }, []);
 
   const getMessages = async () => {
@@ -52,8 +58,6 @@ function ChatScreen() {
 
     setMessage("");
     getMessages();
-    // Keyboard.dismiss()
-    // flatListRef.current.scrollToEnd()
   };
 
   return (
@@ -74,15 +78,10 @@ function ChatScreen() {
       </View>
       <View style={styles.chatContainer}>
         <View style={styles.inputContainer}>
-          <AppTextInput
+          <TextInput
             value={message}
             multiline
-            width={"85%"}
-            style={{
-              height: Math.max(35, height),
-              maxHeight: 52,
-              fontSize: 16,
-            }}
+            style={[styles.textInput, { height: Math.max(40, height) }]}
             onContentSizeChange={(event) => {
               setHeight(event.nativeEvent.contentSize.height);
             }}
@@ -112,7 +111,15 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-end",
+  },
+  textInput: {
+    backgroundColor: colors.light,
+    borderRadius: 20,
+    fontSize: 16,
+    maxHeight: 78,
+    padding: 10,
+    width: "87%",
   },
 });
 
