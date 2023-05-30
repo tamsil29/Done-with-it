@@ -1,12 +1,13 @@
 import React from 'react'
+import * as Notifications from "expo-notifications";
 
 interface State {
-    notification: any
+    notification: Notifications.Notification
     setNotification: React.Dispatch<React.SetStateAction<any>>
 }
 
 const initialState = {
-    notification: undefined,
+    notification: undefined as any,
     setNotification: () => {}
 }
 

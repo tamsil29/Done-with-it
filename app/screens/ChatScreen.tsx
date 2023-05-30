@@ -19,8 +19,10 @@ import useAuth from "../auth/useAuth";
 import ChatHeader from "../components/chat/ChatHeader";
 import Screen from "../components/Screen";
 import useRouteNavigation from "../hooks/useRouteNavigation";
+import { useAppNotifications } from "../notification/useAppNotifications";
 
 function ChatScreen() {
+  const {notification} = useAppNotifications()
   const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
@@ -38,6 +40,12 @@ function ChatScreen() {
     isLoading,
   } = useApi(messagesApi.getMessages);
   const postMessage = useApi(messagesApi.postMessage);
+
+  useEffect(() => {
+    if(notification){
+      if(notification.request.content.data?._id === conversation._id) getMessages(1);
+    }
+  }, [notification])
 
   useEffect(() => {
     getMessages(page);
