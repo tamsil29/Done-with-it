@@ -107,6 +107,7 @@ function ChatScreen() {
       )}
       <View style={styles.container}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           onEndReached={() => (paginate ? setPage(page+1) : {})}
           inverted
           data={messages}
