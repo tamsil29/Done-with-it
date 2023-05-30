@@ -17,7 +17,7 @@ interface Props {
 }
 
 const useNotifications = () => {
-  const {setNotification} = useAppNotifications()
+  const { setNotification } = useAppNotifications();
   const notificationListener = useRef<Notifications.Notification | any>();
   const responseListener = useRef<Notifications.NotificationResponse | any>();
   useEffect(() => {
@@ -25,14 +25,14 @@ const useNotifications = () => {
 
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        setNotification(notification)
+        if (notification.request.identifier !== "local")
+          setNotification(notification);
         console.log(notification.request.content.data);
       });
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log({response});
+        console.log({ response });
       });
-
 
     return () => {
       Notifications.removeNotificationSubscription(

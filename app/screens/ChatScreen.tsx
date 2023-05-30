@@ -22,7 +22,7 @@ import useRouteNavigation from "../hooks/useRouteNavigation";
 import { useAppNotifications } from "../notification/useAppNotifications";
 
 function ChatScreen() {
-  const {notification} = useAppNotifications()
+  const { notification, presentLocalNotification } = useAppNotifications();
   const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
@@ -31,8 +31,8 @@ function ChatScreen() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([] as any[]);
   const [paginate, setPaginate] = useState(true);
-  const [highlightedMessageId, setHighlightedMessageId] = useState('')
-  const [page, setPage] = useState(1)
+  const [highlightedMessageId, setHighlightedMessageId] = useState("");
+  const [page, setPage] = useState(1);
 
   const {
     data,
@@ -42,10 +42,17 @@ function ChatScreen() {
   const postMessage = useApi(messagesApi.postMessage);
 
   useEffect(() => {
-    if(notification){
-      if(notification.request.content.data?._id === conversation._id) getMessages(1);
+    if (notification) {
+      if (notification.request.content.data?._id === conversation._id)
+        getMessages(1);
+      else
+        presentLocalNotification(
+          notification.request.content.title as string,
+          notification.request.content.body as string,
+          notification.request.content.data
+        );
     }
-  }, [notification])
+  }, [notification]);
 
   useEffect(() => {
     getMessages(page);
@@ -80,9 +87,9 @@ function ChatScreen() {
   };
 
   const handleHilighting = async (messageId: string) => {
-    if(messageId === highlightedMessageId) setHighlightedMessageId('')
-    else setHighlightedMessageId(messageId)
-  }
+    if (messageId === highlightedMessageId) setHighlightedMessageId("");
+    else setHighlightedMessageId(messageId);
+  };
 
   const secondaryUser =
     conversation.userId1 === user._id
@@ -108,7 +115,7 @@ function ChatScreen() {
       <View style={styles.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          onEndReached={() => (paginate ? setPage(page+1) : {})}
+          onEndReached={() => (paginate ? setPage(page + 1) : {})}
           inverted
           data={messages}
           keyExtractor={(message) => message._id.toString()}

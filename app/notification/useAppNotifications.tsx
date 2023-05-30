@@ -8,9 +8,21 @@ export const AppNotificationProvider: FC<{ children: ReactNode }> = (props) => {
     Notifications.Notification | any
   >();
 
+  const presentLocalNotification = async (
+    title: string,
+    body: string,
+    data: any
+  ) => {
+    await Notifications.scheduleNotificationAsync({
+      content: { title, body, data },
+      trigger: null,
+      identifier: "local",
+    });
+  };
+
   const value = useMemo(
-    () => ({ notification, setNotification }),
-    [notification, setNotification]
+    () => ({ notification, setNotification, presentLocalNotification }),
+    [notification, setNotification, presentLocalNotification]
   );
   return <NotificationContext.Provider value={value} {...props} />;
 };
@@ -19,7 +31,7 @@ export const useAppNotifications = () => {
   const context = useContext(NotificationContext);
   if (context === undefined) {
     throw new Error(
-      `useAppNotifications hook must be used within a UIProvider`
+      `useAppNotifications hook must be used within a AppNotificationProvider`
     );
   }
   return context;
