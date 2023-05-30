@@ -30,7 +30,7 @@ function ChatScreen() {
   const [messages, setMessages] = useState([] as any[]);
   const [paginate, setPaginate] = useState(true);
   let page = 1;
-  const flatListRef = useRef(null as any);
+
   useNotifications({
     notificationListener: (notification: Notification) => {
       // if(notification.data._id === conversation._id) getMessages()
@@ -54,7 +54,7 @@ function ChatScreen() {
     if (!result.ok) return;
 
     result.data.data.length > 19 ? setPaginate(true) : setPaginate(false);
-    
+
     if (page === 1) {
       setMessages(result.data.data);
     } else {
@@ -105,7 +105,6 @@ function ChatScreen() {
         <FlatList
           onEndReached={() => (paginate ? getMessages(++page) : {})}
           inverted
-          ref={flatListRef}
           data={messages}
           keyExtractor={(messages) => messages._id.toString()}
           renderItem={({ item }) => (
