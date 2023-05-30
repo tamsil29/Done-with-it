@@ -7,6 +7,7 @@ import {
   FlatList,
   Keyboard,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import colors from "../config/colors";
 import Message from "../components/Message";
@@ -27,6 +28,8 @@ function ChatScreen() {
   const [height, setHeight] = useState(0);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([] as any[]);
+  const [paginate, setPaginate] = useState(true);
+  let page = 1;
   const flatListRef = useRef(null as any);
   useNotifications({
     notificationListener: (notification: Notification) => {
@@ -47,13 +50,17 @@ function ChatScreen() {
   }, []);
 
   const getMessages = async (page: number) => {
-    const result = await getConvos(conversation?._id);
+    const result = await getConvos(conversation?._id, { page });
     if (!result.ok) return;
+
+    result.data.data.length > 19 ? setPaginate(true) : setPaginate(false);
+    
     if (page === 1) {
-      setMessages(result.data.data.reverse());
+      setMessages(result.data.data);
     } else {
-      const olderMessages = result.data.data.reverse();
-      setMessages([...messages, ...olderMessages]);
+      if (result.data.data.length)
+        setMessages([...messages, ...result.data.data]);
+      else return;
     }
   };
 
@@ -87,8 +94,16 @@ function ChatScreen() {
         onBackCick={() => navigation.goBack()}
         onNameCick={() => {}}
       />
+      {isLoading && (
+        <ActivityIndicator
+          color={colors.primary}
+          style={{ backgroundColor: colors.light }}
+          size={40}
+        />
+      )}
       <View style={styles.container}>
         <FlatList
+          onEndReached={() => (paginate ? getMessages(++page) : {})}
           inverted
           ref={flatListRef}
           data={messages}
