@@ -24,6 +24,7 @@ function ChatScreen() {
   const conversation = route.params as any;
   const [height, setHeight] = useState(0);
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([] as any[])
   const flatListRef = useRef(null as any);
   useNotifications({
     notificationListener: (notification: Notification) => {
@@ -40,11 +41,18 @@ function ChatScreen() {
   const postMessage = useApi(messagesApi.postMessage);
 
   useEffect(() => {
-    getMessages();
+    getMessages(1);
   }, []);
 
-  const getMessages = async () => {
-    await getConvos(conversation?._id);
+  const getMessages = async (page: number) => {
+    const result = await getConvos(conversation?._id);
+    if(!result.ok) return
+    if(page === 1){
+      setMessages(result.data.data.reverse())
+    }else{
+      const olderMessages = result.data.data.reverse();
+      setMessages([...messages, ...olderMessages])
+    }
   };
 
   const handleSend = async () => {
@@ -57,15 +65,16 @@ function ChatScreen() {
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
     setMessage("");
-    getMessages();
+    getMessages(1);
   };
 
   return (
     <>
       <View style={styles.container}>
         <FlatList
+          inverted
           ref={flatListRef}
-          data={data}
+          data={messages}
           keyExtractor={(messages) => messages._id.toString()}
           renderItem={({ item }) => (
             <Message
@@ -103,7 +112,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   chatContainer: {
-    // maxHeight: 100,
     backgroundColor: colors.white,
     justifyContent: "center",
     padding: 10,
