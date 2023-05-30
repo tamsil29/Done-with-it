@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import {
   View,
@@ -19,9 +19,10 @@ import useAuth from "../auth/useAuth";
 import useNotifications from "../hooks/useNotifications";
 import ChatHeader from "../components/chat/ChatHeader";
 import Screen from "../components/Screen";
+import useRouteNavigation from "../hooks/useRouteNavigation";
 
 function ChatScreen() {
-  const navigation = useNavigation();
+  const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
   const conversation = route.params as any;
@@ -77,22 +78,19 @@ function ChatScreen() {
     setMessages([result.data.data, ...messages]);
   };
 
+  const secondaryUser =
+    conversation.userId1 === user._id
+      ? conversation.user2Data
+      : conversation.user1Data;
+
   return (
     <Screen>
       <ChatHeader
-        name={
-          conversation.userId1 === user._id
-            ? conversation.user2Data.name
-            : conversation.user1Data.name
-        }
-        email={
-          conversation.userId1 === user._id
-            ? conversation.user2Data.email
-            : conversation.user1Data.email
-        }
+        name={secondaryUser.name}
+        email={secondaryUser.email}
         dp={""}
         onBackCick={() => navigation.goBack()}
-        onNameCick={() => {}}
+        onNameCick={() => navigation.navigate("Profile", secondaryUser)}
       />
       {isLoading && (
         <ActivityIndicator

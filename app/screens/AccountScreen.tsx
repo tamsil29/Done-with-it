@@ -39,7 +39,7 @@ function AccountScreen() {
       <View style={styles.container}>
         <ListItem
           title={user.name}
-          onPress={() => {}}
+          onPress={() => navigate('Profile', user)}
           subTitle={user.email}
           image={img2}
         />
