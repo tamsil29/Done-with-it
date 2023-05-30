@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import colors from "../config/colors";
-import Message from "../components/Message";
+import Message from "../components/chat/Message";
 import Icon from "../components/Icon";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import useApi from "../hooks/useApi";
