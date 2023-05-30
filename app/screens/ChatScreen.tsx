@@ -74,7 +74,7 @@ function ChatScreen() {
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
     setMessage("");
-    getMessages(1);
+    setMessages([result.data.data, ...messages]);
   };
 
   return (
@@ -106,7 +106,7 @@ function ChatScreen() {
           onEndReached={() => (paginate ? getMessages(++page) : {})}
           inverted
           data={messages}
-          keyExtractor={(messages) => messages._id.toString()}
+          keyExtractor={(message) => message._id.toString()}
           renderItem={({ item }) => (
             <Message
               message={item?.message}
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     maxHeight: 78,
     padding: 10,
-    width: "87%",
+    width: "85%",
   },
 });
 
