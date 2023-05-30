@@ -30,6 +30,7 @@ function ChatScreen() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([] as any[]);
   const [paginate, setPaginate] = useState(true);
+  const [highlightedMessageId, setHighlightedMessageId] = useState('')
   let page = 1;
 
   useNotifications({
@@ -78,6 +79,11 @@ function ChatScreen() {
     setMessages([result.data.data, ...messages]);
   };
 
+  const handleHilighting = async (messageId: string) => {
+    if(messageId === highlightedMessageId) setHighlightedMessageId('')
+    else setHighlightedMessageId(messageId)
+  }
+
   const secondaryUser =
     conversation.userId1 === user._id
       ? conversation.user2Data
@@ -110,6 +116,8 @@ function ChatScreen() {
               message={item?.message}
               isSelf={item?.createdBy?._id === user._id}
               time={item?.createdAt}
+              ishighlighted={highlightedMessageId === item?._id}
+              setHighlighted={() => handleHilighting(item?._id)}
             />
           )}
         />

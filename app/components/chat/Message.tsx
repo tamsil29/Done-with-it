@@ -1,42 +1,71 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import { View, StyleSheet } from "react-native";
 import AppText from "../AppText";
 import colors from "../../config/colors";
+import { TouchableWithoutFeedback } from "react-native";
 
-interface Props{
+interface Props {
   isSelf: boolean;
   message: string;
   time: any;
+  ishighlighted?: boolean;
+  setHighlighted?: Dispatch<any>;
 }
 
-function Message({ isSelf, message, time }: Props) {
+function Message({
+  isSelf,
+  message,
+  time,
+  ishighlighted = false,
+  setHighlighted,
+}: Props) {
   return (
-    <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
-      <View
-        style={[
-          styles.messageContainer,
-          isSelf
-            ? { backgroundColor: colors.primary, borderBottomLeftRadius: 20, borderBottomRightRadius: 5 }
-            : { backgroundColor: colors.white, borderBottomLeftRadius: 5, borderBottomRightRadius: 20 },
-        ]}
-      >
-        <AppText
+    <TouchableWithoutFeedback onPress={setHighlighted}>
+      <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
+        <View
           style={[
-            styles.message,
-            isSelf ? { color: colors.white } : { color: colors.dark },
+            styles.messageContainer,
+            isSelf
+              ? {
+                  backgroundColor: colors.primary,
+                  borderBottomLeftRadius: 20,
+                  borderBottomRightRadius: 5,
+                }
+              : {
+                  backgroundColor: colors.white,
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 20,
+                },
+            ishighlighted
+              ? isSelf
+                ? { backgroundColor: "#cc4141" }
+                : { backgroundColor: "#DCDCDC" }
+              : {},
           ]}
         >
-          {message}
-        </AppText>
+          <AppText
+            style={[
+              styles.message,
+              isSelf ? { color: colors.white } : { color: colors.dark },
+            ]}
+          >
+            {message}
+          </AppText>
+        </View>
+        {ishighlighted && (
+          <AppText style={styles.time}>
+            {new Date(parseInt(time)).toLocaleString()}
+          </AppText>
+        )}
       </View>
-      <AppText style={styles.time}>{new Date(parseInt(time)).toLocaleString()}</AppText>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    marginVertical: 5,
+    marginHorizontal: 10,
     alignItems: "flex-start",
   },
   messageContainer: {
@@ -58,7 +87,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   selfMessageContainer: {
-    margin: 15,
+    marginVertical: 5,
+    marginHorizontal: 10,
     alignItems: "flex-end",
   },
 });
