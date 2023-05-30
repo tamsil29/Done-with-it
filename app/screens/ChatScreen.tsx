@@ -16,7 +16,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import useApi from "../hooks/useApi";
 import messagesApi from "../api/message";
 import useAuth from "../auth/useAuth";
-import useNotifications from "../hooks/useNotifications";
 import ChatHeader from "../components/chat/ChatHeader";
 import Screen from "../components/Screen";
 import useRouteNavigation from "../hooks/useRouteNavigation";
@@ -32,13 +31,6 @@ function ChatScreen() {
   const [paginate, setPaginate] = useState(true);
   const [highlightedMessageId, setHighlightedMessageId] = useState('')
   const [page, setPage] = useState(1)
-
-  useNotifications({
-    notificationListener: (notification: Notification) => {
-      // if(notification.data._id === conversation._id) getMessages()
-      console.log(notification?.data);
-    },
-  });
 
   const {
     data,

@@ -12,7 +12,7 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
-  useNotifications({});
+  useNotifications();
   return (
     <Tab.Navigator
       screenOptions={{ tabBarShowLabel: false, tabBarHideOnKeyboard: true }}

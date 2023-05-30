@@ -1,35 +1,45 @@
 import * as Notifications from "expo-notifications";
 import expoPushTokensApi from "../api/expoPushTokens";
 import Constants from "expo-constants";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: false,
+    shouldPlaySound: false,
+    shouldSetBadge: true,
+  }),
+});
 
 interface Props {
   notificationListener?: Notifications.Notification | any;
-  shouldShowAlert?: boolean;
-  shouldPlaySound?: boolean;
-  shouldSetBadge?: boolean;
 }
 
-const useNotifications = ({
-  notificationListener,
-  shouldShowAlert = true,
-  shouldPlaySound = true,
-  shouldSetBadge = true,
-}: Props) => {
+const useNotifications = () => {
+  const notificationListener = useRef<Notifications.Notification | any>();
+  const responseListener = useRef<Notifications.NotificationResponse | any>();
   useEffect(() => {
     registerForPushNotifications();
 
-    if (notificationListener)
-      Notifications.addNotificationReceivedListener(notificationListener);
-  }, []);
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        // setNotification(notification);
+        console.log(notification);
+        console.log(notification.request.content.data);
+      });
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
+      });
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert,
-      shouldPlaySound,
-      shouldSetBadge,
-    }),
-  });
+
+    return () => {
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   const registerForPushNotifications = async () => {
     try {

@@ -9,6 +9,7 @@ import OfflineNotice from "./app/components/OfflineNotice";
 import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import { navigationRef } from "./app/navigation/rootNavigation";
+import { AppNotificationProvider } from "./app/notification/useAppNotifications";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,8 +45,18 @@ export default function App() {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <OfflineNotice />
-      <NavigationContainer ref={navigationRef as any} theme={navigationTheme} onReady={onLayoutRootView}>
-        {user ? <AppNavigator /> : <AuthNavigator />}
+      <NavigationContainer
+        ref={navigationRef as any}
+        theme={navigationTheme}
+        onReady={onLayoutRootView}
+      >
+        {user ? (
+          <AppNotificationProvider>
+            <AppNavigator />
+          </AppNotificationProvider>
+        ) : (
+          <AuthNavigator />
+        )}
       </NavigationContainer>
     </AuthContext.Provider>
   );
