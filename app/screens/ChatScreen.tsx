@@ -31,7 +31,7 @@ function ChatScreen() {
   const [messages, setMessages] = useState([] as any[]);
   const [paginate, setPaginate] = useState(true);
   const [highlightedMessageId, setHighlightedMessageId] = useState('')
-  let page = 1;
+  const [page, setPage] = useState(1)
 
   useNotifications({
     notificationListener: (notification: Notification) => {
@@ -48,8 +48,8 @@ function ChatScreen() {
   const postMessage = useApi(messagesApi.postMessage);
 
   useEffect(() => {
-    getMessages(1);
-  }, []);
+    getMessages(page);
+  }, [page]);
 
   const getMessages = async (page: number) => {
     const result = await getConvos(conversation?._id, { page });
@@ -107,7 +107,7 @@ function ChatScreen() {
       )}
       <View style={styles.container}>
         <FlatList
-          onEndReached={() => (paginate ? getMessages(++page) : {})}
+          onEndReached={() => (paginate ? setPage(page+1) : {})}
           inverted
           data={messages}
           keyExtractor={(message) => message._id.toString()}
