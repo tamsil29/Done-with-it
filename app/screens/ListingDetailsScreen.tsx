@@ -1,4 +1,4 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import React from "react";
 import {
   View,
@@ -17,10 +17,11 @@ import Constants from "expo-constants";
 import ContactSellerForm from "../components/ContactSellerForm";
 import AppText from "../components/AppText";
 import useAuth from "../auth/useAuth";
+import useRouteNavigation from "../hooks/useRouteNavigation";
 
 function ListingDetailsScreen() {
   const {user} = useAuth()
-  const navigation = useNavigation();
+  const navigation = useRouteNavigation();
   const route = useRoute();
   const listing = route.params as any;
 
@@ -50,7 +51,7 @@ function ListingDetailsScreen() {
             title={listing?.createdBy?.name}
             subTitle={`${listing?.createdBy?.numberofListings || 1} Listings`}
             image={img2}
-            onPress={() => {}}
+            onPress={() => navigation.navigate('Profile', listing?.createdBy)}
           />
         </View>
         <MaterialCommunityIcons
