@@ -89,7 +89,9 @@ function ChatScreen() {
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
     setMessage("");
-    setMessages([result.data.data, ...messages]);
+    let uniqueMessages = [...messages]
+    uniqueMessages.pop()
+    setMessages([result.data.data, ...uniqueMessages]);
   };
 
   const handleHilighting = async (messageId: string) => {
