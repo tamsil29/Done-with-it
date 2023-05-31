@@ -48,7 +48,8 @@ function ChatScreen() {
   useEffect(() => {
     if (notification && notification.request.content.data?.type === "chat") {
       if (notification.request.content.data?.data?._id === conversation._id) {
-        setNotificationHandlerToNull();
+        console.log(notification.request, '>>>>>>>>>>')
+        setNotificationHandlerToNull(notification.request.identifier);
         getMessages(1);
       } else
         presentLocalNotification(

@@ -13,7 +13,7 @@ export const AppNotificationProvider: FC<{ children: ReactNode }> = (props) => {
     body: string,
     data: any
   ) => {
-    setNotificaHandlerTodefault()
+    setNotificaHandlerTodefault();
     await Notifications.scheduleNotificationAsync({
       content: { title, body, data },
       trigger: null,
@@ -31,13 +31,26 @@ export const AppNotificationProvider: FC<{ children: ReactNode }> = (props) => {
     });
   };
 
-  const setNotificationHandlerToNull = () => {
+  const setNotificationHandlerToNull = (identifier: string) => {
+    setTimeout(() => {
+      Notifications.dismissNotificationAsync(identifier);
+    }, 1000);
     Notifications.setNotificationHandler(null);
   };
 
   const value = useMemo(
-    () => ({ notification, setNotification, presentLocalNotification, setNotificationHandlerToNull }),
-    [notification, setNotification, presentLocalNotification, setNotificationHandlerToNull]
+    () => ({
+      notification,
+      setNotification,
+      presentLocalNotification,
+      setNotificationHandlerToNull,
+    }),
+    [
+      notification,
+      setNotification,
+      presentLocalNotification,
+      setNotificationHandlerToNull,
+    ]
   );
   return <NotificationContext.Provider value={value} {...props} />;
 };

@@ -5,7 +5,7 @@ interface State {
     notification: Notifications.Notification
     setNotification: React.Dispatch<React.SetStateAction<any>>
     presentLocalNotification: (title: string, body: string, data: any) => Promise<void>|any
-    setNotificationHandlerToNull: () => void
+    setNotificationHandlerToNull: (identifier: string) => void
 }
 
 const initialState = {
