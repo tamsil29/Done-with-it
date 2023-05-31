@@ -24,8 +24,7 @@ import { useAppNotifications } from "../notification/useAppNotifications";
 function ChatScreen() {
   const {
     notification,
-    presentLocalNotification,
-    setNotificationHandlerToNull,
+    dismissNotification,
   } = useAppNotifications();
   const navigation = useRouteNavigation();
   const route = useRoute();
@@ -49,14 +48,9 @@ function ChatScreen() {
     if (notification && notification.request.content.data?.type === "chat") {
       if (notification.request.content.data?.data?._id === conversation._id) {
         console.log(notification.request, '>>>>>>>>>>')
-        setNotificationHandlerToNull(notification.request.identifier);
+        dismissNotification(notification.request.identifier);
         getMessages(1);
-      } else
-        presentLocalNotification(
-          notification.request.content.title as string,
-          notification.request.content.body as string,
-          notification.request.content.data
-        );
+      }
     }
   }, [notification]);
 

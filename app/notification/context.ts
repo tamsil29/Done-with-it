@@ -5,14 +5,14 @@ interface State {
     notification: Notifications.Notification
     setNotification: React.Dispatch<React.SetStateAction<any>>
     presentLocalNotification: (title: string, body: string, data: any) => Promise<void>|any
-    setNotificationHandlerToNull: (identifier: string) => void
+    dismissNotification: (identifier: string) => void
 }
 
 const initialState = {
     notification: undefined as any,
     setNotification: () => {},
     presentLocalNotification:()=>{},
-    setNotificationHandlerToNull: ()=>{}
+    dismissNotification: ()=>{}
 }
 
 const NotificationContext = React.createContext<State>(initialState);
