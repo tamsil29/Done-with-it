@@ -22,7 +22,11 @@ import useRouteNavigation from "../hooks/useRouteNavigation";
 import { useAppNotifications } from "../notification/useAppNotifications";
 
 function ChatScreen() {
-  const { notification, presentLocalNotification } = useAppNotifications();
+  const {
+    notification,
+    presentLocalNotification,
+    setNotificationHandlerToNull,
+  } = useAppNotifications();
   const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
@@ -42,10 +46,11 @@ function ChatScreen() {
   const postMessage = useApi(messagesApi.postMessage);
 
   useEffect(() => {
-    if (notification && notification.request.content.data?.type === 'chat') {
-      if (notification.request.content.data?.data?._id === conversation._id)
+    if (notification && notification.request.content.data?.type === "chat") {
+      if (notification.request.content.data?.data?._id === conversation._id) {
+        setNotificationHandlerToNull();
         getMessages(1);
-      else
+      } else
         presentLocalNotification(
           notification.request.content.title as string,
           notification.request.content.body as string,

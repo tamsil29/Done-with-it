@@ -29,6 +29,7 @@ function ContactSellerForm({ listing }: { listing: any }) {
         title: 'Awesome!',
         body: "Your message was sent to the Seller",
       },
+      identifier: 'local',
       trigger: null,
     });
   }

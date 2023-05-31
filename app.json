@@ -34,7 +34,8 @@
     "owner": "blurry29",
     "notification":{
       "iosDisplayInForeground": true,
-      "androidDisplayInForeground": true
+      "androidDisplayInForeground": true,
+      "icon": "./app/assets/logo.png"
     }
   }
 }
