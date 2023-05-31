@@ -11,7 +11,7 @@ export const useHandleNotificationResponse = () => {
     const responseData = response.notification.request.content?.data?.data;
     switch (responseType) {
       case "chat":
-        navigation.navigate("Account", {
+        navigation.navigate("AccountTab", {
           screen: "Messages",
           params: { screen: "Chat", params: responseData },
         });
