@@ -6,6 +6,7 @@ import Icon from "../components/Icon";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import useAuth from "../auth/useAuth";
+import { getUserImage } from "../utility/utilities";
 
 function ProfileScreen() {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ function ProfileScreen() {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.dpContainer}>
-        <Image source={{ uri: img }} style={styles.dp} />
+        <Image source={{ uri: getUserImage(userFromParams.imageId) }} style={styles.dp} />
         {user._id === userFromParams._id && (
           <View style={{ position: "absolute", bottom: 0, right: 0 }}>
             <Icon name="camera" backgroundColor={colors.primary} />

@@ -20,6 +20,7 @@ import ChatHeader from "../components/chat/ChatHeader";
 import Screen from "../components/Screen";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { useAppNotifications } from "../notification/useAppNotifications";
+import { getUserImage } from "../utility/utilities";
 
 function ChatScreen() {
   const {
@@ -103,7 +104,7 @@ function ChatScreen() {
       <ChatHeader
         name={secondaryUser.name}
         email={secondaryUser.email}
-        dp={""}
+        dp={getUserImage(secondaryUser.imageId)}
         onBackCick={() => navigation.goBack()}
         onNameCick={() => navigation.navigate("Profile", secondaryUser)}
       />

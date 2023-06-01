@@ -8,6 +8,7 @@ import colors from "../config/colors";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { RouteEnums } from "../navigation/routes";
 import useAuth from "../auth/useAuth";
+import { getUserImage } from "../utility/utilities";
 
 const menuItems = [
   {
@@ -41,7 +42,7 @@ function AccountScreen() {
           title={user.name}
           onPress={() => navigate("Profile", user)}
           subTitle={user.email}
-          image={img2}
+          image={getUserImage(user.imageId)}
         />
       </View>
       <View style={styles.container}>

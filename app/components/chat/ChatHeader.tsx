@@ -14,8 +14,6 @@ interface Props {
 }
 
 function ChatHeader({ name, email, dp, onBackCick, onNameCick }: Props) {
-  const img =
-    "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
   return (
     <View style={styles.container}>
       <MaterialCommunityIcons
@@ -23,7 +21,7 @@ function ChatHeader({ name, email, dp, onBackCick, onNameCick }: Props) {
         size={25}
         onPress={onBackCick}
       />
-      <Image source={{ uri: img }} style={styles.dp} />
+      <Image source={{ uri: dp }} style={styles.dp} />
       <TouchableWithoutFeedback onPress={onNameCick}>
         <AppText>{name}</AppText>
         <AppText style={styles.email}>{email}</AppText>
