@@ -18,10 +18,10 @@ const AccountNavigator = () => {
         component={ChatScreen}
         options={{headerShown: false}}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Profile"
         component={ProfileScreen}
-      />
+      /> */}
       <Stack.Screen
         name="MyListings"
         component={MyListingsScreen}

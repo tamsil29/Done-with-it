@@ -1,40 +1,59 @@
 import { useRoute } from "@react-navigation/native";
 import React from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Modal } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "../components/Icon";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
-import useAuth from "../auth/useAuth";
 import { getUserImage } from "../utility/utilities";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-function ProfileScreen() {
-  const { user } = useAuth();
-  const route = useRoute();
-  const userFromParams = route.params as any;
-  const img =
-    "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
+interface Props {
+  user: any;
+  visible: boolean;
+  isSelf: boolean;
+  onClose: () => void;
+}
+
+function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.dpContainer}>
-        <Image source={{ uri: getUserImage(userFromParams.imageId) }} style={styles.dp} />
-        {user._id === userFromParams._id && (
-          <View style={{ position: "absolute", bottom: 0, right: 0 }}>
-            <Icon name="camera" backgroundColor={colors.primary} />
-          </View>
-        )}
-      </TouchableOpacity>
-      <AppText style={{ fontSize: 24, fontWeight: 700, marginTop: 20 } as any}>
-        {userFromParams.name}
-      </AppText>
-      <AppText style={{ fontWeight: 600 } as any}>
-        {userFromParams.email}
-      </AppText>
-    </View>
+    <Modal visible={visible} animationType="slide">
+      <View style={styles.modalHeader}>
+        <AppText style={{ fontSize: 24 }}>Profile</AppText>
+        <MaterialCommunityIcons onPress={onClose} size={30} name="close" />
+      </View>
+      <View style={styles.container}>
+        <View style={styles.dpContainer}>
+          <Image
+            source={{ uri: getUserImage(user?.imageId) }}
+            style={styles.dp}
+          />
+          {isSelf && (
+            <View style={{ position: "absolute", bottom: 0, right: 0 }}>
+              <TouchableOpacity>
+                <Icon name="camera" backgroundColor={colors.primary} />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+        <AppText
+          style={{ fontSize: 24, fontWeight: 700, marginTop: 20 } as any}
+        >
+          {user.name}
+        </AppText>
+        <AppText style={{ fontWeight: 600 } as any}>{user.email}</AppText>
+      </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+  },
   container: {
     alignItems: "center",
     marginTop: 30,

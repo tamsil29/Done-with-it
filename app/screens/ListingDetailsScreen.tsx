@@ -1,5 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Image,
@@ -19,12 +19,14 @@ import AppText from "../components/AppText";
 import useAuth from "../auth/useAuth";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { formatPrice, getUserImage } from "../utility/utilities";
+import ProfileScreen from "./ProfileScreen";
 
 function ListingDetailsScreen() {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const navigation = useRouteNavigation();
   const route = useRoute();
   const listing = route.params as any;
+  const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
   const img1 =
     "https://i0.pickpik.com/photos/241/235/620/mountain-hiking-adventure-landscape-preview.jpg";
@@ -52,7 +54,7 @@ function ListingDetailsScreen() {
             title={listing?.createdBy?.name}
             subTitle={`${listing?.createdBy?.numberofListings} Listings`}
             image={getUserImage(listing?.createdBy?.imageId)}
-            onPress={() => navigation.navigate('Profile', listing?.createdBy)}
+            onPress={() => setProfileModalVisible(true)}
           />
         </View>
         <MaterialCommunityIcons
@@ -61,8 +63,16 @@ function ListingDetailsScreen() {
           size={30}
           onPress={() => navigation.goBack()}
         />
-        {user._id !== listing.createdBy._id && <ContactSellerForm listing={listing} />}
+        {user._id !== listing.createdBy._id && (
+          <ContactSellerForm listing={listing} />
+        )}
       </KeyboardAvoidingView>
+      <ProfileScreen
+        user={listing?.createdBy}
+        visible={isProfileModalVisible}
+        isSelf={false}
+        onClose={() => setProfileModalVisible(false)}
+      />
     </ScrollView>
   );
 }

@@ -4,4 +4,6 @@ const register = (userInfo: {name: string, email: string, password: string}) => 
 
 const getMe = () => client.get<any>('/me')
 
-export default { register, getMe }
+const updatedp = (data: any) => client.put<any>('/update-image', data);
+
+export default { register, getMe, updatedp }

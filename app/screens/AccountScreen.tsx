@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, FlatList, Modal } from "react-native";
 import Icon from "../components/Icon";
 import ListItem from "../components/ListItem";
 import ListItemSeparator from "../components/ListItemSeparator";
@@ -9,6 +9,7 @@ import useRouteNavigation from "../hooks/useRouteNavigation";
 import { RouteEnums } from "../navigation/routes";
 import useAuth from "../auth/useAuth";
 import { getUserImage } from "../utility/utilities";
+import ProfileScreen from "./ProfileScreen";
 
 const menuItems = [
   {
@@ -32,15 +33,14 @@ const menuItems = [
 function AccountScreen() {
   const { navigate } = useRouteNavigation();
   const { user, logOut } = useAuth();
-  const img2 =
-    "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
+  const [isProfileModalVisible, setProfileModalVisible] = useState(false)
 
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
         <ListItem
           title={user.name}
-          onPress={() => navigate("Profile", user)}
+          onPress={() => setProfileModalVisible(true)}
           subTitle={user.email}
           image={getUserImage(user.imageId)}
         />
@@ -69,6 +69,7 @@ function AccountScreen() {
         title={"Log Out"}
         IconComponent={<Icon name={"logout"} backgroundColor="#ffe66d" />}
       />
+      <ProfileScreen user={user} visible={isProfileModalVisible} isSelf={true} onClose={()=>setProfileModalVisible(false)}/>
     </Screen>
   );
 }
