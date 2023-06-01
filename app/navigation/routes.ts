@@ -1,6 +1,6 @@
 export enum RouteEnums {
-    WELCOME = 'Welcome',
     ACCOUNT = "Account",
+    CHAT='Chat',
     LISTING = "Listing",
     LISTING_DETAILS = "ListingDetails",
     LISTING_EDIT = "ListingEdit",
@@ -9,4 +9,5 @@ export enum RouteEnums {
     MY_LISTINGS="MyListings",
     REGISTER="Register",
     VIEW_IMAGE = "ViewImage",
+    WELCOME = 'Welcome',
 }

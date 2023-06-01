@@ -11,6 +11,7 @@ import useAuth from "../auth/useAuth";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import NoData from "../components/NoData";
 import { getUserImage } from "../utility/utilities";
+import { RouteEnums } from "../navigation/routes";
 
 const _messages = [
   {
@@ -67,7 +68,7 @@ function MessagesScreen() {
             image={getUserImage(
               getOtherUser(item.user1Data, item.user2Data)?.imageId
             )}
-            onPress={() => navigation.navigate("Chat", item)}
+            onPress={() => navigation.navigate(RouteEnums.CHAT, item)}
             renderRightActions={() => (
               <ListItemDeleteAction onPress={() => handleDelete(item)} />
             )}
