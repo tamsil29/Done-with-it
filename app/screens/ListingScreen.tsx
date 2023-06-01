@@ -12,6 +12,7 @@ import AppText from "../components/AppText";
 import Button from "../components/Button";
 import AppActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
+import { formatPrice } from "../utility/utilities";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
@@ -41,7 +42,7 @@ function ListingScreen() {
           renderItem={({ item }) => (
             <Card
               title={item.title}
-              subTitle={"₹" + item.price}
+              subTitle={"₹" + formatPrice(item.price)}
               image={item.images[0]}
               onPress={() => navigate(RouteEnums.LISTING_DETAILS, item)}
             />

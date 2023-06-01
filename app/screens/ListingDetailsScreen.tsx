@@ -18,6 +18,7 @@ import ContactSellerForm from "../components/ContactSellerForm";
 import AppText from "../components/AppText";
 import useAuth from "../auth/useAuth";
 import useRouteNavigation from "../hooks/useRouteNavigation";
+import { formatPrice } from "../utility/utilities";
 
 function ListingDetailsScreen() {
   const {user} = useAuth()
@@ -44,7 +45,7 @@ function ListingDetailsScreen() {
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{listing?.title}</Text>
           {listing?.description && <AppText>{listing?.description}</AppText>}
-          <Text style={styles.price}>₹{listing?.price}</Text>
+          <Text style={styles.price}>₹{formatPrice(listing?.price)}</Text>
         </View>
         <View style={styles.userContainer}>
           <ListItem
