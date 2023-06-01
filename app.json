@@ -4,12 +4,12 @@
     "slug": "done-with-it",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/done-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/logo.png",
+      "image": "./app/assets/done-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fc5c65"
+      "backgroundColor": "#EF393F"
     },
     "assetBundlePatterns": [
       "**/*"
