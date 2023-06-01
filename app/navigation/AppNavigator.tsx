@@ -56,7 +56,6 @@ const AppNavigator = () => {
           ),
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
-            // console.log(routeName);
             if (routeName === "Chat") {
               return { display: "none" };
             }

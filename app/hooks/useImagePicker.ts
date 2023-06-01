@@ -19,7 +19,6 @@ const useImagePicker = () => {
   }
 
   const selectImage = async () => {
-    console.log('>>>>>>>>>.')
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,

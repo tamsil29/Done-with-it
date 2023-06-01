@@ -182,7 +182,6 @@ const ImageUploadItem = ({
 }) => {
   const uploadSingleImage = async () => {
     const result = await filesApi.uploadImage(imageUri);
-    console.log(result.data?.data);
     if (result.ok)
       setImagesUrl([
         ...imagesUrl,

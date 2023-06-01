@@ -29,11 +29,9 @@ const useNotifications = () => {
       Notifications.addNotificationReceivedListener((notification) => {
         if (notification.request.identifier !== "local")
           setNotification(notification);
-        console.log(notification.request.content.data);
       });
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log({ response });
         handleNotificationResponse(response);
       });
 
