@@ -20,12 +20,19 @@ const AppNavigator = () => {
       <Tab.Screen
         name="Feed"
         component={FeedNavigator}
-        options={{
+        options={({route}) => ({
           headerShown: false,
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="home" size={size} color={color} />
           ),
-        }}
+          tabBarStyle: ((route) => {
+            const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+            if (routeName === "ViewImage") {
+              return { display: "none" };
+            }
+            return;
+          })(route),
+        })}
       />
       <Tab.Screen
         name="ListingEdit"

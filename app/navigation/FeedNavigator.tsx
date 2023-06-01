@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ListingDetailsScreen from "../screens/ListingDetailsScreen";
 import ListingScreen from "../screens/ListingScreen";
+import ViewImageScreen from "../screens/ViewImageScreen";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ const FeedNavigator = () => {
     >
       <Stack.Screen name="Listing" component={ListingScreen} />
       <Stack.Screen name="ListingDetails" component={ListingDetailsScreen} />
+      <Stack.Screen name="ViewImage" component={ViewImageScreen} />
     </Stack.Navigator>
   );
 };

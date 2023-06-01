@@ -57,6 +57,9 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
 
   return (
     <Modal visible={visible} animationType="slide">
+      <AppActivityIndicator
+        visible={userApi.isLoading || uploadImageApi.isLoading}
+      />
       <View style={styles.modalHeader}>
         <AppText style={{ fontSize: 24 }}>Profile</AppText>
         {image && (
@@ -93,9 +96,6 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
           {user?.name}
         </AppText>
         <AppText style={{ fontWeight: 600 } as any}>{user?.email}</AppText>
-        <AppActivityIndicator
-          visible={userApi.isLoading || uploadImageApi.isLoading}
-        />
       </View>
     </Modal>
   );

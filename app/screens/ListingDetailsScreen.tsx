@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Card from "../components/Card";
 import ListItem from "../components/ListItem";
@@ -23,6 +24,7 @@ import ProfileScreen from "./ProfileScreen";
 import listingApi from "../api/listings";
 import useApi from "../hooks/useApi";
 import AppActivityIndicator from "../components/ActivityIndicator";
+import { RouteEnums } from "../navigation/routes";
 
 function ListingDetailsScreen() {
   const {
@@ -38,24 +40,27 @@ function ListingDetailsScreen() {
   const listingId = route.params as any;
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
-  useEffect(()=>{
-    loadListings(listingId?._id)
-  }, [listingId])
+  useEffect(() => {
+    loadListings(listingId?._id);
+  }, [listingId]);
 
- 
   return (
     <ScrollView>
-      <AppActivityIndicator visible={isLoading}/>
+      <AppActivityIndicator visible={isLoading} />
       <KeyboardAvoidingView
         behavior="position"
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -100}
       >
-        <Image
-          source={{
-            uri: listing?.images[0],
-          }}
-          style={styles.image}
-        />
+        <TouchableWithoutFeedback
+          onPress={() => navigation.navigate(RouteEnums.VIEW_IMAGE)}
+        >
+          <Image
+            source={{
+              uri: listing?.images[0],
+            }}
+            style={styles.image}
+          />
+        </TouchableWithoutFeedback>
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{listing?.title}</Text>
           {listing?.description && <AppText>{listing?.description}</AppText>}
