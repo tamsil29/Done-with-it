@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList, Modal } from "react-native";
+import { View, StyleSheet, FlatList, Modal, Alert } from "react-native";
 import Icon from "../components/Icon";
 import ListItem from "../components/ListItem";
 import ListItemSeparator from "../components/ListItemSeparator";
@@ -35,6 +35,13 @@ function AccountScreen() {
   const { user, logOut } = useAuth();
   const [isProfileModalVisible, setProfileModalVisible] = useState(false)
 
+  const handleLogOut = () => {
+    Alert.alert("Log Out", "Are you sure you want to log out?", [
+      { text: "Yes", onPress: logOut},
+      { text: "No" },
+    ]);
+  }
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
@@ -65,7 +72,7 @@ function AccountScreen() {
         />
       </View>
       <ListItem
-        onPress={logOut}
+        onPress={handleLogOut}
         title={"Log Out"}
         IconComponent={<Icon name={"logout"} backgroundColor="#ffe66d" />}
       />

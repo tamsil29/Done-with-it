@@ -121,6 +121,7 @@ function ChatScreen() {
         <FlatList
           showsVerticalScrollIndicator={false}
           onEndReached={() => (paginate ? setPage(page + 1) : {})}
+          initialNumToRender={15}
           inverted
           data={messages}
           keyExtractor={(message) => message._id.toString()}
@@ -129,7 +130,7 @@ function ChatScreen() {
               message={item?.message}
               isSelf={item?.createdBy?._id === user._id}
               time={item?.createdAt}
-              ishighlighted={highlightedMessageId === item?._id}
+              ishighlighted={item?._id === highlightedMessageId}
               setHighlighted={() => handleHilighting(item?._id)}
             />
           )}
