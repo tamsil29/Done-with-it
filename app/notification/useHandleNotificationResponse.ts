@@ -1,6 +1,6 @@
-import React from "react";
 import * as Notifications from "expo-notifications";
 import useRouteNavigation from "../hooks/useRouteNavigation";
+import { NotificationEnums } from "./enums";
 
 export const useHandleNotificationResponse = () => {
   const navigation = useRouteNavigation();
@@ -10,10 +10,10 @@ export const useHandleNotificationResponse = () => {
     const responseType = response.notification.request.content?.data?.type;
     const responseData = response.notification.request.content?.data?.data;
     switch (responseType) {
-      case "chat":
+      case NotificationEnums.CHAT:
         navigation.navigate("AccountTab", {
           screen: "Messages",
-          params: { screen: "Chat", params: responseData },
+          // params: { screen: "Chat", params: responseData },
         });
     }
   };
