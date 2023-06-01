@@ -29,10 +29,13 @@
     "extra": {
       "eas": {
         "projectId": "f3de0dbd-1b0d-4d83-95b3-a60cf4ae9fe0"
+      },
+      "bugsnag": {
+        "apiKey": "ca92cb66affd3abfde9709b5ad1d20a6"
       }
     },
     "owner": "blurry29",
-    "notification":{
+    "notification": {
       "iosDisplayInForeground": true,
       "androidDisplayInForeground": true,
       "icon": "./app/assets/logo.png"

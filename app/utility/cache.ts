@@ -3,7 +3,7 @@ import { differenceInMinutes } from 'date-fns';
 
 
 const prefix = 'cache'
-const expiryInMinutes = 5
+const expiryInMinutes = 60 * 12
 
 const store = async (key: string, value: any) => {
     try {

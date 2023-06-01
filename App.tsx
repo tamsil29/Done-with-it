@@ -10,8 +10,10 @@ import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import { navigationRef } from "./app/navigation/rootNavigation";
 import { AppNotificationProvider } from "./app/notification/useAppNotifications";
+import logger from './app/utility/logger'
 
 SplashScreen.preventAutoHideAsync();
+logger.start()
 
 export default function App() {
   const [user, setUser] = useState();
