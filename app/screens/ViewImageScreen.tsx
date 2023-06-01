@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Swiper from "react-native-swiper";
 
 import colors from "../config/colors";
 import useRouteNavigation from "../hooks/useRouteNavigation";
@@ -10,7 +11,7 @@ function ViewImageScreen() {
   const img =
     "https://aarsunwoods.b-cdn.net/wp-content/uploads/2020/03/Sofa-Chair-for-Luxury-Home-UH-FP-0019.jpg";
   return (
-    <View style={styles.container}>
+    <>
       <MaterialCommunityIcons
         name="close"
         color="white"
@@ -26,9 +27,30 @@ function ViewImageScreen() {
         onPress={() => console.log(1234)}
         style={styles.deleteIcon}
       />
+      <Swiper
+        style={styles.swiper}
+        activeDotColor={colors.primary}
+        dotColor={colors.light}
+        loop={false}
 
-      <Image style={styles.image} resizeMode="contain" source={{ uri: img }} />
-    </View>
+      >
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={{ uri: img }}
+        />
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={{ uri: img }}
+        />
+        <Image
+          style={styles.image}
+          resizeMode="contain"
+          source={{ uri: img }}
+        />
+      </Swiper>
+    </>
   );
 }
 
@@ -51,6 +73,10 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
+  },
+  swiper: {
+    backgroundColor: colors.black,
+    position: "relative",
   },
 });
 

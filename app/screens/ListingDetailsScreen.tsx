@@ -25,6 +25,7 @@ import listingApi from "../api/listings";
 import useApi from "../hooks/useApi";
 import AppActivityIndicator from "../components/ActivityIndicator";
 import { RouteEnums } from "../navigation/routes";
+import Swiper from "react-native-swiper";
 
 function ListingDetailsScreen() {
   const {
@@ -53,13 +54,21 @@ function ListingDetailsScreen() {
       >
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate(RouteEnums.VIEW_IMAGE)}
-        >
+          >
+          <Swiper height={300} activeDotColor={colors.primary} loop={false}>
           <Image
             source={{
               uri: listing?.images[0],
             }}
             style={styles.image}
           />
+          <Image
+            source={{
+              uri: listing?.images[0],
+            }}
+            style={styles.image}
+          />
+          </Swiper>
         </TouchableWithoutFeedback>
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{listing?.title}</Text>
@@ -80,6 +89,12 @@ function ListingDetailsScreen() {
           size={30}
           onPress={() => navigation.goBack()}
         />
+        <MaterialCommunityIcons
+          name="image-multiple-outline"
+          style={styles.imageGallery}
+          size={30}
+          onPress={() => navigation.navigate(RouteEnums.VIEW_IMAGE)}
+        />
         {user._id !== listing?.createdBy?._id && (
           <ContactSellerForm listing={listing} />
         )}
@@ -98,7 +113,13 @@ const styles = StyleSheet.create({
   goBack: {
     position: "absolute",
     top: Constants.statusBarHeight,
-    left: 10,
+    left: 20,
+    color: "white",
+  },
+  imageGallery: {
+    position: "absolute",
+    top: Constants.statusBarHeight,
+    right: 20,
     color: "white",
   },
   image: {
