@@ -21,6 +21,7 @@ import Screen from "../components/Screen";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { useAppNotifications } from "../notification/useAppNotifications";
 import { getUserImage } from "../utility/utilities";
+import ProfileScreen from "./ProfileScreen";
 
 function ChatScreen() {
   const {
@@ -37,6 +38,7 @@ function ChatScreen() {
   const [paginate, setPaginate] = useState(true);
   const [highlightedMessageId, setHighlightedMessageId] = useState("");
   const [page, setPage] = useState(1);
+  const [isProfileModalVisible, setProfileModalVisible] = useState(false)
 
   const {
     data,
@@ -106,7 +108,7 @@ function ChatScreen() {
         email={secondaryUser.email}
         dp={getUserImage(secondaryUser.imageId)}
         onBackCick={() => navigation.goBack()}
-        onNameCick={() => navigation.navigate("Profile", secondaryUser)}
+        onNameCick={() => setProfileModalVisible(true)}
       />
       {isLoading && (
         <ActivityIndicator
@@ -150,6 +152,7 @@ function ChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <ProfileScreen user={secondaryUser} visible={isProfileModalVisible} isSelf={false} onClose={()=>setProfileModalVisible(false)}/>
     </Screen>
   );
 }

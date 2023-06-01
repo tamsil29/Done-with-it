@@ -5,8 +5,8 @@ const endPoint = "/messages";
 const getConversations = () => client.get(endPoint);
 
 const getMessages = (conversationId: string, queryParams?: any) =>
-  client.get(`${endPoint}/${conversationId}`, queryParams);
+  client.get<any>(`${endPoint}/${conversationId}`, queryParams);
 
-const postMessage = (data: any) => client.post(endPoint, data);
+const postMessage = (data: any) => client.post<any>(endPoint, data);
 
 export default { getConversations, getMessages, postMessage };
