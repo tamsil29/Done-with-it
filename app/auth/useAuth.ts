@@ -27,7 +27,7 @@ const useAuth = () => {
     await authStorage.removeToken();
   };
 
-  return { user, setUser, logOut, logIn, updateUser: updateSelf };
+  return { user, setUser, logOut, logIn, updateSelf };
 };
 
 export default useAuth;
