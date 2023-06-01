@@ -5,7 +5,6 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { StyleSheet } from "react-native";
 import useRouteNavigation from "../hooks/useRouteNavigation";
-import { ScrollView } from "react-native-gesture-handler";
 import { RouteEnums } from "../navigation/routes";
 import listingApi from "../api/listings";
 import AppText from "../components/AppText";

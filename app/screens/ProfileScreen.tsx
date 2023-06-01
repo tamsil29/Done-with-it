@@ -90,9 +90,9 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
         <AppText
           style={{ fontSize: 24, fontWeight: 700, marginTop: 20 } as any}
         >
-          {user.name}
+          {user?.name}
         </AppText>
-        <AppText style={{ fontWeight: 600 } as any}>{user.email}</AppText>
+        <AppText style={{ fontWeight: 600 } as any}>{user?.email}</AppText>
         <AppActivityIndicator
           visible={userApi.isLoading || uploadImageApi.isLoading}
         />

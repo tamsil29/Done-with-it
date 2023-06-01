@@ -1,5 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Image,
@@ -20,20 +20,32 @@ import useAuth from "../auth/useAuth";
 import useRouteNavigation from "../hooks/useRouteNavigation";
 import { formatPrice, getUserImage } from "../utility/utilities";
 import ProfileScreen from "./ProfileScreen";
+import listingApi from "../api/listings";
+import useApi from "../hooks/useApi";
+import AppActivityIndicator from "../components/ActivityIndicator";
 
 function ListingDetailsScreen() {
+  const {
+    data: listing,
+    isError,
+    request: loadListings,
+    isLoading,
+  } = useApi(listingApi.getOneListing);
+
   const { user } = useAuth();
   const navigation = useRouteNavigation();
   const route = useRoute();
-  const listing = route.params as any;
+  const listingId = route.params as any;
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
-  const img1 =
-    "https://i0.pickpik.com/photos/241/235/620/mountain-hiking-adventure-landscape-preview.jpg";
-  const img2 =
-    "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
+  useEffect(()=>{
+    loadListings(listingId?._id)
+  }, [listingId])
+
+ 
   return (
     <ScrollView>
+      <AppActivityIndicator visible={isLoading}/>
       <KeyboardAvoidingView
         behavior="position"
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -100}
@@ -63,7 +75,7 @@ function ListingDetailsScreen() {
           size={30}
           onPress={() => navigation.goBack()}
         />
-        {user._id !== listing.createdBy._id && (
+        {user._id !== listing?.createdBy?._id && (
           <ContactSellerForm listing={listing} />
         )}
       </KeyboardAvoidingView>
