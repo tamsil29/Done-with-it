@@ -16,7 +16,7 @@ const menuItems = [
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
     },
-    targetScreen: "Messages",
+    targetScreen: RouteEnums.MY_LISTINGS,
   },
   {
     title: "My Messages",
@@ -39,7 +39,7 @@ function AccountScreen() {
       <View style={styles.container}>
         <ListItem
           title={user.name}
-          onPress={() => navigate('Profile', user)}
+          onPress={() => navigate("Profile", user)}
           subTitle={user.email}
           image={img2}
         />
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   screen: {
     backgroundColor: colors.light,
-    paddingTop: 0
+    paddingTop: 0,
   },
 });
 

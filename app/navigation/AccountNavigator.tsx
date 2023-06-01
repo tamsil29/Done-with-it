@@ -4,6 +4,7 @@ import AccountScreen from "../screens/AccountScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import MyListingsScreen from "../screens/MyListingsScreen";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,11 @@ const AccountNavigator = () => {
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
+      />
+      <Stack.Screen
+        name="MyListings"
+        component={MyListingsScreen}
+        options={{title: "My Listings"}}
       />
     </Stack.Navigator>
   );

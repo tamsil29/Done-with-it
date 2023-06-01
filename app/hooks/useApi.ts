@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 const useApi = (
   apiFunc: (...args: Array<any>) => Promise<ApiResponse<any>>
 ) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState<any>();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');

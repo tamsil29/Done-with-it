@@ -13,6 +13,7 @@ import Button from "../components/Button";
 import AppActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
 import { formatPrice } from "../utility/utilities";
+import NoData from "../components/NoData";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
@@ -37,6 +38,7 @@ function ListingScreen() {
             <Button title="Retry" onPress={loadListings} />
           </>
         )}
+        {listings && listings.length === 0 && <NoData value='messages'/>}
         <FlatList
           data={listings}
           renderItem={({ item }) => (

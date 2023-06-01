@@ -6,6 +6,7 @@ export enum RouteEnums {
     LISTING_EDIT = "ListingEdit",
     LOGIN="Login",
     MESSAGES = "Messages",
+    MY_LISTINGS="MyListings",
     REGISTER="Register",
-    VIEW_IMAGE = "ViewImage"
+    VIEW_IMAGE = "ViewImage",
 }

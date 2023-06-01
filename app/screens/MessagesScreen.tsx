@@ -9,6 +9,7 @@ import useApi from "../hooks/useApi";
 import messagesApi from '../api/message'
 import useAuth from "../auth/useAuth";
 import useRouteNavigation from "../hooks/useRouteNavigation";
+import NoData from "../components/NoData";
 
 const _messages = [
   {
@@ -44,6 +45,7 @@ function MessagesScreen() {
 
   return (
     <Screen style={styles.container}>
+      {data && data.length === 0 && <NoData value='messages'/>}
       <FlatList
         ItemSeparatorComponent={ListItemSeparator}
         data={data}
