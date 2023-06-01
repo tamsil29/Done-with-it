@@ -121,7 +121,8 @@ function ListingEditScreen() {
                 maxLength={8}
                 name="price"
                 placeholder="Price"
-                width={150}
+                width={"50%"}
+                icon="currency-rupee"
               />
               <FormPicker
                 items={categories}
