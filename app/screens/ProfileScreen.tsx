@@ -44,7 +44,7 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
       );
 
     const userResult = await userApi.request({
-      imageId: result.data?.data?._id,
+      imageId: result.data?.data._id,
     });
     console.log(userResult, "update profile");
 
@@ -53,7 +53,7 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
         "Error",
         "Error saving image, Please try again later."
       );
-    updateSelf(userApi.data.data);
+    updateSelf(userResult.data.data);
     unselectImage();
   };
 

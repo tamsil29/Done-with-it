@@ -25,9 +25,11 @@ export default {
 
 
 class ImageResponse { 
+  message: string;
   success: boolean;
   data: ImageModel;
   constructor(data: any) {
+    this.message = data?.message || '';
     this.success = data.success || false;
     this.data = new ImageModel(data.data || {});
   }
