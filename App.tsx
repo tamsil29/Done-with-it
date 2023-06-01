@@ -11,6 +11,7 @@ import authStorage from "./app/auth/storage";
 import { navigationRef } from "./app/navigation/rootNavigation";
 import { AppNotificationProvider } from "./app/notification/useAppNotifications";
 import logger from './app/utility/logger'
+import usersApi from './app/api/users'
 
 SplashScreen.preventAutoHideAsync();
 // logger.start()
@@ -21,8 +22,11 @@ export default function App() {
 
   const restoreUser = async () => {
     try {
-      const user = await authStorage.getUser();
-      if (user) setUser(user);
+      const token = await authStorage.getToken();
+      if (token) {
+        const result = await usersApi.getMe()
+        if(result.ok) setUser(result.data)
+      }
     } catch (error) {
       console.error(error);
     } finally {

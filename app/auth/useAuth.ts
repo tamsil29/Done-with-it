@@ -9,17 +9,18 @@ const useAuth = () => {
   const { user, setUser } = useContext(AuthContext);
   const getSelf = useApi(usersApi.getMe)
 
-  const logIn = (token: string) => {
+  const logIn = async (token: string) => {
     const user = jwtDecode(token);
-    setUser(user);
-    authStorage.storeToken(token);
+    // setUser(user);
+    await authStorage.storeToken(token);
+    updateSelf()
   }
 
   const updateSelf = async (user?:any) => {
     if(user) return setUser(user);
 
     const result = await getSelf.request();
-    if(result.ok) setUser(result?.data?.data);
+    if(result.ok) setUser(result?.data);
   }
 
   const logOut = async () => {
