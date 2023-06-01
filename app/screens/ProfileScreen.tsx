@@ -35,7 +35,6 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
 
   const handleSave = async (imageUri: string) => {
     const result = await uploadImageApi.request(imageUri);
-    console.log(result, "upload");
 
     if (!result.ok)
       return Alert.alert(
@@ -46,7 +45,6 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
     const userResult = await userApi.request({
       imageId: result.data?.data._id,
     });
-    console.log(userResult, "update profile");
 
     if (!userResult.ok)
       return Alert.alert(
