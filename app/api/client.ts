@@ -2,9 +2,10 @@ import { ApiResponse, create } from "apisauce";
 import cache from "../utility/cache";
 import { AxiosRequestConfig } from "axios";
 import authStorage from "../auth/storage";
+import settings from '../config/settings'
 
 const apiClient = create({
-  baseURL: "http://192.168.1.25:4000/api",
+  baseURL: settings.apiUrl,
 });
 
 apiClient.addAsyncRequestTransform(async(request)=>{
