@@ -1,15 +1,10 @@
 import React from "react";
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableHighlight,
-} from "react-native";
+import { View, Image, StyleSheet, TouchableHighlight } from "react-native";
 import {
   Swipeable,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
@@ -20,6 +15,7 @@ interface Props {
   onPress: React.Dispatch<any>;
   renderRightActions?: any;
   IconComponent?: any;
+  greenDot?: boolean;
 }
 
 function ListItem({
@@ -29,6 +25,7 @@ function ListItem({
   onPress,
   renderRightActions,
   IconComponent,
+  greenDot = false,
 }: Props) {
   return (
     <GestureHandlerRootView>
@@ -38,10 +35,21 @@ function ListItem({
             {IconComponent}
             {image && <Image source={{ uri: image }} style={styles.image} />}
             <View style={styles.detailsContainer}>
-              <AppText numberOfLines={1} style={styles.title}>{title}</AppText>
-              {subTitle && <AppText numberOfLines={2} style={styles.subTitle}>{subTitle}</AppText>}
+              <AppText numberOfLines={1} style={styles.title}>
+                {title}
+              </AppText>
+              {subTitle && (
+                <AppText numberOfLines={2} style={styles.subTitle}>
+                  {subTitle}
+                </AppText>
+              )}
             </View>
-            <MaterialCommunityIcons color={colors.medium } name="chevron-right" size={25}/>
+            {greenDot && <View style={styles.dot} />}
+            <MaterialCommunityIcons
+              color={colors.medium}
+              name="chevron-right"
+              size={25}
+            />
           </View>
         </TouchableHighlight>
       </Swipeable>
@@ -55,11 +63,12 @@ const styles = StyleSheet.create({
     gap: 10,
     alignItems: "center",
     padding: 15,
-    backgroundColor: colors.white
+    backgroundColor: colors.white,
   },
-  detailsContainer:{
-    flex: 1  
+  detailsContainer: {
+    flex: 1,
   },
+  dot: { height: 12, width: 12, backgroundColor: "lightgreen", borderRadius: 6 },
   image: {
     borderRadius: 50,
     height: 70,

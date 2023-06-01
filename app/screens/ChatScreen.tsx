@@ -47,10 +47,11 @@ function ChatScreen() {
   } = useApi(messagesApi.getMessages);
   const postMessage = useApi(messagesApi.postMessage);
 
+  const { request: messageSeen } = useApi(messagesApi.updateSeenMessage)
+
   useEffect(() => {
     if (notification && notification.request.content.data?.type === "chat") {
       if (notification.request.content.data?.data?._id === conversation._id) {
-        console.log(notification.request, '>>>>>>>>>>')
         dismissNotification(notification.request.identifier);
         getMessages(1);
       }
@@ -60,6 +61,10 @@ function ChatScreen() {
   useEffect(() => {
     getMessages(page);
   }, [page]);
+
+  useEffect(() => {
+    messageSeen(conversation?._id);
+  }, []);
 
   const getMessages = async (page: number) => {
     const result = await getConvos(conversation?._id, { page });

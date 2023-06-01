@@ -72,6 +72,7 @@ function MessagesScreen() {
             renderRightActions={() => (
               <ListItemDeleteAction onPress={() => handleDelete(item)} />
             )}
+            greenDot={item?.unreadBy?.includes(user._id)}
           />
         )}
         refreshing={isLoading}
