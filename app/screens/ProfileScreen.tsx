@@ -95,6 +95,7 @@ function ProfileScreen({ user, isSelf, onClose }: Props) {
           {user?.name}
         </AppText>
         <AppText style={{ fontWeight: 600 } as any}>{user?.email}</AppText>
+        <AppText style={{ fontWeight: 600, marginTop: 8 } as any}>{user?.numberofListings} Listings</AppText>
       </View>
     </>
   );

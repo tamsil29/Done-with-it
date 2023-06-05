@@ -18,6 +18,7 @@ import listingsApi from "../api/listings";
 import filesApi from "../api/files";
 import categoriesApi from "../api/category";
 import UploadScreen from "./UploadScreen";
+import useAuth from "../auth/useAuth";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -28,6 +29,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function ListingEditScreen() {
+  const { updateSelf } = useAuth();
   const [categories, setCategories] = useState([] as any);
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -63,6 +65,7 @@ function ListingEditScreen() {
       return alert("Could not save the listing");
     }
     actions.resetForm();
+    updateSelf()
   };
 
   const uploadingMultipleFiles = async (images: string[]) => {
