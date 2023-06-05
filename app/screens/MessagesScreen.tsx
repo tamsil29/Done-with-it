@@ -12,6 +12,7 @@ import useRouteNavigation from "../hooks/useRouteNavigation";
 import NoData from "../components/NoData";
 import { getUserImage } from "../utility/utilities";
 import { RouteEnums } from "../navigation/routes";
+import { useFocusEffect } from "@react-navigation/native";
 
 function MessagesScreen() {
   const {
@@ -22,9 +23,11 @@ function MessagesScreen() {
   const { user } = useAuth();
   const navigation = useRouteNavigation();
 
-  useEffect(() => {
-    getConvos();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      getConvos();
+    }, [])
+  );
 
   const getOtherUser = (user1Data: any, user2Data: any) => {
     return user1Data?._id === user._id ? user2Data : user1Data;

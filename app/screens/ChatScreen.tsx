@@ -90,7 +90,7 @@ function ChatScreen() {
 
     setMessage("");
     let uniqueMessages = [...messages];
-    uniqueMessages.pop();
+    if(uniqueMessages.length > 39) uniqueMessages.pop();
     setMessages([result.data.data, ...uniqueMessages]);
   };
 
