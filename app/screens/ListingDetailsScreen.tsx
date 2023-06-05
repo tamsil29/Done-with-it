@@ -53,24 +53,20 @@ function ListingDetailsScreen() {
         behavior="position"
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -100}
       >
-        <TouchableWithoutFeedback
-          onPress={() => navigation.navigate(RouteEnums.VIEW_IMAGE)}
-        >
+        {listing?.images.length && (
           <Swiper height={300} activeDotColor={colors.primary} loop={false}>
-            <Image
-              source={{
-                uri: listing?.images[0],
-              }}
-              style={styles.image}
-            />
-            <Image
-              source={{
-                uri: listing?.images[0],
-              }}
-              style={styles.image}
-            />
+            {listing?.images.map((image: string, index: number) => (
+              <Image
+                source={{
+                  uri: image,
+                }}
+                key={index}
+                style={styles.image}
+              />
+            ))}
           </Swiper>
-        </TouchableWithoutFeedback>
+        )}
+
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{listing?.title}</Text>
           {listing?.description && <AppText>{listing?.description}</AppText>}
@@ -94,7 +90,9 @@ function ListingDetailsScreen() {
           name="image-multiple-outline"
           style={styles.imageGallery}
           size={30}
-          onPress={() => navigation.navigate(RouteEnums.VIEW_IMAGE)}
+          onPress={() =>
+            navigation.navigate(RouteEnums.VIEW_IMAGE, listing?.images)
+          }
         />
         {user._id !== listing?.createdBy?._id && (
           <ContactSellerForm listing={listing} />

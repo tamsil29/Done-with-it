@@ -5,9 +5,12 @@ import Swiper from "react-native-swiper";
 
 import colors from "../config/colors";
 import useRouteNavigation from "../hooks/useRouteNavigation";
+import { useRoute } from "@react-navigation/native";
 
 function ViewImageScreen() {
   const navigation = useRouteNavigation();
+  const route = useRoute();
+  const images = route.params as string[];
   const img =
     "https://aarsunwoods.b-cdn.net/wp-content/uploads/2020/03/Sofa-Chair-for-Luxury-Home-UH-FP-0019.jpg";
   return (
@@ -32,23 +35,16 @@ function ViewImageScreen() {
         activeDotColor={colors.primary}
         dotColor={colors.light}
         loop={false}
-
+        zoomScale={2}
       >
-        <Image
-          style={styles.image}
-          resizeMode="contain"
-          source={{ uri: img }}
-        />
-        <Image
-          style={styles.image}
-          resizeMode="contain"
-          source={{ uri: img }}
-        />
-        <Image
-          style={styles.image}
-          resizeMode="contain"
-          source={{ uri: img }}
-        />
+        {images.map((image: string, index: number) => (
+          <Image
+            style={styles.image}
+            resizeMode="contain"
+            source={{ uri: image }}
+            key={index}
+          />
+        ))}
       </Swiper>
     </>
   );

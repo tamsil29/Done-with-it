@@ -61,7 +61,7 @@ function ListingEditScreen() {
   const uploadingMultipleFiles = async (images: string[]) => {
     let imageUris: string[] = [];
     for(let i = 0; i < images.length; i++) {
-      const result = await filesApi.uploadImage(images[i]);
+      const result = await filesApi.uploadImage(images[i], (progress: number) => console.log(progress, i+1, 'image'));
       if(result.data?.data?._id) imageUris.push(filesApi.getImage(result?.data?.data))
     }
   

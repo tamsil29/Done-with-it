@@ -2,7 +2,7 @@ import client from "./client";
 
 const endPoint = "/files";
 
-const uploadImage = (uri: any) => {
+const uploadImage = (uri: any, onUploadProgress?: (progress: number) => any) => {
   const fileName = uri.split("/").pop();
   const type = fileName?.split(".").pop();
   const formData = new FormData();
@@ -16,6 +16,9 @@ const uploadImage = (uri: any) => {
     headers: {
       "content-type": "multipart/form-data",
     },
+    onUploadProgress: (progress) =>
+    //@ts-ignore
+      onUploadProgress(progress?.loaded / progress?.total),
   });
 };
 
