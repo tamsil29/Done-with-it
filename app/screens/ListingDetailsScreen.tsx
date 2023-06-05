@@ -55,20 +55,20 @@ function ListingDetailsScreen() {
       >
         <TouchableWithoutFeedback
           onPress={() => navigation.navigate(RouteEnums.VIEW_IMAGE)}
-          >
+        >
           <Swiper height={300} activeDotColor={colors.primary} loop={false}>
-          <Image
-            source={{
-              uri: listing?.images[0],
-            }}
-            style={styles.image}
-          />
-          <Image
-            source={{
-              uri: listing?.images[0],
-            }}
-            style={styles.image}
-          />
+            <Image
+              source={{
+                uri: listing?.images[0],
+              }}
+              style={styles.image}
+            />
+            <Image
+              source={{
+                uri: listing?.images[0],
+              }}
+              style={styles.image}
+            />
           </Swiper>
         </TouchableWithoutFeedback>
         <View style={styles.detailsContainer}>
@@ -85,7 +85,7 @@ function ListingDetailsScreen() {
           />
         </View>
         <MaterialCommunityIcons
-          name="keyboard-backspace"
+          name="close-circle"
           style={styles.goBack}
           size={30}
           onPress={() => navigation.goBack()}
@@ -101,11 +101,12 @@ function ListingDetailsScreen() {
         )}
       </KeyboardAvoidingView>
       <Modal visible={isProfileModalVisible} animationType="slide">
-      <ProfileScreen
-        user={listing?.createdBy}
-        isSelf={false}
-        onClose={() => setProfileModalVisible(false)}
-      /></Modal>
+        <ProfileScreen
+          user={listing?.createdBy}
+          isSelf={false}
+          onClose={() => setProfileModalVisible(false)}
+        />
+      </Modal>
     </ScrollView>
   );
 }
@@ -115,7 +116,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: Constants.statusBarHeight,
     left: 20,
-    color: "white",
+    opacity: 0.5,
   },
   imageGallery: {
     position: "absolute",

@@ -8,6 +8,7 @@ import {
   Keyboard,
   TextInput,
   ActivityIndicator,
+  Modal,
 } from "react-native";
 import colors from "../config/colors";
 import Message from "../components/chat/Message";
@@ -24,10 +25,7 @@ import { getUserImage } from "../utility/utilities";
 import ProfileScreen from "./ProfileScreen";
 
 function ChatScreen() {
-  const {
-    notification,
-    dismissNotification,
-  } = useAppNotifications();
+  const { notification, dismissNotification } = useAppNotifications();
   const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
@@ -38,7 +36,7 @@ function ChatScreen() {
   const [paginate, setPaginate] = useState(true);
   const [highlightedMessageId, setHighlightedMessageId] = useState("");
   const [page, setPage] = useState(1);
-  const [isProfileModalVisible, setProfileModalVisible] = useState(false)
+  const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
   const {
     data,
@@ -47,7 +45,7 @@ function ChatScreen() {
   } = useApi(messagesApi.getMessages);
   const postMessage = useApi(messagesApi.postMessage);
 
-  const { request: messageSeen } = useApi(messagesApi.updateSeenMessage)
+  const { request: messageSeen } = useApi(messagesApi.updateSeenMessage);
 
   useEffect(() => {
     if (notification && notification.request.content.data?.type === "chat") {
@@ -91,8 +89,8 @@ function ChatScreen() {
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
     setMessage("");
-    let uniqueMessages = [...messages]
-    uniqueMessages.pop()
+    let uniqueMessages = [...messages];
+    uniqueMessages.pop();
     setMessages([result.data.data, ...uniqueMessages]);
   };
 
@@ -158,7 +156,13 @@ function ChatScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <ProfileScreen user={secondaryUser} visible={isProfileModalVisible} isSelf={false} onClose={()=>setProfileModalVisible(false)}/>
+      <Modal visible={isProfileModalVisible} animationType="slide">
+        <ProfileScreen
+          user={secondaryUser}
+          isSelf={false}
+          onClose={() => setProfileModalVisible(false)}
+        />
+      </Modal>
     </Screen>
   );
 }

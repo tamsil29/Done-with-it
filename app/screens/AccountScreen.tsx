@@ -33,14 +33,14 @@ const menuItems = [
 function AccountScreen() {
   const { navigate } = useRouteNavigation();
   const { user, logOut } = useAuth();
-  const [isProfileModalVisible, setProfileModalVisible] = useState(false)
+  const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
   const handleLogOut = () => {
     Alert.alert("Log Out", "Are you sure you want to log out?", [
-      { text: "Yes", onPress: logOut},
+      { text: "Yes", onPress: logOut },
       { text: "No" },
     ]);
-  }
+  };
 
   return (
     <Screen style={styles.screen}>
@@ -76,7 +76,13 @@ function AccountScreen() {
         title={"Log Out"}
         IconComponent={<Icon name={"logout"} backgroundColor="#ffe66d" />}
       />
-      <ProfileScreen user={user} visible={isProfileModalVisible} isSelf={true} onClose={()=>setProfileModalVisible(false)}/>
+      <Modal visible={isProfileModalVisible} animationType="slide">
+        <ProfileScreen
+          user={user}
+          isSelf={true}
+          onClose={() => setProfileModalVisible(false)}
+        />
+      </Modal>
     </Screen>
   );
 }

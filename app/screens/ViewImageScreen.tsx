@@ -21,7 +21,7 @@ function ViewImageScreen() {
       />
 
       <MaterialCommunityIcons
-        name="trash-can-outline"
+        name="share"
         color="white"
         size={30}
         onPress={() => console.log(1234)}
