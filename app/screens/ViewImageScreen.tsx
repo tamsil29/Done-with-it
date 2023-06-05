@@ -23,13 +23,13 @@ function ViewImageScreen() {
         onPress={() => navigation.goBack()}
       />
 
-      <MaterialCommunityIcons
+      {/* <MaterialCommunityIcons
         name="share"
         color="white"
         size={30}
         onPress={() => console.log(1234)}
         style={styles.deleteIcon}
-      />
+      /> */}
       <Swiper
         style={styles.swiper}
         activeDotColor={colors.primary}
