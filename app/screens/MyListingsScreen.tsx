@@ -36,13 +36,16 @@ function MyListingsScreen() {
             {listings && listings.length === 0 && <NoData value='listings'/>}
             <FlatList
               data={listings}
-              renderItem={({ item }) => (
+              renderItem={({ item, index }) => (
+                <>
+                {index === 0 && <View style={{marginTop: 20}}/>}
                 <Card
                   title={item.title}
                   subTitle={"₹" + formatPrice(item.price)}
                   image={item.images[0]}
                   onPress={() => {}}
                 />
+                </>
               )}
               keyExtractor={(listing) => listing?._id.toString()}
               refreshing={isLoading}
