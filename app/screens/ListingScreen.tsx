@@ -89,7 +89,7 @@ function ListingScreen() {
           refreshing={isLoading}
           onRefresh={getListings}
           showsVerticalScrollIndicator={false}
-          ListEmptyComponent={<NoData value="Listings" />}
+          ListEmptyComponent={<NoData value="Listings" isLoading={isLoading}/>}
         />
       </Screen>
     </>

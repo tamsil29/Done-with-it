@@ -36,7 +36,7 @@ function MessagesScreen() {
         ItemSeparatorComponent={ListItemSeparator}
         data={data}
         keyExtractor={(messages) => messages._id.toString()}
-        ListEmptyComponent={<NoData value="messages" />}
+        ListEmptyComponent={<NoData value="messages" isLoading={isLoading} />}
         renderItem={({ item }) => (
           <ListItem
             title={getOtherUser(item.user1Data, item.user2Data)?.name}
