@@ -13,26 +13,7 @@ import NoData from "../components/NoData";
 import { getUserImage } from "../utility/utilities";
 import { RouteEnums } from "../navigation/routes";
 
-const _messages = [
-  {
-    id: 1,
-    title: "T1",
-    description: "D1",
-    image:
-      "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg",
-  },
-  {
-    id: 2,
-    title: "T2",
-    description: "D2",
-    image:
-      "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg",
-  },
-];
-
 function MessagesScreen() {
-  const image =
-    "https://wallpapers.com/images/featured-full/cool-profile-pictures-4co57dtwk64fb7lv.jpg";
   const {
     data,
     request: getConvos,
@@ -40,11 +21,6 @@ function MessagesScreen() {
   } = useApi(messagesApi.getConversations);
   const { user } = useAuth();
   const navigation = useRouteNavigation();
-  const [messages, setMessages] = useState(_messages);
-  const [refreshing, setRefreshing] = useState(false);
-  const handleDelete = (message: any) => {
-    setMessages(messages.filter((msg) => msg.id !== message.id));
-  };
 
   useEffect(() => {
     getConvos();
@@ -69,21 +45,15 @@ function MessagesScreen() {
               getOtherUser(item.user1Data, item.user2Data)?.imageId
             )}
             onPress={() => navigation.navigate(RouteEnums.CHAT, item)}
-            renderRightActions={() => (
-              <ListItemDeleteAction onPress={() => handleDelete(item)} />
-            )}
+            // renderRightActions={() => (
+            //   <ListItemDeleteAction onPress={() => handleDelete(item)} />
+            // )}
             greenDot={item?.unreadBy?.includes(user._id)}
           />
         )}
         refreshing={isLoading}
         onRefresh={getConvos}
       />
-      {/* <ListItem
-            title={'My item'}
-
-            onPress={() => console.log(123)}
-            IconComponent={<Icon name="email"/>}
-          /> */}
     </Screen>
   );
 }
