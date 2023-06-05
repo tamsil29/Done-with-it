@@ -19,8 +19,13 @@ const uploadImage = (uri: any) => {
   });
 };
 
+const getImage = (imageObject: ImageModel)=> {
+  return imageObject?.baseUrl + imageObject?.key
+}
+
 export default {
   uploadImage,
+  getImage
 };
 
 

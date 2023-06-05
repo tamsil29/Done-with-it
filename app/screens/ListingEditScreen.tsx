@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import * as Yup from "yup";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, ScrollView } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, View, ScrollView, Alert } from "react-native";
 import { Form, FormField, FormPicker, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
@@ -20,19 +20,10 @@ const validationSchema = Yup.object().shape({
   images: Yup.array().required().min(1, "Please select atleast one image!"),
 });
 
-const categories = [
-  { label: "Furniture & mo", value: 1, backgroundColor: "red", icon: "apps" },
-  { label: "Clothing", value: 2, backgroundColor: "green", icon: "email" },
-  { label: "Camera", value: 3, backgroundColor: "blue", icon: "lock" },
-];
-
 function ListingEditScreen() {
   const [categories, setCategories] = useState([] as any);
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
-  // const [localImages, setLocalImages] = useState([] as string[]);
-  // const [imagesUrl, setImagesUrl] = useState([] as string[]);
-  // const [payloadData, setPayloadData] = useState({} as any);
 
   const { location } = useLocation();
 
@@ -42,11 +33,19 @@ function ListingEditScreen() {
       categoryId: listing?.category?._id,
       location,
     };
-    // setLocalImages(listing.images);
     delete payloadData?.category;
 
     setProgress(0);
     setUploadVisible(true);
+
+    try {
+      const updatedImages = await uploadingMultipleFiles(listing.images);
+      if(updatedImages.length) payloadData.images = updatedImages
+    } catch (error: any) {
+      setUploadVisible(false);
+      return Alert.alert('Error uploading images', error);
+    }
+
     const result = await listingsApi.addListing(
       payloadData,
       (progress: number) => setProgress(progress)
@@ -57,19 +56,19 @@ function ListingEditScreen() {
       return alert("Could not save the listing");
     }
     actions.resetForm();
-    // delete payloadData?.images;
-    // setPayloadData(payloadData);
   };
 
-  // const submitData = async () => {
-  //   const result = await listingsApi.addListing(
-  //     { ...payloadData, images: [...imagesUrl] },
-  //     (progress: number) => console.log({ progress })
-  //   );
-
-  //   if (!result.ok) return alert("Could not save the listing");
-  //   alert("success");
-  // };
+  const uploadingMultipleFiles = async (images: string[]) => {
+    let imageUris: string[] = [];
+    for(let i = 0; i < images.length; i++) {
+      const result = await filesApi.uploadImage(images[i]);
+      if(result.data?.data?._id) imageUris.push(filesApi.getImage(result?.data?.data))
+      console.log({result})
+      console.log({imageUris})
+    }
+  
+    return imageUris.length ? Promise.resolve(imageUris) : Promise.reject("Could not upload images to the server");
+  }
 
   const getCategories = async () => {
     const result = await categoriesApi.getCategories();
@@ -79,16 +78,6 @@ function ListingEditScreen() {
   useEffect(() => {
     getCategories();
   }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     localImages.length > 0 &&
-  //     imagesUrl.length > 0 &&
-  //     localImages.length === imagesUrl.length
-  //   ) {
-  //     submitData();
-  //   }
-  // }, [localImages, imagesUrl]);
 
   return (
     <Screen style={styles.container}>
