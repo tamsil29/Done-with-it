@@ -35,7 +35,7 @@ function ViewImageScreen() {
         activeDotColor={colors.primary}
         dotColor={colors.light}
         loop={false}
-        zoomScale={2}
+        pinchGestureEnabled={true}
       >
         {images.map((image: string, index: number) => (
           <Image
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   swiper: {
     backgroundColor: colors.black,
-    position: "relative",
+
   },
 });
 

@@ -67,6 +67,8 @@ function ListingDetailsScreen() {
           </Swiper>
         )}
 
+        {isLoading && <View style={[styles.image, {backgroundColor: colors.light}]}></View>}
+
         <View style={styles.detailsContainer}>
           <Text style={styles.title}>{listing?.title}</Text>
           {listing?.description && <AppText>{listing?.description}</AppText>}
