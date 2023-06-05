@@ -53,7 +53,6 @@ function MyListingsScreen() {
             <Button title="Retry" onPress={loadListings} />
           </>
         )}
-        {listings && listings.length === 0 && <NoData value="listings" />}
         <FlatList
           data={listings}
           renderItem={({ item, index }) => (
@@ -73,6 +72,7 @@ function MyListingsScreen() {
           refreshing={isLoading}
           onRefresh={loadListings}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={<NoData value="listings" />}
         />
       </Screen>
     </>

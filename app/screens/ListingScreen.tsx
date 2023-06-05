@@ -75,7 +75,6 @@ function ListingScreen() {
             showsHorizontalScrollIndicator={false}
           />
         </View>
-        {listings && listings.length === 0 && <NoData value="Listings" />}
         <FlatList
           data={listings}
           renderItem={({ item }) => (
@@ -90,6 +89,7 @@ function ListingScreen() {
           refreshing={isLoading}
           onRefresh={getListings}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={<NoData value="Listings" />}
         />
       </Screen>
     </>

@@ -56,11 +56,11 @@ function MessagesScreen() {
 
   return (
     <Screen style={styles.container}>
-      {data && data.length === 0 && <NoData value="messages" />}
       <FlatList
         ItemSeparatorComponent={ListItemSeparator}
         data={data}
         keyExtractor={(messages) => messages._id.toString()}
+        ListEmptyComponent={<NoData value="messages" />}
         renderItem={({ item }) => (
           <ListItem
             title={getOtherUser(item.user1Data, item.user2Data)?.name}
