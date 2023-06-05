@@ -18,6 +18,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package":"com.blurry29.doneWithIt",
+      "version": "1.0.0",
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
