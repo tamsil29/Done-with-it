@@ -22,12 +22,11 @@ import useAuth from "../auth/useAuth";
 
 interface Props {
   user: any;
-  visible: boolean;
   isSelf: boolean;
   onClose: () => void;
 }
 
-function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
+function ProfileScreen({ user, isSelf, onClose }: Props) {
   const { updateSelf } = useAuth();
   const userApi = useApi(users.updatedp);
   const uploadImageApi = useApi(filesApi.uploadImage);
@@ -56,7 +55,7 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
   };
 
   return (
-    <Modal visible={visible} animationType="slide">
+    <>
       <AppActivityIndicator
         visible={userApi.isLoading || uploadImageApi.isLoading}
       />
@@ -97,7 +96,7 @@ function ProfileScreen({ visible, user, isSelf, onClose }: Props) {
         </AppText>
         <AppText style={{ fontWeight: 600 } as any}>{user?.email}</AppText>
       </View>
-    </Modal>
+    </>
   );
 }
 

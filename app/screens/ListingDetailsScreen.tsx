@@ -9,6 +9,7 @@ import {
   Platform,
   ScrollView,
   TouchableWithoutFeedback,
+  Modal,
 } from "react-native";
 import Card from "../components/Card";
 import ListItem from "../components/ListItem";
@@ -99,12 +100,12 @@ function ListingDetailsScreen() {
           <ContactSellerForm listing={listing} />
         )}
       </KeyboardAvoidingView>
+      <Modal visible={isProfileModalVisible} animationType="slide">
       <ProfileScreen
         user={listing?.createdBy}
-        visible={isProfileModalVisible}
         isSelf={false}
         onClose={() => setProfileModalVisible(false)}
-      />
+      /></Modal>
     </ScrollView>
   );
 }
