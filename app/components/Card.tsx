@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: colors.white,
     overflow: "hidden",
-    marginTop: 20,
+    marginBottom: 20,
   },
   image: { height: 200, width: "100%" },
   detailsContainer: {

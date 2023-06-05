@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import Card from "../components/Card";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
@@ -13,9 +13,12 @@ import AppActivityIndicator from "../components/ActivityIndicator";
 import useApi from "../hooks/useApi";
 import { formatPrice } from "../utility/utilities";
 import NoData from "../components/NoData";
+import FilterPill from "../components/FilterPill";
+import categoriesApi from "../api/category";
 
 function ListingScreen() {
   const { navigate } = useRouteNavigation();
+  const [appliedCategory, setAppliedCategory] = useState<any>();
   const {
     data: listings,
     isError,
@@ -24,7 +27,23 @@ function ListingScreen() {
   } = useApi(listingApi.getListings);
 
   useEffect(() => {
-    loadListings();
+    getListings();
+  }, [appliedCategory]);
+
+  const getListings = () => {
+    if (appliedCategory) loadListings({ categoryId: appliedCategory?._id });
+    else loadListings();
+  };
+
+  const {
+    data: categories,
+    isError: categoryError,
+    request: getCategories,
+    isLoading: categoriesLoading,
+  } = useApi(categoriesApi.getCategories);
+
+  useEffect(() => {
+    getCategories();
   }, []);
 
   return (
@@ -37,7 +56,26 @@ function ListingScreen() {
             <Button title="Retry" onPress={loadListings} />
           </>
         )}
-        {listings && listings.length === 0 && <NoData value='messages'/>}
+        <View style={{ paddingVertical: 15 }}>
+          <FlatList
+            data={categories}
+            horizontal
+            keyExtractor={(category) => category?._id.toString()}
+            renderItem={({ item }) => (
+              <FilterPill
+                name={item?.label}
+                onPress={() =>
+                  item?._id === appliedCategory?._id
+                    ? setAppliedCategory(undefined)
+                    : setAppliedCategory(item)
+                }
+                isSelected={appliedCategory?._id === item?._id}
+              />
+            )}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        {listings && listings.length === 0 && <NoData value="Listings" />}
         <FlatList
           data={listings}
           renderItem={({ item }) => (
@@ -50,7 +88,7 @@ function ListingScreen() {
           )}
           keyExtractor={(listing) => listing?._id.toString()}
           refreshing={isLoading}
-          onRefresh={loadListings}
+          onRefresh={getListings}
           showsVerticalScrollIndicator={false}
         />
       </Screen>
