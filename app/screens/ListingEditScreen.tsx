@@ -63,8 +63,6 @@ function ListingEditScreen() {
     for(let i = 0; i < images.length; i++) {
       const result = await filesApi.uploadImage(images[i]);
       if(result.data?.data?._id) imageUris.push(filesApi.getImage(result?.data?.data))
-      console.log({result})
-      console.log({imageUris})
     }
   
     return imageUris.length ? Promise.resolve(imageUris) : Promise.reject("Could not upload images to the server");
@@ -134,15 +132,6 @@ function ListingEditScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-      {/* {localImages.length > 0 &&
-        localImages.map((image, index) => (
-          <ImageUploadItem
-            imageUri={image}
-            key={index}
-            setImagesUrl={setImagesUrl}
-            imagesUrl={imagesUrl}
-          />
-        ))} */}
     </Screen>
   );
 }
@@ -159,28 +148,3 @@ const styles = StyleSheet.create({
 });
 
 export default ListingEditScreen;
-
-const ImageUploadItem = ({
-  imageUri,
-  setImagesUrl,
-  imagesUrl,
-}: {
-  imageUri: string;
-  setImagesUrl: React.Dispatch<any>;
-  imagesUrl: string[];
-}) => {
-  const uploadSingleImage = async () => {
-    const result = await filesApi.uploadImage(imageUri);
-    if (result.ok)
-      setImagesUrl([
-        ...imagesUrl,
-        result.data?.data?.baseUrl + "" + result.data?.data?.key,
-      ]);
-  };
-
-  useEffect(() => {
-    uploadSingleImage();
-  }, []);
-
-  return <></>;
-};
