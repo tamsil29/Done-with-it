@@ -6,7 +6,7 @@ const settings = {
         apiUrl: "https://done-with-it.onrender.com/api"
     },
     staging: {
-        apiUrl: "http://192.168.1.25:4000/api"
+        apiUrl: "https://done-with-it.onrender.com/api"
     },
     prod: {
         apiUrl: "https://done-with-it.onrender.com/api"
