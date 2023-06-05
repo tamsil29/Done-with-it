@@ -1,6 +1,13 @@
 import React, { Dispatch, useEffect, useState } from "react";
 import * as Yup from "yup";
-import { KeyboardAvoidingView, Platform, StyleSheet, View, ScrollView, Alert } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { Form, FormField, FormPicker, SubmitButton } from "../components/forms";
 import Screen from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
@@ -40,10 +47,10 @@ function ListingEditScreen() {
 
     try {
       const updatedImages = await uploadingMultipleFiles(listing.images);
-      if(updatedImages.length) payloadData.images = updatedImages
+      if (updatedImages.length) payloadData.images = updatedImages;
     } catch (error: any) {
       setUploadVisible(false);
-      return Alert.alert('Error uploading images', error);
+      return Alert.alert("Error uploading images", error);
     }
 
     const result = await listingsApi.addListing(
@@ -60,13 +67,18 @@ function ListingEditScreen() {
 
   const uploadingMultipleFiles = async (images: string[]) => {
     let imageUris: string[] = [];
-    for(let i = 0; i < images.length; i++) {
-      const result = await filesApi.uploadImage(images[i], (progress: number) => console.log(progress, i+1, 'image'));
-      if(result.data?.data?._id) imageUris.push(filesApi.getImage(result?.data?.data))
+    for (let i = 0; i < images.length; i++) {
+      const result = await filesApi.uploadImage(images[i], (progress: number) =>
+        setProgress((prev) => (prev + progress) / images?.length)
+      );
+      if (result.data?.data?._id)
+        imageUris.push(filesApi.getImage(result?.data?.data));
     }
-  
-    return imageUris.length ? Promise.resolve(imageUris) : Promise.reject("Could not upload images to the server");
-  }
+
+    return imageUris.length
+      ? Promise.resolve(imageUris)
+      : Promise.reject("Could not upload images to the server");
+  };
 
   const getCategories = async () => {
     const result = await categoriesApi.getCategories();

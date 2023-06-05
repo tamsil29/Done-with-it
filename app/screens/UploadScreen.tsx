@@ -16,11 +16,14 @@ function UploadScreen({onDone, progress = 0, visible = false }: Props) {
     <Modal visible={visible}>
       <View style={styles.container}>
         {progress < 1 ? (
+          <>
           <Progress.Bar
             color={colors.primary}
             progress={progress}
             width={200}
           />
+          <AppText style={styles.uploadingText}>Uploading...</AppText>
+          </>
         ) : (
           <AnimatedLottieView
             autoPlay
@@ -44,6 +47,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  uploadingText:{
+    color: colors.primary,
+    marginTop: 10,
+    fontWeight: '600'
+  }
 });
 
 export default UploadScreen;
