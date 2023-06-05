@@ -8,6 +8,8 @@ const getMyListings = () => client.get<any>(`${endPoint}/self`);
 
 const getOneListing = (listingId: string) => client.get<any>(`${endPoint}/${listingId}`)
 
+const deleteListing = (listingId: string) => client.delete<any>(`${endPoint}/${listingId}`)
+
 const addListing = (
   listing: any,
   onUploadProgress: (progress: number) => any
@@ -22,5 +24,6 @@ export default {
   getListings,
   addListing,
   getMyListings,
-  getOneListing
+  getOneListing,
+  deleteListing
 };
