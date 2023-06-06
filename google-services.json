@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "595330976056",
+    "project_id": "done-with-it-fb043",
+    "storage_bucket": "done-with-it-fb043.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595330976056:android:be254a299d50e51f4b19cd",
+        "android_client_info": {
+          "package_name": "com.blurry29.doneWithIt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595330976056-ic928mubb2u0809ic0lp5ltmhofm9k2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVk6dcJgZnNSP5AS60zNfnHaiJ11t_7U8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595330976056-ic928mubb2u0809ic0lp5ltmhofm9k2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

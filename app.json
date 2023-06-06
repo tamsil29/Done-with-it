@@ -20,6 +20,7 @@
     "android": {
       "package":"com.blurry29.doneWithIt",
       "version": "1.0.0",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage":  "./app/assets/done-logo.png",
         "backgroundColor": "#EF393F"
