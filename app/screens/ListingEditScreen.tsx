@@ -72,7 +72,7 @@ function ListingEditScreen() {
     let imageUris: string[] = [];
     for (let i = 0; i < images.length; i++) {
       const result = await filesApi.uploadImage(images[i], (progress: number) =>
-        setProgress((prev) => (prev + progress) / images?.length)
+        setProgress((prev) => (prev + progress) / (images?.length + 1))
       );
       if (result.data?.data?._id)
         imageUris.push(filesApi.getImage(result?.data?.data));

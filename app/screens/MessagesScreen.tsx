@@ -13,6 +13,7 @@ import NoData from "../components/NoData";
 import { getUserImage } from "../utility/utilities";
 import { RouteEnums } from "../navigation/routes";
 import { useFocusEffect } from "@react-navigation/native";
+import { useAppNotifications } from "../notification/useAppNotifications";
 
 function MessagesScreen() {
   const {
@@ -22,11 +23,12 @@ function MessagesScreen() {
   } = useApi(messagesApi.getConversations);
   const { user } = useAuth();
   const navigation = useRouteNavigation();
+  const { notification } = useAppNotifications();
 
   useFocusEffect(
     React.useCallback(() => {
       getConvos();
-    }, [])
+    }, [notification])
   );
 
   const getOtherUser = (user1Data: any, user2Data: any) => {
