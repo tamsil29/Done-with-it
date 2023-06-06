@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
 function LoginScreen() {
   const loginApi = useApi(authApi.login);
   const { logIn } = useAuth();
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (values: { email: string; password: string }) => {
     const result = await loginApi.request(values.email, values.password);
@@ -61,8 +62,10 @@ function LoginScreen() {
             icon="lock"
             name="password"
             placeholder="Password"
-            secureTextEntry
+            secureTextEntry={!showPassword}
             textContentType="password"
+            endIcon={showPassword ? "eye" :"eye-off"}
+            onEndIconPress={() => setShowPassword(!showPassword)}
           />
           <SubmitButton title="Login" />
         </Form>

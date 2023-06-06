@@ -23,6 +23,7 @@ const validationSchema = Yup.object().shape({
 function RegisterScreen() {
   const registerApi = useApi(usersApi.register);
   const { logIn } = useAuth();
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (userInfo: any) => {
     const result = await registerApi.request(userInfo);
@@ -70,8 +71,10 @@ function RegisterScreen() {
             icon="lock"
             name="password"
             placeholder="Password"
-            secureTextEntry
+            secureTextEntry={!showPassword}
             textContentType="password"
+            endIcon={showPassword ? "eye" :"eye-off"}
+            onEndIconPress={() => setShowPassword(!showPassword)}
           />
           <SubmitButton title="Register" />
         </Form>

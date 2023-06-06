@@ -1,16 +1,20 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import { TextInput, View, StyleSheet, TextInputProps } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import defaultStyles from "../config/styles";
 
 interface Props {
   icon?: string;
-  width?: number|string;
+  width?: number | string;
+  endIcon?: string;
+  onEndIconPress?: Dispatch<any>;
 }
 
 const AppTextInput: React.FC<TextInputProps & Props> = ({
   icon,
   width = "100%",
+  endIcon,
+  onEndIconPress,
   ...otherProps
 }) => {
   return (
@@ -27,6 +31,14 @@ const AppTextInput: React.FC<TextInputProps & Props> = ({
         style={[defaultStyles.text, styles.text]}
         {...otherProps}
       />
+      {endIcon && (
+        <MaterialCommunityIcons
+          name={endIcon as any}
+          size={20}
+          color={defaultStyles.colors.medium}
+          onPress={onEndIconPress}
+        />
+      )}
     </View>
   );
 };

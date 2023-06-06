@@ -8,17 +8,29 @@ import { FormikTouched, FormikErrors, useFormikContext } from "formik";
 interface Props {
   name: string;
   icon?: string;
-  width?: number|string
+  endIcon?: string;
+  width?: number | string;
+  onEndIconPress?: React.Dispatch<any>;
 }
 
-function FormField({ name, icon,width, ...otherProps }: Props & TextInputProps) {
-  const { setFieldTouched,setFieldValue, touched, errors, values } = useFormikContext();
+function FormField({
+  name,
+  icon,
+  width,
+  endIcon,
+  onEndIconPress,
+  ...otherProps
+}: Props & TextInputProps) {
+  const { setFieldTouched, setFieldValue, touched, errors, values } =
+    useFormikContext();
   return (
     <View>
       <AppTextInput
         onBlur={() => setFieldTouched(name)}
-        onChangeText={text => setFieldValue(name, text)}
+        onChangeText={(text) => setFieldValue(name, text)}
         icon={icon}
+        endIcon={endIcon}
+        onEndIconPress={onEndIconPress}
         //@ts-ignore
         value={values[name]}
         {...otherProps}
