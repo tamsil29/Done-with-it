@@ -39,8 +39,7 @@
     "owner": "blurry29",
     "notification": {
       "iosDisplayInForeground": true,
-      "androidDisplayInForeground": true,
-      "icon": "./app/assets/logo.png"
+      "icon": "./app/assets/done-logo.png"
     }
   }
 }
