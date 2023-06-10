@@ -23,9 +23,10 @@ import useRouteNavigation from "../hooks/useRouteNavigation";
 import { useAppNotifications } from "../notification/useAppNotifications";
 import { getUserImage } from "../utility/utilities";
 import ProfileScreen from "./ProfileScreen";
+import { SocketEnums } from "../socket/events";
 
 function ChatScreen() {
-  const { notification, dismissNotification } = useAppNotifications();
+  const { notification, dismissNotification, socket } = useAppNotifications();
   const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
@@ -37,6 +38,19 @@ function ChatScreen() {
   const [highlightedMessageId, setHighlightedMessageId] = useState("");
   const [page, setPage] = useState(1);
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
+  const [chatRoomJoined, setChatRoomJoined] = useState(false)
+
+  useEffect(() => {
+    socket.emit(
+      SocketEnums.JOIN_CONVERSATION,
+      conversation?._id,
+      (message: string) => {
+        setChatRoomJoined(message === 'success' ? true : false)
+        console.log("joined room", user.name)
+      }
+    );
+    messageSeen(conversation?._id);
+  }, []);
 
   const {
     data,
@@ -61,8 +75,15 @@ function ChatScreen() {
   }, [page]);
 
   useEffect(() => {
-    messageSeen(conversation?._id);
-  }, []);
+    socket.on(SocketEnums.RECIEVE_MESSAGE, (message) => {
+      console.log(message, user.name)
+      let uniqueMessages = [...messages];
+      if (uniqueMessages.length > 39) uniqueMessages.pop();
+      setMessages([message, ...uniqueMessages]);
+    })
+
+    return () => {socket.off(SocketEnums.RECIEVE_MESSAGE)}
+  }, [])
 
   const getMessages = async (page: number) => {
     const result = await getConvos(conversation?._id, { page });
@@ -80,6 +101,7 @@ function ChatScreen() {
   };
 
   const handleSend = async () => {
+    console.log("sent from api")
     if (!message.length) return Alert.alert("Error", "Please enter a message");
 
     const result = await postMessage.request({
@@ -90,9 +112,20 @@ function ChatScreen() {
 
     setMessage("");
     let uniqueMessages = [...messages];
-    if(uniqueMessages.length > 39) uniqueMessages.pop();
+    if (uniqueMessages.length > 39) uniqueMessages.pop();
     setMessages([result.data.data, ...uniqueMessages]);
   };
+
+  const handleSendMessageInSocket = () => {
+    console.log("sent from socket")
+    socket.emit(
+      SocketEnums.SEND_MESSAGE,
+      message,
+      conversation?._id,
+      JSON.stringify({ _id: user._id, name: user.name, email: user.email })
+    );
+    setMessage("");
+  }
 
   const handleHilighting = async (messageId: string) => {
     if (messageId === highlightedMessageId) setHighlightedMessageId("");
@@ -151,7 +184,7 @@ function ChatScreen() {
             onChangeText={(text) => setMessage(text)}
             placeholder="Type your message here.."
           />
-          <TouchableOpacity onPress={handleSend}>
+          <TouchableOpacity onPress={chatRoomJoined ? handleSendMessageInSocket : handleSend}>
             <Icon name={"send"} backgroundColor={colors.primary} />
           </TouchableOpacity>
         </View>

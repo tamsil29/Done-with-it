@@ -2,11 +2,14 @@ import { useContext, useState } from "react";
 import NotificationContext from "./context";
 import React, { FC, ReactNode, useMemo } from "react";
 import * as Notifications from "expo-notifications";
+import useSocket from "../socket/useSocket";
 
 export const AppNotificationProvider: FC<{ children: ReactNode }> = (props) => {
   const [notification, setNotification] = useState<
     Notifications.Notification | any
   >();
+
+  const { socket } = useSocket();
 
   const presentLocalNotification = async (
     title: string,
@@ -38,12 +41,14 @@ export const AppNotificationProvider: FC<{ children: ReactNode }> = (props) => {
   const value = useMemo(
     () => ({
       notification,
+      socket,
       setNotification,
       presentLocalNotification,
       dismissNotification,
     }),
     [
       notification,
+      socket,
       setNotification,
       presentLocalNotification,
       dismissNotification,
