@@ -1,5 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -38,18 +38,23 @@ function ChatScreen() {
   const [highlightedMessageId, setHighlightedMessageId] = useState("");
   const [page, setPage] = useState(1);
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
-  const [chatRoomJoined, setChatRoomJoined] = useState(false)
+  const [chatRoomJoined, setChatRoomJoined] = useState(false);
 
   useEffect(() => {
     socket.emit(
       SocketEnums.JOIN_CONVERSATION,
       conversation?._id,
       (message: string) => {
-        setChatRoomJoined(message === 'success' ? true : false)
-        console.log("joined room", user.name)
+        setChatRoomJoined(message === "success" ? true : false);
+        console.log("joined room", user.name);
       }
     );
     messageSeen(conversation?._id);
+
+    return () => {
+      socket.emit(SocketEnums.LEAVE_CONVERSATION, conversation?._id);
+      messageSeen(conversation?._id);
+    };
   }, []);
 
   const {
@@ -61,29 +66,36 @@ function ChatScreen() {
 
   const { request: messageSeen } = useApi(messagesApi.updateSeenMessage);
 
-  useEffect(() => {
-    if (notification && notification.request.content.data?.type === "chat") {
-      if (notification.request.content.data?.data?._id === conversation._id) {
-        dismissNotification(notification.request.identifier);
-        getMessages(1);
-      }
-    }
-  }, [notification]);
+  // useEffect(() => {
+  //   if (notification && notification.request.content.data?.type === "chat") {
+  //     if (notification.request.content.data?.data?._id === conversation._id) {
+  //       dismissNotification(notification.request.identifier);
+  //       getMessages(1);
+  //     }
+  //   }
+  // }, [notification]);
 
   useEffect(() => {
     getMessages(page);
   }, [page]);
 
+  const updateMessages = (message: any) => {
+    setMessages((prevMsgs: any[]) => [message, ...prevMsgs].slice(0, -1));
+  };
+
   useEffect(() => {
     socket.on(SocketEnums.RECIEVE_MESSAGE, (message) => {
-      console.log(message, user.name)
-      let uniqueMessages = [...messages];
-      if (uniqueMessages.length > 39) uniqueMessages.pop();
-      setMessages([message, ...uniqueMessages]);
-    })
+      console.log(
+        message,
+        `${user.name} received message sent by ${message.createdBy.name}`
+      );
+      updateMessages(message);
+    });
 
-    return () => {socket.off(SocketEnums.RECIEVE_MESSAGE)}
-  }, [])
+    return () => {
+      socket.off(SocketEnums.RECIEVE_MESSAGE);
+    };
+  }, []);
 
   const getMessages = async (page: number) => {
     const result = await getConvos(conversation?._id, { page });
@@ -101,7 +113,7 @@ function ChatScreen() {
   };
 
   const handleSend = async () => {
-    console.log("sent from api")
+    console.log("sent from api");
     if (!message.length) return Alert.alert("Error", "Please enter a message");
 
     const result = await postMessage.request({
@@ -111,21 +123,20 @@ function ChatScreen() {
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
     setMessage("");
-    let uniqueMessages = [...messages];
-    if (uniqueMessages.length > 39) uniqueMessages.pop();
-    setMessages([result.data.data, ...uniqueMessages]);
+    updateMessages(result.data.data);
   };
 
   const handleSendMessageInSocket = () => {
-    console.log("sent from socket")
+    console.log("sent from socket");
     socket.emit(
       SocketEnums.SEND_MESSAGE,
       message,
       conversation?._id,
-      JSON.stringify({ _id: user._id, name: user.name, email: user.email })
+      JSON.stringify({ _id: user._id, name: user.name, email: user.email }),
+      (message: any) => updateMessages(message)
     );
     setMessage("");
-  }
+  };
 
   const handleHilighting = async (messageId: string) => {
     if (messageId === highlightedMessageId) setHighlightedMessageId("");
@@ -160,7 +171,7 @@ function ChatScreen() {
           initialNumToRender={15}
           inverted
           data={messages}
-          keyExtractor={(message) => message._id.toString()}
+          keyExtractor={(message) => message?._id?.toString()}
           renderItem={({ item }) => (
             <Message
               message={item?.message}
@@ -184,7 +195,9 @@ function ChatScreen() {
             onChangeText={(text) => setMessage(text)}
             placeholder="Type your message here.."
           />
-          <TouchableOpacity onPress={chatRoomJoined ? handleSendMessageInSocket : handleSend}>
+          <TouchableOpacity
+            onPress={chatRoomJoined ? handleSendMessageInSocket : handleSend}
+          >
             <Icon name={"send"} backgroundColor={colors.primary} />
           </TouchableOpacity>
         </View>

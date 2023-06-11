@@ -1,6 +1,7 @@
 export enum SocketEnums {
   JOIN_CONVERSATION = "join-conversation",
-  SEND_MESSAGE = "send-message",
+  LEAVE_CONVERSATION = "leave-conversation",
   RECIEVE_MESSAGE = "recieve-message",
+  SEND_MESSAGE = "send-message",
   TYPING = "typing",
 }

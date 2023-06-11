@@ -24,15 +24,15 @@ export const AppNotificationProvider: FC<{ children: ReactNode }> = (props) => {
     });
   };
 
-  const setNotificaHandlerTodefault = () => {
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-      }),
-    });
-  };
+  // const setNotificaHandlerTodefault = () => {
+  //   Notifications.setNotificationHandler({
+  //     handleNotification: async () => ({
+  //       shouldShowAlert: true,
+  //       shouldPlaySound: true,
+  //       shouldSetBadge: true,
+  //     }),
+  //   });
+  // };
 
   const dismissNotification = (identifier: string) => {
     Notifications.dismissNotificationAsync(identifier);
