@@ -75,6 +75,7 @@ function ChatScreen() {
 
     return () => {
       socket.off(SocketEnums.TYPING);
+      socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id);
     };
   }, []);
 
