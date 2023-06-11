@@ -191,13 +191,7 @@ function ChatScreen() {
         onBackCick={() => navigation.goBack()}
         onNameCick={() => setProfileModalVisible(true)}
       />
-      {isLoading && (
-        <ActivityIndicator
-          color={colors.primary}
-          style={{ backgroundColor: colors.light }}
-          size={40}
-        />
-      )}
+
       <View style={styles.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -208,7 +202,7 @@ function ChatScreen() {
           keyExtractor={(message) => message?._id?.toString()}
           renderItem={({ item, index }) => (
             <>
-              {index === 0 && isTyping && (
+              {isTyping && index === 0 && (
                 <Message
                   message={"typing..."}
                   isSelf={false}
@@ -223,6 +217,13 @@ function ChatScreen() {
                 ishighlighted={item?._id === highlightedMessageId}
                 setHighlighted={() => handleHilighting(item?._id)}
               />
+              {isLoading && index === messages.length - 1 && (
+                <ActivityIndicator
+                  color={colors.primary}
+                  style={{ backgroundColor: colors.light }}
+                  size={40}
+                />
+              )}
             </>
           )}
         />
