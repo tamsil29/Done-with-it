@@ -66,14 +66,14 @@ function ChatScreen() {
 
   const { request: messageSeen } = useApi(messagesApi.updateSeenMessage);
 
-  // useEffect(() => {
-  //   if (notification && notification.request.content.data?.type === "chat") {
-  //     if (notification.request.content.data?.data?._id === conversation._id) {
-  //       dismissNotification(notification.request.identifier);
-  //       getMessages(1);
-  //     }
-  //   }
-  // }, [notification]);
+  useEffect(() => {
+    if (notification && notification.request.content.data?.type === "chat") {
+      if (notification.request.content.data?.data?._id === conversation._id) {
+        dismissNotification(notification.request.identifier);
+        if(!chatRoomJoined) getMessages(1);
+      }
+    }
+  }, [notification]);
 
   useEffect(() => {
     getMessages(page);
