@@ -10,6 +10,7 @@ interface Props {
   time: any;
   ishighlighted?: boolean;
   setHighlighted?: Dispatch<any>;
+  isTyping?: boolean;
 }
 
 function Message({
@@ -18,6 +19,7 @@ function Message({
   time,
   ishighlighted = false,
   setHighlighted,
+  isTyping
 }: Props) {
   return (
     <TouchableWithoutFeedback onPress={setHighlighted}>
@@ -36,7 +38,7 @@ function Message({
                   borderBottomLeftRadius: 5,
                   borderBottomRightRadius: 20,
                 },
-            ishighlighted
+            ishighlighted || isTyping
               ? isSelf
                 ? { backgroundColor: "#cc4141" }
                 : { backgroundColor: "#DCDCDC" }

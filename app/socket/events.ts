@@ -4,4 +4,5 @@ export enum SocketEnums {
   RECIEVE_MESSAGE = "recieve-message",
   SEND_MESSAGE = "send-message",
   TYPING = "typing",
+  SENDER_TYPING = "sender-typing",
 }

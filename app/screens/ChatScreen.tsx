@@ -1,5 +1,11 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   View,
   StyleSheet,
@@ -9,6 +15,7 @@ import {
   TextInput,
   ActivityIndicator,
   Modal,
+  Text,
 } from "react-native";
 import colors from "../config/colors";
 import Message from "../components/chat/Message";
@@ -39,6 +46,8 @@ function ChatScreen() {
   const [page, setPage] = useState(1);
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
   const [chatRoomJoined, setChatRoomJoined] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const deferredValue = useDeferredValue(message);
 
   useEffect(() => {
     socket.emit(
@@ -57,6 +66,20 @@ function ChatScreen() {
     };
   }, []);
 
+  useEffect(() => {
+    socket.on(SocketEnums.TYPING, (isTyping) => setIsTyping(isTyping));
+
+    return () => {
+      socket.off(SocketEnums.TYPING);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (deferredValue.length > 0)
+      socket.emit(SocketEnums.SENDER_TYPING, true, conversation?._id);
+    else socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id);
+  }, [deferredValue]);
+
   const {
     data,
     request: getConvos,
@@ -70,7 +93,7 @@ function ChatScreen() {
     if (notification && notification.request.content.data?.type === "chat") {
       if (notification.request.content.data?.data?._id === conversation._id) {
         dismissNotification(notification.request.identifier);
-        if(!chatRoomJoined) getMessages(1);
+        if (!chatRoomJoined) getMessages(1);
       }
     }
   }, [notification]);
@@ -172,14 +195,24 @@ function ChatScreen() {
           inverted
           data={messages}
           keyExtractor={(message) => message?._id?.toString()}
-          renderItem={({ item }) => (
-            <Message
-              message={item?.message}
-              isSelf={item?.createdBy?._id === user._id}
-              time={item?.createdAt}
-              ishighlighted={item?._id === highlightedMessageId}
-              setHighlighted={() => handleHilighting(item?._id)}
-            />
+          renderItem={({ item, index }) => (
+            <>
+              {index === 0 && isTyping && (
+                <Message
+                  message={"typing..."}
+                  isSelf={false}
+                  time={Date.now()}
+                  isTyping={isTyping}
+                />
+              )}
+              <Message
+                message={item?.message}
+                isSelf={item?.createdBy?._id === user._id}
+                time={item?.createdAt}
+                ishighlighted={item?._id === highlightedMessageId}
+                setHighlighted={() => handleHilighting(item?._id)}
+              />
+            </>
           )}
         />
       </View>
