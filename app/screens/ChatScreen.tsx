@@ -31,6 +31,7 @@ import { useAppNotifications } from "../notification/useAppNotifications";
 import { getUserImage } from "../utility/utilities";
 import ProfileScreen from "./ProfileScreen";
 import { SocketEnums } from "../socket/events";
+import { differenceInSeconds } from "date-fns";
 
 function ChatScreen() {
   const { notification, dismissNotification, socket } = useAppNotifications();
@@ -48,6 +49,9 @@ function ChatScreen() {
   const [chatRoomJoined, setChatRoomJoined] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const deferredValue = useDeferredValue(message);
+  const [typingSocketTriggeredOn, setTypingSocketTriggeredOn] = useState(
+    null as any
+  );
 
   useEffect(() => {
     socket.emit(
@@ -75,9 +79,15 @@ function ChatScreen() {
   }, []);
 
   useEffect(() => {
-    if (deferredValue.length > 0)
-      socket.emit(SocketEnums.SENDER_TYPING, true, conversation?._id);
-    else socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id);
+    if (deferredValue.length > 0) {
+      if (
+        typingSocketTriggeredOn === null ||
+        differenceInSeconds(Date.now(), typingSocketTriggeredOn) > 5
+      ) {
+        socket.emit(SocketEnums.SENDER_TYPING, true, conversation?._id);
+        setTypingSocketTriggeredOn(Date.now());
+      }
+    } else socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id);
   }, [deferredValue]);
 
   const {
