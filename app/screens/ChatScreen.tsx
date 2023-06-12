@@ -33,9 +33,6 @@ import ProfileScreen from "./ProfileScreen";
 import { SocketEnums } from "../socket/events";
 import { differenceInSeconds } from "date-fns";
 import AttachedMessage from "../components/chat/AttachedMessage";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ListItemDeleteAction from "../components/ListItemDeleteAction";
-import MessageSwipeAction from "../components/chat/MessageSwipeAction";
 
 function ChatScreen() {
   const { notification, dismissNotification, socket } = useAppNotifications();
@@ -56,7 +53,7 @@ function ChatScreen() {
   const [typingSocketTriggeredOn, setTypingSocketTriggeredOn] = useState(
     null as any
   );
-  const [attachedMessage, setAttachedMessage] = useState();
+  const [attachedMessage, setAttachedMessage] = useState(null as any);
 
   useEffect(() => {
     socket.emit(
@@ -243,6 +240,7 @@ function ChatScreen() {
                 time={item?.createdAt}
                 ishighlighted={item?._id === highlightedMessageId}
                 setHighlighted={() => handleHilighting(item?._id)}
+                selectMessage={() => setAttachedMessage(item)}
               />
               {isLoading && index === messages.length - 1 && (
                 <ActivityIndicator
@@ -255,7 +253,7 @@ function ChatScreen() {
           )}
         />
       </View>
-      {attachedMessage && <AttachedMessage message={''} onClose={()=>setAttachedMessage(null as any)}/>}
+      {attachedMessage && <AttachedMessage message={attachedMessage} onClose={()=>setAttachedMessage(null as any)} isSelfSelected={user?._id === attachedMessage?.createdBy?._id}/>}
       <View style={styles.chatContainer}>
         <View style={styles.inputContainer}>
           <TextInput

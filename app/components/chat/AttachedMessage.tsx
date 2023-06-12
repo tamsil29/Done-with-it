@@ -20,16 +20,18 @@ function AttachedMessage({ isSelfSelected = false, message, onClose }: Props) {
       ]}
     >
       <View style={styles.replyContainer}>
-        <AppText style={styles.heading}>Replying to bandar</AppText>
+        <AppText style={styles.heading}>
+          Replying to {isSelfSelected ? "Yourself" : message?.createdBy?.name}
+        </AppText>
         <AppText style={styles.message} numberOfLines={1}>
-          12345
+          {message?.message}
         </AppText>
       </View>
       <MaterialCommunityIcons
         name="close-circle"
         size={25}
-        color={'#3a3b3c'}
-        style={{ marginTop: 2, marginRight: 2 }}
+        color={"#3a3b3c"}
+        style={{ top: 2, right: 2, position: 'absolute' }}
       />
     </View>
   );
@@ -48,12 +50,12 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 16,
     fontWeight: "700",
-    color: '#3a3b3c'
+    color: "#3a3b3c",
   },
   message: {
     fontSize: 16,
     fontWeight: "600",
-    color: '#3a3b3c'
+    color: "#3a3b3c",
   },
 });
 

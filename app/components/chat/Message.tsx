@@ -18,6 +18,7 @@ interface Props {
   isTyping?: boolean;
   isAttachedMessageSelf?: boolean;
   attachedMessage?: any;
+  selectMessage?: any;
 }
 
 function Message({
@@ -29,6 +30,7 @@ function Message({
   isTyping,
   isAttachedMessageSelf = false,
   attachedMessage = "43",
+  selectMessage,
 }: Props) {
   const swipableRef = useRef<any>();
 
@@ -40,6 +42,10 @@ function Message({
         }
         renderLeftActions={() => !isTyping && !isSelf && <MessageSwipeAction />}
         ref={swipableRef}
+        onSwipeableOpen={() => {
+          selectMessage();
+          swipableRef.current?.close();
+        }}
       >
         <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
           <TouchableWithoutFeedback>
