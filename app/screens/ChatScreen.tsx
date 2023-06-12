@@ -56,6 +56,7 @@ function ChatScreen() {
   const [typingSocketTriggeredOn, setTypingSocketTriggeredOn] = useState(
     null as any
   );
+  const [attachedMessage, setAttachedMessage] = useState();
 
   useEffect(() => {
     socket.emit(
@@ -242,8 +243,6 @@ function ChatScreen() {
                 time={item?.createdAt}
                 ishighlighted={item?._id === highlightedMessageId}
                 setHighlighted={() => handleHilighting(item?._id)}
-                onSwipeRight={() => item?.createdBy?._id !== user._id && <MessageSwipeAction />}
-                onSwipeLeft={() => item?.createdBy?._id === user._id && <MessageSwipeAction color={colors.primary}/>}
               />
               {isLoading && index === messages.length - 1 && (
                 <ActivityIndicator
@@ -256,7 +255,7 @@ function ChatScreen() {
           )}
         />
       </View>
-      <AttachedMessage message={''} onClose={()=>{}}/>
+      {attachedMessage && <AttachedMessage message={''} onClose={()=>setAttachedMessage(null as any)}/>}
       <View style={styles.chatContainer}>
         <View style={styles.inputContainer}>
           <TextInput

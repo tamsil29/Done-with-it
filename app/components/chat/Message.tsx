@@ -1,4 +1,4 @@
-import React, { Dispatch, useRef } from "react";
+import React, { Dispatch, useEffect, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import AppText from "../AppText";
 import colors from "../../config/colors";
@@ -7,6 +7,7 @@ import {
   Swipeable,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import MessageSwipeAction from "./MessageSwipeAction";
 
 interface Props {
   isSelf: boolean;
@@ -17,8 +18,6 @@ interface Props {
   isTyping?: boolean;
   isAttachedMessageSelf?: boolean;
   attachedMessage?: any;
-  onSwipeRight?: () => any
-  onSwipeLeft?: () => any
 }
 
 function Message({
@@ -30,18 +29,18 @@ function Message({
   isTyping,
   isAttachedMessageSelf = false,
   attachedMessage = "43",
-  onSwipeRight,
-  onSwipeLeft
 }: Props) {
-  const swipableRef = useRef<any>()
+  const swipableRef = useRef<any>();
 
-  const closeSwipable = () => {
-    swipableRef.current.close()
-  }
-  
   return (
     <GestureHandlerRootView>
-      <Swipeable renderRightActions={onSwipeLeft} renderLeftActions={onSwipeRight} ref={swipableRef}>
+      <Swipeable
+        renderRightActions={() =>
+          !isTyping && isSelf && <MessageSwipeAction color={colors.primary} />
+        }
+        renderLeftActions={() => !isTyping && !isSelf && <MessageSwipeAction />}
+        ref={swipableRef}
+      >
         <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
           <TouchableWithoutFeedback>
             <View
