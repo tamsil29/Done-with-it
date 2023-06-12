@@ -1,9 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import AppText from "../AppText";
-import ListItemSeparator from "../ListItemSeparator";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import colors from "../../config/colors";
 
 interface Props {
   isSelfSelected?: boolean;

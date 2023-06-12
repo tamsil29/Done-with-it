@@ -1,8 +1,12 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import AppText from "../AppText";
 import colors from "../../config/colors";
 import { TouchableWithoutFeedback } from "react-native";
+import {
+  Swipeable,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 
 interface Props {
   isSelf: boolean;
@@ -13,6 +17,8 @@ interface Props {
   isTyping?: boolean;
   isAttachedMessageSelf?: boolean;
   attachedMessage?: any;
+  onSwipeRight?: () => any
+  onSwipeLeft?: () => any
 }
 
 function Message({
@@ -24,74 +30,86 @@ function Message({
   isTyping,
   isAttachedMessageSelf = false,
   attachedMessage = "43",
+  onSwipeRight,
+  onSwipeLeft
 }: Props) {
+  const swipableRef = useRef<any>()
+
+  const closeSwipable = () => {
+    swipableRef.current.close()
+  }
+  
   return (
-    <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
-      <TouchableWithoutFeedback>
-        <View
-          style={[
-            styles.attachedMessageContainer,
-            isAttachedMessageSelf
-              ? { backgroundColor: "#fd969c" }
-              : { backgroundColor: "#A9A9A9" },
-            isSelf
-              ? { borderBottomRightRadius: 5, borderBottomLeftRadius: 20 }
-              : { borderBottomRightRadius: 20, borderBottomLeftRadius: 5 },
-          ]}
-        >
-          <AppText style={[styles.message, { color: colors.light }]}>
-            baklol in the chat guyz
-          </AppText>
-        </View>
-      </TouchableWithoutFeedback>
-
-      <TouchableWithoutFeedback
-        onPress={setHighlighted}
-      >
-        <View
-          style={[
-            isSelf ? { alignItems: "flex-end" } : { alignItems: "flex-start" },
-          ]}
-        >
-          <View
-            style={[
-              styles.messageContainer,
-              attachedMessage
-                ? isSelf
-                  ? styles.hasReplySelf
-                  : styles.hasReply
-                : isSelf
-                ? styles.hasNotReplySelf
-                : styles.hasNotReply,
-
-              ishighlighted || isTyping
-                ? isSelf
-                  ? { backgroundColor: "#cc4141" }
-                  : { backgroundColor: "#DCDCDC" }
-                : {},
-            ]}
-          >
-            <AppText
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={onSwipeLeft} renderLeftActions={onSwipeRight} ref={swipableRef}>
+        <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
+          <TouchableWithoutFeedback>
+            <View
               style={[
-                styles.message,
+                styles.attachedMessageContainer,
+                isAttachedMessageSelf
+                  ? { backgroundColor: "#fd969c" }
+                  : { backgroundColor: "#A9A9A9" },
                 isSelf
-                  ? { color: colors.white }
-                  : !isTyping
-                  ? { color: colors.dark }
-                  : { color: colors.dark },
+                  ? { borderBottomRightRadius: 5, borderBottomLeftRadius: 20 }
+                  : { borderBottomRightRadius: 20, borderBottomLeftRadius: 5 },
               ]}
             >
-              {message}
-            </AppText>
-          </View>
-          {ishighlighted && (
-            <AppText style={styles.time}>
-              {new Date(parseInt(time)).toLocaleString()}
-            </AppText>
-          )}
+              <AppText style={[styles.message, { color: colors.light }]}>
+                baklol in the chat guyz
+              </AppText>
+            </View>
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback onPress={setHighlighted}>
+            <View
+              style={[
+                isSelf
+                  ? { alignItems: "flex-end" }
+                  : { alignItems: "flex-start" },
+              ]}
+            >
+              <View
+                style={[
+                  styles.messageContainer,
+                  attachedMessage
+                    ? isSelf
+                      ? styles.hasReplySelf
+                      : styles.hasReply
+                    : isSelf
+                    ? styles.hasNotReplySelf
+                    : styles.hasNotReply,
+
+                  ishighlighted || isTyping
+                    ? isSelf
+                      ? { backgroundColor: "#cc4141" }
+                      : { backgroundColor: "#DCDCDC" }
+                    : {},
+                ]}
+              >
+                <AppText
+                  style={[
+                    styles.message,
+                    isSelf
+                      ? { color: colors.white }
+                      : !isTyping
+                      ? { color: colors.dark }
+                      : { color: colors.dark },
+                  ]}
+                >
+                  {message}
+                </AppText>
+              </View>
+              {ishighlighted && (
+                <AppText style={styles.time}>
+                  {new Date(parseInt(time)).toLocaleString()}
+                </AppText>
+              )}
+            </View>
+          </TouchableWithoutFeedback>
         </View>
-      </TouchableWithoutFeedback>
-    </View>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 }
 

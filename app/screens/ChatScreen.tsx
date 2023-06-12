@@ -32,9 +32,10 @@ import { getUserImage } from "../utility/utilities";
 import ProfileScreen from "./ProfileScreen";
 import { SocketEnums } from "../socket/events";
 import { differenceInSeconds } from "date-fns";
-import ListItemSeparator from "../components/ListItemSeparator";
-import AppText from "../components/AppText";
 import AttachedMessage from "../components/chat/AttachedMessage";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ListItemDeleteAction from "../components/ListItemDeleteAction";
+import MessageSwipeAction from "../components/chat/MessageSwipeAction";
 
 function ChatScreen() {
   const { notification, dismissNotification, socket } = useAppNotifications();
@@ -241,6 +242,8 @@ function ChatScreen() {
                 time={item?.createdAt}
                 ishighlighted={item?._id === highlightedMessageId}
                 setHighlighted={() => handleHilighting(item?._id)}
+                onSwipeRight={() => item?.createdBy?._id !== user._id && <MessageSwipeAction />}
+                onSwipeLeft={() => item?.createdBy?._id === user._id && <MessageSwipeAction color={colors.primary}/>}
               />
               {isLoading && index === messages.length - 1 && (
                 <ActivityIndicator
