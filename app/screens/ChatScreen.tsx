@@ -32,6 +32,9 @@ import { getUserImage } from "../utility/utilities";
 import ProfileScreen from "./ProfileScreen";
 import { SocketEnums } from "../socket/events";
 import { differenceInSeconds } from "date-fns";
+import ListItemSeparator from "../components/ListItemSeparator";
+import AppText from "../components/AppText";
+import AttachedMessage from "../components/chat/AttachedMessage";
 
 function ChatScreen() {
   const { notification, dismissNotification, socket } = useAppNotifications();
@@ -71,11 +74,18 @@ function ChatScreen() {
   }, []);
 
   useEffect(() => {
-    socket.on(SocketEnums.TYPING, (isTyping, userId) => {if(user?._id !== userId) setIsTyping(isTyping)});
+    socket.on(SocketEnums.TYPING, (isTyping, userId) => {
+      if (user?._id !== userId) setIsTyping(isTyping);
+    });
 
     return () => {
       socket.off(SocketEnums.TYPING);
-      socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id, user?._id);
+      socket.emit(
+        SocketEnums.SENDER_TYPING,
+        false,
+        conversation?._id,
+        user?._id
+      );
     };
   }, []);
 
@@ -85,10 +95,21 @@ function ChatScreen() {
         typingSocketTriggeredOn === null ||
         differenceInSeconds(Date.now(), typingSocketTriggeredOn) > 3
       ) {
-        socket.emit(SocketEnums.SENDER_TYPING, true, conversation?._id, user?._id);
+        socket.emit(
+          SocketEnums.SENDER_TYPING,
+          true,
+          conversation?._id,
+          user?._id
+        );
         setTypingSocketTriggeredOn(Date.now());
       }
-    } else socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id, user?._id);
+    } else
+      socket.emit(
+        SocketEnums.SENDER_TYPING,
+        false,
+        conversation?._id,
+        user?._id
+      );
   }, [deferredValue]);
 
   const {
@@ -123,7 +144,7 @@ function ChatScreen() {
         message,
         `${user.name} received message sent by ${message.createdBy.name}`
       );
-      if(message.createdBy._id !== user._id) updateMessages(message);
+      if (message.createdBy._id !== user._id) updateMessages(message);
     });
 
     return () => {
@@ -158,7 +179,7 @@ function ChatScreen() {
 
     setMessage("");
     updateMessages(result.data.data);
-    setHeight(0)
+    setHeight(0);
   };
 
   const handleSendMessageInSocket = () => {
@@ -173,7 +194,7 @@ function ChatScreen() {
       (message: any) => updateMessages(message)
     );
     setMessage("");
-    setHeight(0)
+    setHeight(0);
   };
 
   const handleHilighting = async (messageId: string) => {
@@ -232,6 +253,7 @@ function ChatScreen() {
           )}
         />
       </View>
+      <AttachedMessage message={''} onClose={()=>{}}/>
       <View style={styles.chatContainer}>
         <View style={styles.inputContainer}>
           <TextInput

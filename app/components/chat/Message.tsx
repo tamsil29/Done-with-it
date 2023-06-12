@@ -47,7 +47,6 @@ function Message({
 
       <TouchableWithoutFeedback
         onPress={setHighlighted}
-        onLongPress={() => console.log("long")}
       >
         <View
           style={[
