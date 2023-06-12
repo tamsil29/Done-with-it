@@ -173,6 +173,7 @@ function ChatScreen() {
     const result = await postMessage.request({
       conversationId: conversation?._id,
       message: message,
+      attachedMessage: attachedMessage
     });
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
@@ -189,11 +190,13 @@ function ChatScreen() {
       SocketEnums.SEND_MESSAGE,
       message,
       conversation?._id,
+      JSON.stringify(attachedMessage),
       JSON.stringify({ _id: user._id, name: user.name, email: user.email }),
       (message: any) => updateMessages(message)
     );
     setMessage("");
     setHeight(0);
+    setAttachedMessage(null);
   };
 
   const handleHilighting = async (messageId: string) => {
@@ -241,6 +244,8 @@ function ChatScreen() {
                 ishighlighted={item?._id === highlightedMessageId}
                 setHighlighted={() => handleHilighting(item?._id)}
                 selectMessage={() => setAttachedMessage(item)}
+                isAttachedMessageSelf={item?.attachedMessage?.createdBy?._id === user._id}
+                attachedMessage={item?.attachedMessage?.message}
               />
               {isLoading && index === messages.length - 1 && (
                 <ActivityIndicator

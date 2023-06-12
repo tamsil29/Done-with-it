@@ -29,7 +29,7 @@ function Message({
   setHighlighted,
   isTyping,
   isAttachedMessageSelf = false,
-  attachedMessage = "43",
+  attachedMessage,
   selectMessage,
 }: Props) {
   const swipableRef = useRef<any>();
@@ -48,7 +48,7 @@ function Message({
         }}
       >
         <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
-          <TouchableWithoutFeedback>
+          {!!attachedMessage && <TouchableWithoutFeedback>
             <View
               style={[
                 styles.attachedMessageContainer,
@@ -61,10 +61,10 @@ function Message({
               ]}
             >
               <AppText style={[styles.message, { color: colors.light }]}>
-                baklol in the chat guyz
+                {attachedMessage}
               </AppText>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback>}
 
           <TouchableWithoutFeedback onPress={setHighlighted}>
             <View
