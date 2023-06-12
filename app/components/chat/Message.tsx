@@ -11,6 +11,8 @@ interface Props {
   ishighlighted?: boolean;
   setHighlighted?: Dispatch<any>;
   isTyping?: boolean;
+  isAttachedMessageSelf?: boolean;
+  attachedMessage?: any;
 }
 
 function Message({
@@ -19,48 +21,78 @@ function Message({
   time,
   ishighlighted = false,
   setHighlighted,
-  isTyping
+  isTyping,
+  isAttachedMessageSelf = false,
+  attachedMessage = "43",
 }: Props) {
   return (
-    <TouchableWithoutFeedback onPress={setHighlighted}>
-      <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
+    <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
+      <TouchableWithoutFeedback>
         <View
           style={[
-            styles.messageContainer,
+            styles.attachedMessageContainer,
+            isAttachedMessageSelf
+              ? { backgroundColor: "#fd969c" }
+              : { backgroundColor: "#A9A9A9" },
             isSelf
-              ? {
-                  backgroundColor: colors.primary,
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 5,
-                }
-              : {
-                  backgroundColor: colors.white,
-                  borderBottomLeftRadius: 5,
-                  borderBottomRightRadius: 20,
-                },
-            ishighlighted || isTyping
-              ? isSelf
-                ? { backgroundColor: "#cc4141" }
-                : { backgroundColor: "#DCDCDC" }
-              : {},
+              ? { borderBottomRightRadius: 5, borderBottomLeftRadius: 20 }
+              : { borderBottomRightRadius: 20, borderBottomLeftRadius: 5 },
           ]}
         >
-          <AppText
-            style={[
-              styles.message,
-              isSelf ? { color: colors.white } : !isTyping ? { color: colors.dark } : { color: colors.dark},
-            ]}
-          >
-            {message}
+          <AppText style={[styles.message, { color: colors.light }]}>
+            baklol in the chat guyz
           </AppText>
         </View>
-        {ishighlighted && (
-          <AppText style={styles.time}>
-            {new Date(parseInt(time)).toLocaleString()}
-          </AppText>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+
+      <TouchableWithoutFeedback
+        onPress={setHighlighted}
+        onLongPress={() => console.log("long")}
+      >
+        <View
+          style={[
+            isSelf ? { alignItems: "flex-end" } : { alignItems: "flex-start" },
+          ]}
+        >
+          <View
+            style={[
+              styles.messageContainer,
+              attachedMessage
+                ? isSelf
+                  ? styles.hasReplySelf
+                  : styles.hasReply
+                : isSelf
+                ? styles.hasNotReplySelf
+                : styles.hasNotReply,
+
+              ishighlighted || isTyping
+                ? isSelf
+                  ? { backgroundColor: "#cc4141" }
+                  : { backgroundColor: "#DCDCDC" }
+                : {},
+            ]}
+          >
+            <AppText
+              style={[
+                styles.message,
+                isSelf
+                  ? { color: colors.white }
+                  : !isTyping
+                  ? { color: colors.dark }
+                  : { color: colors.dark },
+              ]}
+            >
+              {message}
+            </AppText>
+          </View>
+          {ishighlighted && (
+            <AppText style={styles.time}>
+              {new Date(parseInt(time)).toLocaleString()}
+            </AppText>
+          )}
+        </View>
+      </TouchableWithoutFeedback>
+    </View>
   );
 }
 
@@ -69,6 +101,11 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 10,
     alignItems: "flex-start",
+  },
+  selfMessageContainer: {
+    marginVertical: 5,
+    marginHorizontal: 10,
+    alignItems: "flex-end",
   },
   messageContainer: {
     // borderRadius: 20,
@@ -88,10 +125,44 @@ const styles = StyleSheet.create({
     color: colors.medium,
     fontWeight: "bold",
   },
-  selfMessageContainer: {
-    marginVertical: 5,
-    marginHorizontal: 10,
-    alignItems: "flex-end",
+  attachedMessageContainer: {
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    maxWidth: "70%",
+    backgroundColor: colors.medium,
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    marginBottom: 2,
+  },
+
+  hasReplySelf: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    backgroundColor: colors.primary,
+  },
+  hasNotReplySelf: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 20,
+    backgroundColor: colors.primary,
+  },
+  hasReply: {
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    backgroundColor: colors.white,
+  },
+  hasNotReply: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 5,
+    backgroundColor: colors.white,
   },
 });
 
