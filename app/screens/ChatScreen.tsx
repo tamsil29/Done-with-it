@@ -71,11 +71,11 @@ function ChatScreen() {
   }, []);
 
   useEffect(() => {
-    socket.on(SocketEnums.TYPING, (isTyping) => setIsTyping(isTyping));
+    socket.on(SocketEnums.TYPING, (isTyping, userId) => {if(user?._id !== userId) setIsTyping(isTyping)});
 
     return () => {
       socket.off(SocketEnums.TYPING);
-      socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id);
+      socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id, user?._id);
     };
   }, []);
 
@@ -83,12 +83,12 @@ function ChatScreen() {
     if (deferredValue.length > 0) {
       if (
         typingSocketTriggeredOn === null ||
-        differenceInSeconds(Date.now(), typingSocketTriggeredOn) > 5
+        differenceInSeconds(Date.now(), typingSocketTriggeredOn) > 3
       ) {
-        socket.emit(SocketEnums.SENDER_TYPING, true, conversation?._id);
+        socket.emit(SocketEnums.SENDER_TYPING, true, conversation?._id, user?._id);
         setTypingSocketTriggeredOn(Date.now());
       }
-    } else socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id);
+    } else socket.emit(SocketEnums.SENDER_TYPING, false, conversation?._id, user?._id);
   }, [deferredValue]);
 
   const {
@@ -123,7 +123,7 @@ function ChatScreen() {
         message,
         `${user.name} received message sent by ${message.createdBy.name}`
       );
-      updateMessages(message);
+      if(message.createdBy._id !== user._id) updateMessages(message);
     });
 
     return () => {
@@ -135,7 +135,7 @@ function ChatScreen() {
     const result = await getConvos(conversation?._id, { page });
     if (!result.ok) return;
 
-    result.data.data.length > 39 ? setPaginate(true) : setPaginate(false);
+    result.data.data.length > 29 ? setPaginate(true) : setPaginate(false);
 
     if (page === 1) {
       setMessages(result.data.data);
@@ -158,9 +158,12 @@ function ChatScreen() {
 
     setMessage("");
     updateMessages(result.data.data);
+    setHeight(0)
   };
 
   const handleSendMessageInSocket = () => {
+    if (!message.length) return Alert.alert("Error", "Please enter a message");
+
     console.log("sent from socket");
     socket.emit(
       SocketEnums.SEND_MESSAGE,
@@ -170,6 +173,7 @@ function ChatScreen() {
       (message: any) => updateMessages(message)
     );
     setMessage("");
+    setHeight(0)
   };
 
   const handleHilighting = async (messageId: string) => {

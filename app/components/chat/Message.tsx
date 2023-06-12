@@ -48,7 +48,7 @@ function Message({
           <AppText
             style={[
               styles.message,
-              isSelf ? { color: colors.white } : { color: colors.dark },
+              isSelf ? { color: colors.white } : !isTyping ? { color: colors.dark } : { color: colors.dark},
             ]}
           >
             {message}
