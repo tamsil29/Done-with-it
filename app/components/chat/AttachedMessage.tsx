@@ -32,6 +32,7 @@ function AttachedMessage({ isSelfSelected = false, message, onClose }: Props) {
         size={25}
         color={"#3a3b3c"}
         style={{ top: 2, right: 2, position: 'absolute' }}
+        onPress={onClose}
       />
     </View>
   );
