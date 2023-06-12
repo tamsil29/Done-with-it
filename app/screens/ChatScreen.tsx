@@ -155,7 +155,7 @@ function ChatScreen() {
     const result = await getConvos(conversation?._id, { page });
     if (!result.ok) return;
 
-    result.data.data.length > 29 ? setPaginate(true) : setPaginate(false);
+    result.data.data.length > 19 ? setPaginate(true) : setPaginate(false);
 
     if (page === 1) {
       setMessages(result.data.data);
