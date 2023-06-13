@@ -54,6 +54,7 @@ function ChatScreen() {
     null as any
   );
   const [attachedMessage, setAttachedMessage] = useState(null as any);
+  const inputRef = useRef(null as any);
 
   useEffect(() => {
     socket.emit(
@@ -173,7 +174,7 @@ function ChatScreen() {
     const result = await postMessage.request({
       conversationId: conversation?._id,
       message: message,
-      attachedMessage: attachedMessage
+      attachedMessage: attachedMessage,
     });
     if (!result.ok) return Alert.alert("Error", "Cannot send message");
 
@@ -243,8 +244,13 @@ function ChatScreen() {
                 time={item?.createdAt}
                 ishighlighted={item?._id === highlightedMessageId}
                 setHighlighted={() => handleHilighting(item?._id)}
-                selectMessage={() => setAttachedMessage(item)}
-                isAttachedMessageSelf={item?.attachedMessage?.createdBy?._id === user._id}
+                selectMessage={() => {
+                  setAttachedMessage(item);
+                  inputRef.current.focus();
+                }}
+                isAttachedMessageSelf={
+                  item?.attachedMessage?.createdBy?._id === user._id
+                }
                 attachedMessage={item?.attachedMessage?.message}
               />
               {isLoading && index === messages.length - 1 && (
@@ -258,7 +264,13 @@ function ChatScreen() {
           )}
         />
       </View>
-      {attachedMessage && <AttachedMessage message={attachedMessage} onClose={()=>setAttachedMessage(null as any)} isSelfSelected={user?._id === attachedMessage?.createdBy?._id}/>}
+      {attachedMessage && (
+        <AttachedMessage
+          message={attachedMessage}
+          onClose={() => setAttachedMessage(null as any)}
+          isSelfSelected={user?._id === attachedMessage?.createdBy?._id}
+        />
+      )}
       <View style={styles.chatContainer}>
         <View style={styles.inputContainer}>
           <TextInput
@@ -270,6 +282,7 @@ function ChatScreen() {
             }}
             onChangeText={(text) => setMessage(text)}
             placeholder="Type your message here.."
+            ref={inputRef}
           />
           <TouchableOpacity
             onPress={chatRoomJoined ? handleSendMessageInSocket : handleSend}
