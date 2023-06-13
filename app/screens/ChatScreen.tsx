@@ -1,6 +1,5 @@
 import { useRoute } from "@react-navigation/native";
 import React, {
-  useCallback,
   useDeferredValue,
   useEffect,
   useRef,
@@ -11,11 +10,10 @@ import {
   StyleSheet,
   Alert,
   FlatList,
-  Keyboard,
   TextInput,
   ActivityIndicator,
   Modal,
-  Text,
+  LayoutAnimation,
 } from "react-native";
 import colors from "../config/colors";
 import Message from "../components/chat/Message";
@@ -36,6 +34,7 @@ import AttachedMessage from "../components/chat/AttachedMessage";
 
 function ChatScreen() {
   const { notification, dismissNotification, socket } = useAppNotifications();
+  const messageLimitToCheck = 19
   const navigation = useRouteNavigation();
   const route = useRoute();
   const { user } = useAuth();
@@ -55,6 +54,10 @@ function ChatScreen() {
   );
   const [attachedMessage, setAttachedMessage] = useState(null as any);
   const inputRef = useRef(null as any);
+
+  const animateEaseInOut = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  };
 
   useEffect(() => {
     socket.emit(
@@ -135,7 +138,11 @@ function ChatScreen() {
   }, [page]);
 
   const updateMessages = (message: any) => {
-    setMessages((prevMsgs: any[]) => [message, ...prevMsgs].slice(0, -1));
+    setMessages((prevMsgs: any[]) => {
+      if (messages.length > messageLimitToCheck) return [message, ...prevMsgs].slice(0, -1);
+      else return [message, ...prevMsgs]
+    });
+    animateEaseInOut();
   };
 
   useEffect(() => {
@@ -156,7 +163,7 @@ function ChatScreen() {
     const result = await getConvos(conversation?._id, { page });
     if (!result.ok) return;
 
-    result.data.data.length > 19 ? setPaginate(true) : setPaginate(false);
+    result.data.data.length > messageLimitToCheck ? setPaginate(true) : setPaginate(false);
 
     if (page === 1) {
       setMessages(result.data.data);
@@ -247,6 +254,7 @@ function ChatScreen() {
                 selectMessage={() => {
                   setAttachedMessage(item);
                   inputRef.current.focus();
+                  animateEaseInOut();
                 }}
                 isAttachedMessageSelf={
                   item?.attachedMessage?.createdBy?._id === user._id
@@ -267,7 +275,10 @@ function ChatScreen() {
       {attachedMessage && (
         <AttachedMessage
           message={attachedMessage}
-          onClose={() => setAttachedMessage(null as any)}
+          onClose={() => {
+            setAttachedMessage(null as any);
+            animateEaseInOut();
+          }}
           isSelfSelected={user?._id === attachedMessage?.createdBy?._id}
         />
       )}
