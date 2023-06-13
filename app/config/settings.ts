@@ -2,9 +2,10 @@ import Constants from "expo-constants";
 
 const settings = {
     dev: {
-        apiUrl: "http://192.168.0.104:4000/api",
-        // apiUrl: "https://done-with-it.onrender.com/api",
-        socketUrl: 'http://192.168.0.104:4000'
+        // apiUrl: "http://192.168.0.104:4000/api",
+        apiUrl: "https://done-with-it.onrender.com/api",
+        // socketUrl: 'http://192.168.0.104:4000'
+        socketUrl: 'https://done-with-it.onrender.com'
     },
     staging: {
         apiUrl: "https://done-with-it.onrender.com/api",

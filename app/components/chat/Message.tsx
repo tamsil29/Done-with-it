@@ -42,10 +42,11 @@ function Message({
         }
         renderLeftActions={() => !isTyping && !isSelf && <MessageSwipeAction />}
         ref={swipableRef}
-        onSwipeableOpen={() => {
+        onSwipeableWillOpen={() => {
           selectMessage();
           swipableRef.current?.close();
         }}
+        overshootFriction={3}
       >
         <View style={[isSelf ? styles.selfMessageContainer : styles.container]}>
           {!!attachedMessage && <TouchableWithoutFeedback>
