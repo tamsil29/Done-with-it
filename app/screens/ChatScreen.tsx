@@ -260,7 +260,7 @@ function ChatScreen() {
                 isSelf={item?.createdBy?._id === user._id}
                 time={item?.createdAt}
                 ishighlighted={item?._id === highlightedMessageId}
-                setHighlighted={() => handleHilighting(item?._id)}
+                setHighlighted={() => {handleHilighting(item?._id); animateEaseInOut()}}
                 selectMessage={() => {
                   setAttachedMessage(item);
                   inputRef.current.focus();
@@ -300,6 +300,7 @@ function ChatScreen() {
             style={[styles.textInput, { height: Math.max(40, height) }]}
             onContentSizeChange={(event) => {
               setHeight(event.nativeEvent.contentSize.height);
+              animateEaseInOut()
             }}
             onChangeText={(text) => setMessage(text)}
             placeholder="Type your message here.."
