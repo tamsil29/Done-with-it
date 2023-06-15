@@ -31,6 +31,7 @@ import ProfileScreen from "./ProfileScreen";
 import { SocketEnums } from "../socket/events";
 import { differenceInSeconds } from "date-fns";
 import AttachedMessage from "../components/chat/AttachedMessage";
+import AppActivityIndicator from "../components/ActivityIndicator";
 
 function ChatScreen() {
   const { notification, dismissNotification, socket } = useAppNotifications();
@@ -236,8 +237,8 @@ function ChatScreen() {
         onBackCick={() => navigation.goBack()}
         onNameCick={() => setProfileModalVisible(true)}
       />
-
       <View style={styles.container}>
+      <AppActivityIndicator visible={isLoading && messages.length === 0}/>
         <FlatList
           showsVerticalScrollIndicator={false}
           onEndReached={() => (paginate ? setPage(page + 1) : {})}
