@@ -12,9 +12,16 @@ import { navigationRef } from "./app/navigation/rootNavigation";
 import { AppNotificationProvider } from "./app/notification/useAppNotifications";
 import logger from './app/utility/logger'
 import usersApi from './app/api/users'
+import { Platform, UIManager } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 // logger.start()
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 export default function App() {
   const [user, setUser] = useState();

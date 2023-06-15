@@ -57,6 +57,16 @@ function ChatScreen() {
 
   const animateEaseInOut = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // LayoutAnimation.easeInEaseOut()
+    // LayoutAnimation.configureNext({
+    //   duration: 300,
+    //   create: {
+    //     type: LayoutAnimation.Types.easeInEaseOut,
+    //     property: LayoutAnimation.Properties.opacity,
+    //   },
+    //   update: { type: LayoutAnimation.Types.easeInEaseOut },
+    // });
+
   };
 
   useEffect(() => {
